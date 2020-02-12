@@ -1,0 +1,69 @@
+<?php
+
+/**
+ *
+ * @copyright  2019 objectivejs.org
+ * @version    1
+ * @link       http://www.objectivejs.org
+ */
+?>
+<?php head('javascript', '/objectivejs/Objective.js'); ?>
+<?php head('javascript', '/objectivejs/Undo.js'); ?>
+<?php head('javascript', '/objectivejs/tests/Calculator.js'); ?>
+<script>
+var undo = new Undo();
+
+console.log(undo.size);			// 100
+
+undo.size = 20;
+
+console.log(undo.size);			// 20
+
+console.log(undo.undoLength);	// 0
+
+var calc = new Calculator();
+
+function fmul(val) {
+	undo.push(() => fdiv(val));
+	calc.mul(val);
+}
+
+function fdiv(val) {
+	undo.push((v) => fmul(v), val);	// context
+	calc.div(val);
+}
+
+calc.value = 3;
+
+fmul(calc.value);
+fmul(4);
+
+console.log(calc.value);		// 36
+
+console.log(undo.undoLength);	// 2
+
+undo.undo();
+undo.undo();
+
+console.log(calc.value);		// 3
+
+console.log(undo.undoLength);	// 0
+console.log(undo.redoLength);	// 2
+
+undo.undo();	// one too many
+
+undo.redo();
+undo.redo();
+
+console.log(calc.value);		// 36
+
+console.log(undo.undoLength);	// 2
+console.log(undo.redoLength);	// 0
+
+undo.redo();	// one too many
+
+undo.undo();
+undo.undo();
+
+console.log(calc.value);		// 3
+</script>

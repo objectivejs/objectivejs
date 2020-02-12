@@ -1,0 +1,82 @@
+<?php
+
+/**
+ *
+ * @copyright  2019 objectivejs.org
+ * @version    1
+ * @link       http://www.objectivejs.org
+ */
+?>
+<?php head('javascript', '/objectivejs/Objective.js'); ?>
+<?php head('javascript', '/objectivejs/Responder.js'); ?>
+<script>
+function X() {
+	Responder.call(this);
+}
+
+X.prototype = Object.create(Responder.prototype);
+
+Object.defineProperty(X.prototype, 'constructor', { value: X, enumerable: false, writable: true });
+
+X.prototype.click = function() {
+	console.log('X clicked');
+
+	this.respondTo('clicked', this);
+}
+
+X.prototype.clicked = function(sender) {
+	console.log(this.constructor.name + ' received a click from ' + sender.constructor.name);
+
+	return false;
+}
+
+function Y() {
+	Responder.call(this);
+}
+
+Y.prototype = Object.create(Responder.prototype);
+
+Object.defineProperty(Y.prototype, 'constructor', { value: Y, enumerable: false, writable: true });
+
+Y.prototype.clicked = function(sender) {
+	console.log(this.constructor.name + ' received a click from ' + sender.constructor.name);
+
+	return true;
+}
+
+function Z() {
+	Responder.call(this);
+}
+
+Z.prototype = Object.create(Responder.prototype);
+
+Object.defineProperty(Z.prototype, 'constructor', { value: Z, enumerable: false, writable: true });
+
+Z.prototype.clicked = function(sender) {
+	console.log(this.constructor.name + ' received a click from ' + sender.constructor.name);
+
+	return true;
+}
+
+var x = new X();
+var y = new Y();
+var z = new Z();
+
+x.click();
+x.addNextResponder(y);
+x.click();
+delete X.prototype.clicked;
+x.click();
+x.addNextResponder(z);
+let responders = x.nextResponders;
+for (let r of responders)
+	console.log(r.constructor.name);
+x.nextResponders = null;
+console.log(x.nextResponders);
+x.nextResponders = responders;
+x.click();
+x.removeNextResponder(y);
+x.click();
+z.addNextResponder(y);
+x.click();
+</script>

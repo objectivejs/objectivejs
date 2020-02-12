@@ -1,0 +1,95 @@
+<?php
+
+/**
+ *
+ * @copyright  2020 objectivejs.org
+ * @version    1
+ * @link       http://www.objectivejs.org
+ */
+?>
+<?php $debug=false; ?>
+<?php $filetypes=array('image/jpeg', 'image/png', 'image/gif', 'image/svg+xml'); ?>
+<?php $maxsize=1000000; ?>
+<?php $imgname='image'; ?>
+<?php $imgsrc='/files/images/loadimage.png'; ?>
+<?php $imgwidth=320; ?>
+<?php $imgheight=180; ?>
+<?php $uploadurl='/uploadimage'; ?>
+<?php $chunksize=100000; ?>
+<?php $id=uniqid('id'); ?>
+<style>
+#<?php echo $id; ?> .ojs img {
+	max-width: <?php echo $imgwidth; ?>px;
+}
+</style>
+<div id="<?php echo $id; ?>" class="noprint">
+<div class="ojs">
+<div>
+<div class="ojs_undo">
+<button type="submit" class="narrow control_undo" disabled><i class="fa fa-undo"></i></button>
+<button type="submit" class="narrow control_redo" disabled><i class="fa fa-redo"></i></button>
+</div>
+<span class="ojs_dimension">
+<input class="ojs_width" type="number" min="0"/>&nbsp;<i class="fa fa-arrows-alt-h small"></i>
+<input class="ojs_height" type="number" min="0"/>&nbsp;<i class="fa fa-arrows-alt-v small"></i>
+</span>
+</div>
+<div><img src="<?php echo $imgsrc; ?>" alt="" width="<?php echo $imgwidth; ?>" height="<?php echo $imgheight; ?>"/></div>
+</div>
+</div>
+<?php head('javascript', '/objectivejs/Objective.js'); ?>
+<?php head('javascript', '/objectivejs/Responder.js'); ?>
+<?php head('javascript', '/objectivejs/View.js'); ?>
+<?php head('javascript', '/objectivejs/Model.js'); ?>
+<?php head('javascript', '/objectivejs/Validator.js'); ?>
+<?php head('javascript', '/objectivejs/Editor.js'); ?>
+<?php head('javascript', '/objectivejs/Inspector.js'); ?>
+<?php head('javascript', '/objectivejs/NumberInspector.js'); ?>
+<?php head('javascript', '/objectivejs/DimensionInspector.js'); ?>
+<?php head('javascript', '/objectivejs/ImageInspector.js') ?>
+<?php head('javascript', '/objectivejs/SequenceInspector.js') ?>
+<?php head('javascript', '/objectivejs/ImageSizeInspector.js') ?>
+<?php head('javascript', '/objectivejs/ImageModel.js'); ?>
+<?php head('javascript', '/objectivejs/Undo.js'); ?>
+<?php head('javascript', '/objectivejs/Panel.js'); ?>
+<?php head('javascript', '/objectivejs/UndoPanel.js'); ?>
+<?php head('javascript', '/objectivejs/ModelStorageDelegate.js'); ?>
+<script>
+<?php if (!$debug): ?>
+(function() {
+<?php endif; ?>
+	const model = new ImageModel('<?php echo $imgname; ?>');
+
+	const container = document.querySelector('#<?php echo $id; ?>');
+
+	const panel = new UndoPanel();
+
+	panel.setManagedWidget(container.querySelector('.ojs_undo')).resetWidget();
+
+	const filetypes = [<?php echo implode(',', array_map(function($s) { return "'$s'"; }, $filetypes)); ?>];
+
+	const imageInspector = new ImageInspector(null, { filetypes: filetypes, maxsize: <?php echo $maxsize; ?> });
+
+	imageInspector.setManagedWidget(container.querySelector('img'));
+
+	const sizeInspector = new DimensionInspector(0, 0, {minWidth: 0, minHeight: 0});
+
+	sizeInspector.setManagedWidget(container.querySelector('.ojs_dimension')).resetWidget();
+
+	const imageSizeInspector = new ImageSizeInspector(imageInspector, sizeInspector);
+
+	const inspectors = {
+		image:		imageSizeInspector
+	};
+
+	const editor = new Editor(model, null, inspectors, panel);
+
+	model.setDelegate(new ModelStorageDelegate());
+
+	model.readIn();
+
+	model.enableSync();
+<?php if (!$debug): ?>
+})();
+<?php endif; ?>
+</script>

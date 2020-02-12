@@ -1,0 +1,83 @@
+<?php
+
+/**
+ *
+ * @copyright  2019 objectivejs.org
+ * @version    1
+ * @link       http://www.objectivejs.org
+ */
+?>
+<?php $bg='#fd1'; ?>
+<?php $width=240; ?>
+<?php $height=180; ?>
+<?php $minWidth=120; ?>
+<?php $maxWidth=480; ?>
+<?php $minHeight=90; ?>
+<?php $maxHeight=360; ?>
+<?php $id=uniqid('id'); ?>
+<style>
+.test_display {
+	width: <?php echo $width; ?>px;
+	height: <?php echo $height; ?>px;
+	background: <?php echo $bg; ?>;
+	margin-bottom: 10px;
+	border-radius: 3px;
+}
+.size_panel > input {
+	width: 4em;
+}
+</style>
+<div id="<?php echo $id; ?>" class="noprint">
+<div class="test_display"></div>
+<div class="ojs">
+<div>
+<span class="size_panel">
+<input type="number" step="40"/>&nbsp;<i class="fa fa-arrows-alt-h small"></i>
+<input type="number" step="30"/>&nbsp;<i class="fa fa-arrows-alt-v small"></i>
+</span>
+</div>
+</div>
+</div>
+<?php head('javascript', '/objectivejs/Objective.js') ?>
+<?php head('javascript', '/objectivejs/Responder.js') ?>
+<?php head('javascript', '/objectivejs/View.js') ?>
+<?php head('javascript', '/objectivejs/Inspector.js') ?>
+<?php head('javascript', '/objectivejs/NumberInspector.js') ?>
+<?php head('javascript', '/objectivejs/DimensionInspector.js'); ?>
+<script>
+function Tester(display, inspector) {
+	Responder.call(this);
+
+	this._display = display;
+
+	inspector.addNextResponder(this);
+
+	this._inspector = inspector;
+}
+
+Tester.prototype = Object.create(Responder.prototype);
+
+Object.defineProperty(Tester.prototype, 'constructor', { value: Tester, enumerable: false, writable: true });
+
+Tester.prototype.inspectorValueChanged = function(sender) {
+	if (sender === this._inspector) {
+		let [w, h] = sender.get();
+
+		this._display.style.width = `${w}px`;
+		this._display.style.height = `${h}px`;
+	}
+
+	return true;
+}
+</script>
+<script>
+const inspector = new DimensionInspector(<?php echo $width; ?>, <?php echo $height; ?>, {minWidth: <?php echo $minWidth; ?>, maxWidth: <?php echo $maxWidth; ?>, minHeight: <?php echo $minHeight; ?>, maxHeight: <?php echo $maxHeight; ?>});
+
+const container = document.querySelector('#<?php echo $id; ?>');
+
+const display = container.querySelector('.test_display');
+
+inspector.setManagedWidget(container.querySelector('.size_panel')).resetWidget();
+
+const tester = new Tester(display, inspector);
+</script>

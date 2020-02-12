@@ -1,0 +1,32 @@
+<?php
+
+/**
+ *
+ * @copyright  2019 objectivejs.org
+ * @version    1
+ * @link       http://www.objectivejs.org
+ */
+?>
+<?php head('javascript', '/objectivejs/Objective.js'); ?>
+<?php head('javascript', '/objectivejs/Model.js'); ?>
+<?php head('javascript', '/objectivejs/Undo.js'); ?>
+<script>
+const model = new Model();
+
+console.log(model.get());	// undefined
+
+model.set({'color': '#cccccc'});
+console.log(model.get());	// #cccccc
+
+model.enableUndo();
+
+model.setValue('color', '#27aadb');
+console.log(model.get());	// #27aadb
+model.setValue('color', '#ec613c');
+console.log(model.get());	// #ec613c
+
+model.undo();
+console.log(model.get());	// #27aadb
+model.redo();
+console.log(model.get());	// #ec613c
+</script>

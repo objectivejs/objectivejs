@@ -1,0 +1,32 @@
+<?php
+
+/**
+ *
+ * @copyright  2019 objectivejs.org
+ * @version    1
+ * @link       http://www.objectivejs.org
+ */
+?>
+<?php $id=uniqid('id'); ?>
+<div id="<?php echo $id; ?>" class="noprint">
+<div class="solarsystem"></div>
+</div>
+<?php head('javascript', '/objectivejs/Objective.js'); ?>
+<?php head('javascript', '/objectivejs/Responder.js'); ?>
+<?php head('javascript', '/objectivejs/View.js'); ?>
+<?php head('javascript', '/objectivejs/Clip.js'); ?>
+<?php head('javascript', '/objectivejs/ProgramClip.js'); ?>
+<?php head('javascript', '/objectivejs/tests/SolarSystemClip.js'); ?>
+<script>
+const container = document.querySelector('#<?php echo $id; ?>');
+
+const display = container.querySelector('.solarsystem');
+
+const clip = new SolarSystemClip();
+
+clip.setWidget(display);
+
+clip.enablePlayer();
+
+window.onload = () => clip.drawWidget();
+</script>

@@ -1,0 +1,38 @@
+<?php
+
+/**
+ *
+ * @copyright  2020 objectivejs.org
+ * @version    1
+ * @link       http://www.objectivejs.org
+ */
+?>
+<?php $filetypes=array('image/jpeg', 'image/png', 'image/gif', 'image/svg+xml'); ?>
+<?php $maxsize=1000000; ?>
+<?php $width=320; ?>
+<?php $id=uniqid('id'); ?>
+<style>
+.test_display img {
+	max-width: <?php echo $width; ?>px;
+}
+</style>
+<div id="<?php echo $id; ?>" class="noprint">
+<div class="test_display"><img src="/files/images/htmlcssjs.jpg" alt=""/></div>
+</div>
+<?php head('javascript', '/objectivejs/Objective.js') ?>
+<?php head('javascript', '/objectivejs/Responder.js') ?>
+<?php head('javascript', '/objectivejs/View.js') ?>
+<?php head('javascript', '/objectivejs/Inspector.js') ?>
+<?php head('javascript', '/objectivejs/ImageInspector.js') ?>
+<?php head('javascript', '/objectivejs/Validator.js') ?>
+<script>
+const filetypes = [<?php echo implode(',', array_map(function($s) { return "'$s'"; }, $filetypes)); ?>];
+
+const inspector = new ImageInspector(null, { filetypes: filetypes, maxsize: <?php echo $maxsize; ?> });
+
+const container = document.querySelector('#<?php echo $id; ?>');
+
+inspector.setManagedWidget(container.querySelector('img'));
+
+inspector.reset();
+</script>

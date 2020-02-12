@@ -1,0 +1,51 @@
+<?php
+
+/**
+ *
+ * @copyright  2019 objectivejs.org
+ * @version    1
+ * @link       http://www.objectivejs.org
+ */
+?>
+<?php $src='/files/videos/Horloge.webm'; ?>
+<?php $type='video/webm'; ?>
+<?php $width=854; ?>
+<?php $height=480; ?>
+<?php $id=uniqid('id'); ?>
+<style>
+.test_display {
+	display: inline-flex;
+	flex-direction: column;
+	align-items: flex-start;
+	background: black;
+}
+</style>
+<div id="<?php echo $id; ?>" class="noprint">
+<div class="test_display">
+<video width="<?php echo $width; ?>" height="<?php echo $height; ?>" preload="auto">
+<source src="<?php echo $src; ?>" type="<?php echo $type; ?>" />
+</video>
+</div>
+</div>
+<?php head('javascript', '/objectivejs/Objective.js'); ?>
+<?php head('javascript', '/objectivejs/Responder.js'); ?>
+<?php head('javascript', '/objectivejs/View.js'); ?>
+<?php head('javascript', '/objectivejs/Clip.js'); ?>
+<?php head('javascript', '/objectivejs/VideoClip.js'); ?>
+<?php head('javascript', '/objectivejs/DrawingArea.js'); ?>
+<script>
+const clip = new VideoClip();
+
+const container = document.querySelector('#<?php echo $id; ?>');
+
+clip.setManagedWidget(container.querySelector('video'));
+
+const keyframes = [ {transform: 'scale(1)'}, {transform: 'scale(0.8)'}, {transform: 'scale(1)'}];
+const timing = { duration: 10000, iterations: Infinity };
+
+clip.animate([[keyframes, timing]]);
+
+clip.dimension = [640, 360];
+
+clip.enablePlayer();
+</script>

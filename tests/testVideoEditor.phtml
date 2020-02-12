@@ -1,0 +1,183 @@
+<?php
+
+/**
+ *
+ * @copyright  2019 objectivejs.org
+ * @version    1
+ * @link       http://www.objectivejs.org
+ */
+?>
+<?php $debug=false; ?>
+<?php $editor=true; ?>
+<?php $player=true; ?>
+<?php $clipname='horloge'; ?>
+<?php $src='/files/videos/Horloge.webm'; ?>
+<?php $type='video/webm'; ?>
+<?php $width=854; ?>
+<?php $height=480; ?>
+<?php head('javascript', 'jquery.cookie'); ?>
+<?php $id=uniqid('id'); ?>
+<div id="<?php echo $id; ?>" class="clip">
+<?php if ($editor): ?>
+<div class="ojs">
+<div>
+<div class="ojs_undo">
+<button type="submit" class="narrow control_undo" disabled><i class="fa fa-undo"></i></button>
+<button type="submit" class="narrow control_redo" disabled><i class="fa fa-redo"></i></button>
+</div>
+<span class="ojs_dimension">
+<input class="ojs_width" type="number" min="120"/>&nbsp;<i class="fa fa-arrows-alt-h small"></i>
+<input class="ojs_height" type="number" min="10"/>&nbsp;<i class="fa fa-arrows-alt-v small"></i>
+</span>
+</div>
+<div>
+<span><input id="<?php echo $id; ?>_video_hflip" type="checkbox" /><label for="<?php echo $id; ?>_video_hflip"><i class="fa fa-ellipsis-h small"></i></label></span>
+<span><input id="<?php echo $id; ?>_video_vflip" type="checkbox" /><label for="<?php echo $id; ?>_video_vflip"><i class="fa fa-ellipsis-v small"></i></label></span>
+<span><input id="<?php echo $id; ?>_video_grayscale" type="checkbox" /><label for="<?php echo $id; ?>_video_grayscale" class="grayscale">&nbsp;</label></span>
+<span><input id="<?php echo $id; ?>_video_sepia" type="checkbox" /><label for="<?php echo $id; ?>_video_sepia" class="sepia">&nbsp;</label></span>
+<span><input id="<?php echo $id; ?>_video_blur" type="checkbox" /><label for="<?php echo $id; ?>_video_blur"><i class="fa fa-brush small"></i></label></span>
+</div>
+<div>
+<span><i class="fa fa-adjust fa-fw small"></i>&nbsp;<input id="<?php echo $id; ?>_video_contrast" type="range" min="0" max="2" step="0.05"/>&nbsp;<output for="<?php echo $id; ?>_video_contrast">1.0</output></span>
+<span><i class="fa fa-fill-drip fa-fw small"></i>&nbsp;<input id="<?php echo $id; ?>_video_saturate" type="range" min="0" max="2" step="0.05"/>&nbsp;<output for="<?php echo $id; ?>_video_saturate">1.0</output></span>
+</div>
+<div>
+<span><i class="fa fa-sun fa-fw small"></i>&nbsp;<input id="<?php echo $id; ?>_video_brightness" type="range" min="0" max="2" step="0.05"/>&nbsp;<output for="<?php echo $id; ?>_video_brightness">1.0</output></span>
+<span><i class="fa fa-tint-slash fa-fw small"></i>&nbsp;<input id="<?php echo $id; ?>_video_invert" type="range" min="0" max="1" step="0.05"/>&nbsp;<output for="<?php echo $id; ?>_video_invert">1.0</output></span>
+</div>
+<div>
+<output id="<?php echo $id; ?>_video_time">00:00:00</output>
+<span><input id="<?php echo $id; ?>_video_muted" type="checkbox" /><label for="<?php echo $id; ?>_video_muted"><i class="fa fa-volume-mute"></i></label></span>
+</div>
+</div>
+<?php endif; ?>
+<?php if ($editor): ?>
+<div class="ojs_video">
+<?php endif; ?>
+<video width="<?php echo $width; ?>" height="<?php echo $height; ?>" preload="auto" muted>
+<source src="<?php echo $src; ?>" type="<?php echo $type; ?>" />
+</video>
+<?php if ($editor): ?>
+</div>
+<?php endif; ?>
+</div>
+<?php head('javascript', '/objectivejs/Objective.js'); ?>
+<?php head('javascript', '/objectivejs/Responder.js'); ?>
+<?php head('javascript', '/objectivejs/View.js'); ?>
+<?php head('javascript', '/objectivejs/Clip.js'); ?>
+<?php head('javascript', '/objectivejs/Model.js'); ?>
+<?php head('javascript', '/objectivejs/Validator.js'); ?>
+<?php if ($editor): ?>
+<?php head('javascript', '/objectivejs/Editor.js'); ?>
+<?php head('javascript', '/objectivejs/Inspector.js'); ?>
+<?php head('javascript', '/objectivejs/BooleanInspector.js'); ?>
+<?php head('javascript', '/objectivejs/NumberInspector.js'); ?>
+<?php head('javascript', '/objectivejs/StringInspector.js'); ?>
+<?php head('javascript', '/objectivejs/SelectInspector.js'); ?>
+<?php head('javascript', '/objectivejs/DimensionInspector.js'); ?>
+<?php head('javascript', '/objectivejs/RangeInspector.js'); ?>
+<?php head('javascript', '/objectivejs/Undo.js'); ?>
+<?php head('javascript', '/objectivejs/Panel.js'); ?>
+<?php head('javascript', '/objectivejs/UndoPanel.js'); ?>
+<?php else: ?>
+<?php head('javascript', '/objectivejs/ClipController.js'); ?>
+<?php endif; ?>
+<?php head('javascript', '/objectivejs/DrawingArea.js'); ?>
+<?php head('javascript', '/objectivejs/ClipModel.js'); ?>
+<?php head('javascript', '/objectivejs/VideoModel.js'); ?>
+<?php head('javascript', '/objectivejs/VideoClip.js'); ?>
+<?php head('javascript', '/objectivejs/ModelCookieDelegate.js'); ?>
+<script>
+<?php if (!$debug): ?>
+(function() {
+<?php endif; ?>
+	const clip = new VideoClip();
+
+	const model = new VideoModel('<?php echo $clipname; ?>');
+
+	const container = document.querySelector('#<?php echo $id; ?>');
+
+	clip.setManagedWidget(container.querySelector('video'));
+
+	clip.set(model.get());
+
+<?php if ($player): ?>
+	clip.enablePlayer();
+<?php endif; ?>
+
+<?php if ($editor): ?>
+	clip.addTimeWidget(container.querySelector('#<?php echo $id; ?>_video_time'));
+	clip.addMutedWidget(container.querySelector('#<?php echo $id; ?>_video_muted'));
+
+	const panel = new UndoPanel();
+
+	panel.setManagedWidget(container.querySelector('.ojs_undo')).resetWidget();
+
+	const size = model.getValue('size');
+
+	const sizeInspector = new DimensionInspector(size[0], size[1], {minWidth: VideoModel.minWidth, maxWidth: VideoModel.maxWidth, minHeight: VideoModel.minHeight, maxHeight: VideoModel.maxHeight});
+
+	sizeInspector.setManagedWidget(container.querySelector('.ojs_dimension')).resetWidget();
+
+	const hflipInspector = new BooleanInspector(model.getValue('hflip'));
+
+	hflipInspector.setManagedWidget(container.querySelector('#<?php echo $id; ?>_video_hflip')).resetWidget();
+
+	const vflipInspector = new BooleanInspector(model.getValue('vflip'));
+
+	vflipInspector.setManagedWidget(container.querySelector('#<?php echo $id; ?>_video_vflip')).resetWidget();
+
+	const sepiaInspector = new BooleanInspector(model.getValue('sepia'));
+
+	sepiaInspector.setManagedWidget(container.querySelector('#<?php echo $id; ?>_video_sepia')).resetWidget();
+
+	const grayscaleInspector = new BooleanInspector(model.getValue('grayscale'));
+
+	grayscaleInspector.setManagedWidget(container.querySelector('#<?php echo $id; ?>_video_grayscale')).resetWidget();
+
+	const blurInspector = new BooleanInspector(model.getValue('blur'));
+
+	blurInspector.setManagedWidget(container.querySelector('#<?php echo $id; ?>_video_blur')).resetWidget();
+
+	const contrastInspector = new RangeInspector(model.getValue('contrast'), {min: VideoModel.minContrast, max: VideoModel.maxContrast, fixed: 2});
+
+	contrastInspector.setManagedWidget(container.querySelector('#<?php echo $id; ?>_video_contrast')).resetWidget();
+
+	const saturateInspector = new RangeInspector(model.getValue('saturate'), {min: VideoModel.minSaturate, max: VideoModel.maxSaturate, fixed: 2});
+
+	saturateInspector.setManagedWidget(container.querySelector('#<?php echo $id; ?>_video_saturate')).resetWidget();
+
+	const brightnessInspector = new RangeInspector(model.getValue('brightness'), {min: VideoModel.minBrightness, max: VideoModel.maxBrightness, fixed: 2});
+
+	brightnessInspector.setManagedWidget(container.querySelector('#<?php echo $id; ?>_video_brightness')).resetWidget();
+
+	const invertInspector = new RangeInspector(model.getValue('invert'), {min: VideoModel.minOpacity, max: VideoModel.maxOpacity, fixed: 2});
+
+	invertInspector.setManagedWidget(container.querySelector('#<?php echo $id; ?>_video_invert')).resetWidget();
+
+	const inspectors = {
+		size:		sizeInspector,
+		hflip:		hflipInspector,
+		vflip:		vflipInspector,
+		invert:		invertInspector,
+		contrast:	contrastInspector,
+		saturate:	saturateInspector,
+		brightness:	brightnessInspector,
+		grayscale:	grayscaleInspector,
+		sepia:		sepiaInspector,
+		blur:		blurInspector
+	};
+
+	const editor = new Editor(model, clip, inspectors, panel);
+
+<?php else: ?>
+	const controller = new ClipController(clip, model);
+<?php endif; ?>
+
+	model.setDelegate(new ModelCookieDelegate());
+	model.readIn();
+	model.enableSync(1000);
+<?php if (!$debug): ?>
+})();
+<?php endif; ?>
+</script>

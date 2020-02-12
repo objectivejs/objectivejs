@@ -1,0 +1,91 @@
+<?php
+
+/**
+ *
+ * @copyright  2019 objectivejs.org
+ * @version    1
+ * @link       http://www.objectivejs.org
+ */
+?>
+<?php $text='Objective.js'; ?>
+<?php $font='Roboto'; ?>
+<?php $fontSize=32; ?>
+<?php $color='#333'; ?>
+<?php $bg='#fd1'; ?>
+<?php head('font', $font); ?>
+<?php $id=uniqid('id'); ?>
+<style>
+.test_display {
+	width: 240px;
+	height: 135px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: <?php echo $bg; ?>;
+	color: <?php echo $color; ?>;
+	font-family: "<?php echo $font; ?>", sans-serif;
+	font-size: <?php echo $fontSize; ?>px;
+	margin-bottom: 10px;
+	border-radius: 3px;
+}
+</style>
+<div id="<?php echo $id; ?>" class="noprint">
+<div class="test_display"><?php echo $text; ?></div>
+<div class="ojs">
+<div class="options_panel">
+<span><input type="radio" id="text_alignment_left" name="text_alignment" value="left" checked><label for="text_alignment_left"><i class="fa fa-align-left small"></i></label></span>
+<span><input type="radio" id="text_alignment_center" name="text_alignment" value="center"><label for="text_alignment_center"><i class="fa fa-align-center small"></i></label></span>
+<span><input type="radio" id="text_alignment_right" name="text_alignment" value="right"><label for="text_alignment_right"><i class="fa fa-align-right small"></i></label></span>
+</div>
+</div>
+</div>
+<?php head('javascript', '/objectivejs/Objective.js') ?>
+<?php head('javascript', '/objectivejs/Responder.js') ?>
+<?php head('javascript', '/objectivejs/View.js') ?>
+<?php head('javascript', '/objectivejs/Inspector.js') ?>
+<?php head('javascript', '/objectivejs/OptionInspector.js') ?>
+<script>
+function Tester(display, inspector) {
+	Responder.call(this);
+
+	this._display = display;
+
+	inspector.addNextResponder(this);
+
+	this._inspector = inspector;
+}
+
+Tester.prototype = Object.create(Responder.prototype);
+
+Object.defineProperty(Tester.prototype, 'constructor', { value: Tester, enumerable: false, writable: true });
+
+Tester.prototype.inspectorValueChanged = function(sender) {
+	if (sender === this._inspector) {
+		switch (sender.get()) {
+		case 'right':
+			this._display.style.justifyContent = 'flex-end';
+			break;
+		case 'center':
+			this._display.style.justifyContent = 'center';
+			break;
+		case 'left':
+		default:
+			this._display.style.justifyContent = 'flex-start';
+			break;
+		}
+	}
+
+	return true;
+}
+</script>
+<script>
+const inspector = new OptionInspector('center', {tags: ['left', 'center', 'right']});
+
+const container = document.querySelector('#<?php echo $id; ?>');
+
+const display = container.querySelector('.test_display');
+
+inspector.setManagedWidget(container.querySelector('.options_panel')).resetWidget();
+
+const tester = new Tester(display, inspector);
+</script>

@@ -1,0 +1,79 @@
+<?php
+
+/**
+ *
+ * @copyright  2019 objectivejs.org
+ * @version    1
+ * @link       http://www.objectivejs.org
+ */
+?>
+<?php $text='Objective.js'; ?>
+<?php $font='Roboto'; ?>
+<?php $fontSize=32; ?>
+<?php $color='#333'; ?>
+<?php $bg='#fd1'; ?>
+<?php $minlen=2; ?>
+<?php $maxlen=12; ?>
+<?php head('font', $font); ?>
+<?php $id=uniqid('id'); ?>
+<style>
+.test_display {
+	width: 240px;
+	height: 135px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: <?php echo $bg; ?>;
+	color: <?php echo $color; ?>;
+	font-family: "<?php echo $font; ?>", sans-serif;
+	font-size: <?php echo $fontSize; ?>px;
+	margin-bottom: 10px;
+	border-radius: 3px;
+}
+</style>
+<div id="<?php echo $id; ?>" class="noprint">
+<div class="test_display"><?php echo $text; ?></div>
+<div class="ojs">
+<div>
+<input id="text_input" type="text" size="10" maxlength="<?php echo $maxlen; ?>" spellcheck="false"/>
+</div>
+</div>
+</div>
+<?php head('javascript', '/objectivejs/Objective.js') ?>
+<?php head('javascript', '/objectivejs/Responder.js') ?>
+<?php head('javascript', '/objectivejs/View.js') ?>
+<?php head('javascript', '/objectivejs/Inspector.js') ?>
+<?php head('javascript', '/objectivejs/StringInspector.js'); ?>
+<script>
+function Tester(display, inspector) {
+	Responder.call(this);
+
+	this._display = display;
+
+	inspector.addNextResponder(this);
+
+	this._inspector = inspector;
+}
+
+Tester.prototype = Object.create(Responder.prototype);
+
+Object.defineProperty(Tester.prototype, 'constructor', { value: Tester, enumerable: false, writable: true });
+
+Tester.prototype.inspectorValueChanged = function(sender) {
+	if (sender === this._inspector)
+		this._display.innerHTML = `<span>${sender.get()}</span>`;
+
+	return true;
+}
+</script>
+<script>
+const inspector = new StringInspector('<?php echo $text; ?>', { min: <?php echo $minlen; ?>, max: <?php echo $maxlen; ?>, trim: true, required: true, escapeHTML: true });
+
+const container = document.querySelector('#<?php echo $id; ?>');
+
+const display = container.querySelector('.test_display');
+
+inspector.setManagedWidget(container.querySelector('#text_input')).resetWidget();
+
+const tester = new Tester(display, inspector);
+</script>

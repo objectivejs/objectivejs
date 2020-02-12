@@ -1,0 +1,70 @@
+<?php
+
+/**
+ *
+ * @copyright  2019 objectivejs.org
+ * @version    1
+ * @link       http://www.objectivejs.org
+ */
+?>
+<?php $text='Objective.js'; ?>
+<?php $font='Slackey'; ?>
+<?php $fontSize=60; ?>
+<?php $color='#3bc'; ?>
+<?php head('font', $font); ?>
+<?php $id=uniqid('id'); ?>
+<style>
+.test_display {
+	display: inline-block;
+	color: <?php echo $color; ?>;
+	font-family: "<?php echo $font; ?>", sans-serif;
+	font-size: <?php echo $fontSize; ?>px;
+	user-select: none;
+}
+.test_display .letter {
+	display: inline-block;
+ 	transform-origin: 50% 100%;
+}
+</style>
+<div id="<?php echo $id; ?>" class="noprint">
+<div class="test_display"><div><?php echo $text; ?></div></div>
+</div>
+<?php head('javascript', '/objectivejs/Objective.js'); ?>
+<?php head('javascript', '/objectivejs/Responder.js'); ?>
+<?php head('javascript', '/objectivejs/View.js'); ?>
+<?php head('javascript', '/objectivejs/Clip.js'); ?>
+<?php head('javascript', '/objectivejs/AnimateClip.js'); ?>
+<script>
+const container = document.querySelector('#<?php echo $id; ?>');
+
+const display = container.querySelector('.test_display');
+
+const wrapper = display.querySelector('div');
+wrapper.innerHTML = wrapper.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
+
+const clip = new AnimateClip();
+
+clip.setWidget(display);
+
+const duration = 2000, delay = 1000;
+
+const animations = [];
+
+const letters = wrapper.querySelectorAll('.letter');
+
+for (let i = 0; i < letters.length; i++) {
+	let keyframes = [ {transform: 'scale(0)'}, {transform: 'scale(1)'} ];
+	let options = {delay: delay + 50 * i, duration: duration, easing: 'ease-in-out'};
+
+	animations.push([letters[i], keyframes, options]);
+}
+
+const text_keyframes = [ {opacity: 1}, {opacity: 0} ];
+const text_options = {delay: delay + duration + letters.length * 50, duration: 1000, easing: 'ease-in-out'};
+
+animations.push([wrapper, text_keyframes, text_options]);
+
+clip.animate(animations);
+
+clip.enablePlayer();
+</script>

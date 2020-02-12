@@ -1,0 +1,200 @@
+<?php
+
+/**
+ *
+ * @copyright  2019 objectivejs.org
+ * @version    1
+ * @link       http://www.objectivejs.org
+ */
+?>
+<?php $text='Objective.js'; ?>
+<?php $font='Slackey'; ?>
+<?php $fontSize=24; ?>
+<?php $color='#cccccc'; ?>
+<?php head('font', $font); ?>
+<?php head('javascript', 'jquery.minicolors'); ?>
+<?php head('stylesheet', 'jquery.minicolors', 'screen'); ?>
+<?php $id=uniqid('id'); ?>
+<style>
+.test_display {
+	width: 240px;
+	height: 135px;
+	display: flex;
+	margin-bottom: 10px;
+	border-radius: 3px;
+}
+</style>
+<div id="<?php echo $id; ?>" class="noprint">
+<div class="test_display">
+<canvas width="240" height="135"></canvas>
+</div>
+<div class="ojs">
+<div>
+<div class="control_panel">
+<button type="submit" class="narrow" disabled><i class="fa fa-undo"></i></button>
+<button type="submit" class="narrow" disabled><i class="fa fa-redo"></i></button>
+</div>
+<span class="color_panel"></span>
+</div>
+</div>
+</div>
+<?php head('javascript', '/objectivejs/Objective.js'); ?>
+<?php head('javascript', '/objectivejs/Validator.js'); ?>
+<?php head('javascript', '/objectivejs/Responder.js'); ?>
+<?php head('javascript', '/objectivejs/View.js'); ?>
+<?php head('javascript', '/objectivejs/Inspector.js'); ?>
+<?php head('javascript', '/objectivejs/ColorInspector.js'); ?>
+<?php head('javascript', '/objectivejs/Model.js'); ?>
+<?php head('javascript', '/objectivejs/Undo.js'); ?>
+<?php head('javascript', '/objectivejs/Panel.js'); ?>
+<?php head('javascript', '/objectivejs/UndoPanel.js'); ?>
+<?php head('javascript', '/objectivejs/Editor.js'); ?>
+<?php head('javascript', '/objectivejs/ModelStorageDelegate.js'); ?>
+<script>
+function ColorModel(name) {
+	Model.call(this, name);
+
+	this._value = {
+		color:	ColorModel.defaultColor
+	};
+}
+
+ColorModel.prototype = Object.create(Model.prototype);
+
+Object.defineProperty(ColorModel.prototype, 'constructor', { value: ColorModel, enumerable: false, writable: true });
+
+ColorModel.defaultColor = '<?php echo $color; ?>';
+
+ColorModel.prototype.validateValue = function(prop, val) {
+	if (prop == 'color')
+		return Validator.validateColor(val);
+
+	return false;
+}
+
+ColorModel.prototype.normalizeValue = function(prop, val) {
+	if (prop == 'color')
+		val = Validator.normalizeColor(val);
+
+	return val;
+}
+
+function ColorView() {
+	View.call(this);
+
+	this._color = ColorModel.defaultColor;
+
+	this._canvas = null;
+}
+
+ColorView.prototype = Object.create(View.prototype);
+
+Object.defineProperty(ColorView.prototype, 'constructor', { value: ColorView, enumerable: false, writable: true });
+
+ColorView.prototype.set = function(options) {
+	const {color} = options;
+
+	this.setColor(color);
+
+	return this;
+}
+
+ColorView.prototype.setValue = function(prop, val) {
+	if (prop == 'color')
+		this.setColor(val);
+
+	return this;
+}
+
+ColorView.prototype.setColor = function(color) {
+	if (this._color != color) {
+		this._color = color;
+
+		if (this._widget)
+			this._widget.style.backgroundColor = color;
+	}
+
+	return this;
+}
+
+ColorView.prototype.resetWidget = function() {
+	if (this._widget)
+		this._widget.style.backgroundColor = this._color;
+
+	return this;
+}
+
+ColorView.prototype.setWidget = function(w) {
+	const canvas = w.querySelector('canvas');
+
+	if (canvas === null)
+		throw new TypeError();
+
+	this._canvas = canvas;
+
+	View.prototype.setWidget.call(this, w);
+
+	return this;
+}
+
+ColorView.prototype.drawWidget = function(font, fontSize, text) {
+	if (this._canvas) {
+		let canvas = this._canvas;
+		let ctx = canvas.getContext('2d');
+
+		ctx.font = `bold ${fontSize}px "${font}"`;
+
+		ctx.fillStyle = 'white';
+		ctx.textAlign = 'center';
+		ctx.textBaseline = 'middle';
+		ctx.fillText('', canvas.width / 2, canvas.height / 2);
+		ctx.beginPath();
+		ctx.arc(20, 20, 10, 0, 2 * Math.PI);
+		ctx.fill();
+		ctx.beginPath();
+		ctx.arc(canvas.width-20, 20, 10, 0, 2 * Math.PI);
+		ctx.fill();
+		ctx.beginPath();
+		ctx.arc(canvas.width-20, canvas.height-20, 10, 0, 2 * Math.PI);
+		ctx.fill();
+		ctx.beginPath();
+		ctx.arc(20, canvas.height-20, 10, 0, 2 * Math.PI);
+		ctx.fill();
+
+		document.fonts.ready.then(() => {
+			ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+ 		});
+	}
+
+	return this;
+}
+</script>
+<script>
+const model = new ColorModel('color');
+
+const container = document.querySelector('#<?php echo $id; ?>');
+
+const panel = new UndoPanel();
+
+panel.setManagedWidget(container.querySelector('.control_panel')).resetWidget();
+
+const view = new ColorView();
+
+view.setWidget(container.querySelector('.test_display')).resetWidget();
+
+view.drawWidget('<?php echo $font; ?>', <?php echo $fontSize; ?>, '<?php echo $text; ?>');
+
+const colorInspector = new ColorInspector(model.getValue('color'));
+
+colorInspector.createManagedWidget(container.querySelector('.color_panel'));
+
+const inspectors = {
+	color:	colorInspector
+}
+
+const editor = new Editor(model, view, inspectors, panel);
+
+model.setDelegate(new ModelStorageDelegate());
+model.readIn();
+model.enableSync();
+</script>

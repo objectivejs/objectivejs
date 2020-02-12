@@ -1,0 +1,31 @@
+<?php
+
+/**
+ *
+ * @copyright  2019 objectivejs.org
+ * @version    1
+ * @link       http://www.objectivejs.org
+ */
+?>
+<?php head('javascript', '/objectivejs/Objective.js') ?>
+<?php head('javascript', '/objectivejs/tests/Calculator.js') ?>
+<script>
+const mem = new CalculatorMemory();
+const calc = new Calculator(mem);
+
+calc.value = 5;
+calc.sqrt();
+calc.add(1);
+calc.div(2);
+
+console.log(calc.value);	// 1.618
+
+calc.sto();
+calc.clear();
+
+console.log(calc.value);	// 0
+
+calc.rcl();
+
+console.log(calc.value);	// 1.618
+</script>

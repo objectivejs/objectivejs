@@ -1,0 +1,36 @@
+<?php
+
+/**
+ *
+ * @copyright  2019 objectivejs.org
+ * @version    1
+ * @link       http://www.objectivejs.org
+ */
+?>
+<?php head('javascript', '/objectivejs/Objective.js') ?>
+<?php head('javascript', '/objectivejs/Validator.js') ?>
+<script>
+console.log(Validator.validateColor('#123456'));	// true
+console.log(Validator.validateColor('#789ABC'));	// true
+console.log(Validator.validateColor('#ABCDEF'));	// true
+console.log(Validator.validateColor('#abcdef'));	// true
+
+console.log(Validator.validateColor('#ABCDE'));		// false
+console.log(Validator.validateColor('abcdef'));		// false
+
+console.log(Validator.validateColor(0));			// false
+
+console.log(Validator.normalizeColor('#2aF'));		// #22aaff
+console.log(Validator.normalizeColor('#27aADb'));	// #27aadb
+
+console.log(Validator.validateEasing('linear'));	// true
+console.log(Validator.validateEasing('tease'));		// false
+
+console.log(Validator.validateTextAlignment('center'));		// true
+console.log(Validator.validateTextAlignment('middle'));		// false
+
+console.log(Validator.validateFileName('foobar'));		// true
+console.log(Validator.validateFileName('foobar.txt'));	// true
+console.log(Validator.validateFileName('/foo/bar'));	// false
+console.log(Validator.validateFileName('../foobar'));	// false
+</script>

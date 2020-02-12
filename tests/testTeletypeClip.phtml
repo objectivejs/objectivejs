@@ -1,0 +1,86 @@
+<?php
+
+/**
+ *
+ * @copyright  2019 objectivejs.org
+ * @version    1
+ * @link       http://www.objectivejs.org
+ */
+?>
+<?php $debug=false; ?>
+<?php $text='Objective.js'; ?>
+<?php $textwidth=12; ?>
+<?php $color='#22aa77'?>
+<?php $font='Slackey'; ?>
+<?php $fontsize=40; ?>
+<?php head('font', $font); ?>
+<?php $id=uniqid('id'); ?>
+<style>
+.teletype {
+	display: flex;
+	align-items: center;
+	user-select: none;
+}
+.teletype span {
+	flex: 1 1 auto;
+	white-space: pre;
+}
+</style>
+<div id="<?php echo $id; ?>" class="clip">
+<div class="teletype"></div>
+</div>
+<?php head('javascript', '/objectivejs/Objective.js'); ?>
+<?php head('javascript', '/objectivejs/Responder.js'); ?>
+<?php head('javascript', '/objectivejs/View.js'); ?>
+<?php head('javascript', '/objectivejs/Clip.js'); ?>
+<?php head('javascript', '/objectivejs/Model.js'); ?>
+<?php head('javascript', '/objectivejs/Validator.js'); ?>
+<?php head('javascript', '/objectivejs/ClipModel.js'); ?>
+<?php head('javascript', '/objectivejs/ClipController.js'); ?>
+<?php head('javascript', '/objectivejs/ProgramClip.js'); ?>
+<?php head('javascript', '/objectivejs/tests/TeletypeModel.js'); ?>
+<?php head('javascript', '/objectivejs/tests/TeletypeClip.js'); ?>
+<script>
+function TeleTypeClipController() {
+	ClipController.apply(this, arguments);
+}
+
+TeleTypeClipController.prototype = Object.create(ClipController.prototype);
+
+Object.defineProperty(TeleTypeClipController.prototype, 'constructor', { value: TeleTypeClipController, enumerable: false, writable: true });
+
+TeleTypeClipController.prototype.clipEnded = function(sender) {
+	sender.showText();
+}
+</script>
+<script>
+<?php if (!$debug): ?>
+(function() {
+<?php endif; ?>
+	const clip = new TeletypeClip();
+
+	const model = new TeletypeModel();
+
+	const container = document.querySelector('#<?php echo $id; ?>');
+
+	clip.setManagedWidget(container.querySelector('.teletype')).reset();
+
+	clip.enablePlayer();
+
+	const controller = new TeleTypeClipController(clip, model);
+
+	const options = {
+		width: 320,
+		height: 60,
+		text: '<?php echo $text; ?>',
+		textWidth: <?php echo $textwidth; ?>,
+		textColor: '<?php echo $color; ?>',
+		textFont: '<?php echo $font; ?>',
+		textSize: <?php echo $fontsize; ?>
+	};
+
+	model.set(options);
+<?php if (empty($debug)): ?>
+})();
+<?php endif; ?>
+</script>

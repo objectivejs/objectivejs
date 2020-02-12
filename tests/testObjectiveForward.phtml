@@ -1,0 +1,130 @@
+<?php
+
+/**
+ *
+ * @copyright  2019 objectivejs.org
+ * @version    1
+ * @link       http://www.objectivejs.org
+ */
+?>
+<?php head('javascript', '/objectivejs/Objective.js') ?>
+<script>
+function Ping() {
+}
+
+Ping.prototype = Object.create(Objective.prototype);
+
+Object.defineProperty(Ping.prototype, 'constructor', { value: Ping, enumerable: false, writable: true });
+
+Ping.prototype.echo = function(msg) {
+	console.log(`[PING] ${msg}`);
+}
+</script>
+<script>
+function Pong() {
+}
+
+Pong.prototype = Object.create(Objective.prototype);
+
+Object.defineProperty(Pong.prototype, 'constructor', { value: Pong, enumerable: false, writable: true });
+
+Pong.prototype.echo = function(msg) {
+	console.log(`[PONG] ${msg}`);
+}
+</script>
+<script>
+function PingPong(pong) {
+	this._pong = pong;
+}
+
+PingPong.prototype = Object.create(Objective.prototype);
+
+Object.defineProperty(PingPong.prototype, 'constructor', { value: PingPong, enumerable: false, writable: true });
+
+PingPong.prototype.forward = function(f, ...args) {
+	this._pong.forwardTo(f, ...args);
+}
+</script>
+<script>
+function Router(ping, pong) {
+	this._ping = ping;
+	this._pong = pong;
+
+	this._channel = this._ping;
+}
+
+Router.prototype = Object.create(Objective.prototype);
+
+Object.defineProperty(Router.prototype, 'constructor', { value: Router, enumerable: false, writable: true });
+
+Router.prototype.switch = function() {
+	this._channel = this._channel === this._ping ? this._pong : this._ping;
+
+	this.notify('routerSwitched', this);
+
+	return this;
+}
+
+Router.prototype.forward = function(f, ...args) {
+	this._channel.forwardTo(f, ...args);
+}
+</script>
+<script>
+function Listener(logger) {
+	this._logger = logger;
+}
+
+Listener.prototype = Object.create(Objective.prototype);
+
+Object.defineProperty(Listener.prototype, 'constructor', { value: Listener, enumerable: false, writable: true });
+
+Listener.prototype.forward = function(f, ...args) {
+	if (this._logger);
+		this._logger.forwardTo(f, ...args);
+}
+</script>
+<script>
+function Logger() {
+}
+
+Logger.prototype = Object.create(Objective.prototype);
+
+Object.defineProperty(Logger.prototype, 'constructor', { value: Logger, enumerable: false, writable: true });
+
+Logger.prototype.routerSwitched = function(sender) {
+	console.log('ROUTER SWITCHED');
+}
+</script>
+<script>
+const ping = new Ping();
+const pong = new Pong();
+
+const router1 = new Router(ping, pong);
+
+router1.forward('echo', 'HELLO');	// [PING] HELLO
+router1.switch();
+router1.forward('echo', 'HELLO');	// [PONG] HELLO
+
+const pingpong = new PingPong(pong);
+
+const router2 = new Router(ping, pingpong);
+
+router2.forward('echo', 'HELLO');	// [PING] HELLO
+router2.switch();
+router2.forward('echo', 'HELLO');	// [PONG] HELLO
+
+const logger = new Logger();
+const listener = new Listener(logger);
+
+router2.addListener(listener);
+router2.switch();					// ROUTER SWITCHED
+router2.forward('echo', 'HELLO');	// [PING] HELLO
+
+const router3 = new Router(ping, router2);
+
+router3.addListener(listener);
+router3.switch();					// ROUTER SWITCHED
+router3.forward('echo', 'HELLO');	// [PING] HELLO
+router2.switch();					// ROUTER SWITCHED
+router3.forward('echo', 'HELLO');	// [PONG] HELLO
+</script>

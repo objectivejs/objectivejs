@@ -1,0 +1,193 @@
+<?php
+
+/**
+ *
+ * @copyright  2019 objectivejs.org
+ * @version    1
+ * @link       http://www.objectivejs.org
+ */
+?>
+<?php $debug=false; ?>
+<?php $editor=true; ?>
+<?php $player=true; ?>
+<?php $clipname='emblem'; ?>
+<?php head('javascript', 'jquery.cookie'); ?>
+<?php if ($editor): ?>
+<?php head('javascript', 'jquery.minicolors'); ?>
+<?php head('stylesheet', 'jquery.minicolors', 'screen'); ?>
+<?php endif; ?>
+<?php $id=uniqid('id'); ?>
+<style>
+.emblem {
+	position: relative;
+	overflow: hidden;
+	margin: 0;
+	text-align: center;
+	text-transform: uppercase;
+	user-select: none;
+}
+.emblem span {position:absolute;left:0;right:0;top:0;bottom:0;}
+</style>
+<?php if ($editor): ?>
+<style>
+#<?php echo $id; ?>_emblem_text {
+	width: 20em;
+}
+#<?php echo $id; ?>_emblem_textsize {
+	width: 3em;
+}
+</style>
+<?php endif; ?>
+<div id="<?php echo $id; ?>" class="clip">
+<?php if ($editor): ?>
+<div class="ojs">
+<div>
+<div class="ojs_undo">
+<button type="submit" class="narrow control_undo" disabled><i class="fa fa-undo"></i></button>
+<button type="submit" class="narrow control_redo" disabled><i class="fa fa-redo"></i></button>
+</div>
+<span><input class="ojs_size" type="number" step="10"/>&nbsp;<i class="fa fa-expand small"></i></span>
+</div>
+<span><input id="<?php echo $id; ?>_emblem_text" type="text" size="20" spellcheck="false"/></span>
+<div>
+<span><input id="<?php echo $id; ?>_emblem_textsize" type="number" step="1"/>&nbsp;<i class="fa fa-text-height small"></i></span>
+<span><input id="<?php echo $id; ?>_emblem_textbold" type="checkbox"/><label for="<?php echo $id; ?>_emblem_textbold"><i class="fa fa-bold small"></i></label></span>
+<span id="<?php echo $id; ?>_emblem_textcolor"></span>
+</div>
+<div>
+<span><input id="<?php echo $id; ?>_emblem_textfont" type="text" size="20" spellcheck="false"/>&nbsp;<i class="fa fa-font small"></i></span>
+</div>
+<fieldset class="ojs_animation">
+<legend><i class="fa fa-history"></i>&nbsp;<span class="ojs_timing">0</span></legend>
+<span><input class="ojs_duration" type="number" min="1" step="1"/>&nbsp;<i class="fa fa-clock small"></i></span>
+<span><input class="ojs_delay" type="number" min="0" max="5" step="1"/>&nbsp;<i class="fa fa-play-circle small"></i></span>
+<select class="ojs_easing" size="1">
+<option value="linear">linear</option>
+<option value="ease">ease</option>
+<option value="ease-in">ease-in</option>
+<option value="ease-out">ease-out</option>
+<option value="ease-in-out">ease-in-out</option>
+</select>
+</fieldset>
+</div>
+<?php endif; ?>
+<div class="emblem"></div>
+</div>
+<?php head('javascript', '/objectivejs/Objective.js'); ?>
+<?php head('javascript', '/objectivejs/Responder.js'); ?>
+<?php head('javascript', '/objectivejs/View.js'); ?>
+<?php head('javascript', '/objectivejs/Clip.js'); ?>
+<?php head('javascript', '/objectivejs/Model.js'); ?>
+<?php head('javascript', '/objectivejs/Validator.js'); ?>
+<?php if ($editor): ?>
+<?php head('javascript', '/objectivejs/Editor.js'); ?>
+<?php head('javascript', '/objectivejs/ClipEditor.js'); ?>
+<?php head('javascript', '/objectivejs/Inspector.js'); ?>
+<?php head('javascript', '/objectivejs/BooleanInspector.js'); ?>
+<?php head('javascript', '/objectivejs/NumberInspector.js'); ?>
+<?php head('javascript', '/objectivejs/StringInspector.js'); ?>
+<?php head('javascript', '/objectivejs/SelectInspector.js'); ?>
+<?php head('javascript', '/objectivejs/ColorInspector.js'); ?>
+<?php head('javascript', '/objectivejs/Undo.js'); ?>
+<?php head('javascript', '/objectivejs/Panel.js'); ?>
+<?php head('javascript', '/objectivejs/UndoPanel.js'); ?>
+<?php else: ?>
+<?php head('javascript', '/objectivejs/ClipController.js'); ?>
+<?php endif; ?>
+<?php head('javascript', '/objectivejs/ClipModel.js'); ?>
+<?php head('javascript', '/objectivejs/AnimateClip.js'); ?>
+<?php head('javascript', '/objectivejs/ModelCookieDelegate.js'); ?>
+<?php head('javascript', '/objectivejs/tests/EmblemModel.js'); ?>
+<?php head('javascript', '/objectivejs/tests/EmblemClip.js'); ?>
+<script>
+<?php if (!$debug): ?>
+(function() {
+<?php endif; ?>
+	const clip = new EmblemClip();
+
+	const model = new EmblemModel('<?php echo $clipname; ?>');
+
+	const container = document.querySelector('#<?php echo $id; ?>');
+
+	clip.setManagedWidget(container.querySelector('.emblem'));
+
+	clip.set(model.get());
+
+<?php if ($player): ?>
+	clip.enablePlayer();
+<?php endif; ?>
+
+<?php if ($editor): ?>
+	const panel = new UndoPanel();
+
+	panel.setManagedWidget(container.querySelector('.ojs_undo')).resetWidget();
+
+	const sizeInspector = new NumberInspector(model.getValue('size'), {min: EmblemModel.minSize, max: EmblemModel.maxSize});
+
+	sizeInspector.setManagedWidget(container.querySelector('.ojs_size')).resetWidget();
+
+	const textInspector = new StringInspector(model.getValue('text'), {min: EmblemModel.minTextLength, max: EmblemModel.maxTextLength, trim: false, required: false});
+
+	textInspector.setManagedWidget(container.querySelector('#<?php echo $id; ?>_emblem_text')).resetWidget();
+
+	const textSizeInspector = new NumberInspector(model.getValue('textSize'), {min: EmblemModel.minTextSize, max: EmblemModel.maxTextSize});
+
+	textSizeInspector.setManagedWidget(container.querySelector('#<?php echo $id; ?>_emblem_textsize')).resetWidget();
+
+	const textBoldInspector = new BooleanInspector(model.getValue('textBold'));
+
+	textBoldInspector.setManagedWidget(container.querySelector('#<?php echo $id; ?>_emblem_textbold')).resetWidget();
+
+	const textColorInspector = new ColorInspector(model.getValue('textColor'));
+
+	textColorInspector.createManagedWidget(container.querySelector('#<?php echo $id; ?>_emblem_textcolor'));
+
+	const textFontInspector = new StringInspector(model.getValue('textFont'));
+
+	textFontInspector.setManagedWidget(container.querySelector('#<?php echo $id; ?>_emblem_textfont')).resetWidget();
+
+	const durationInspector = new NumberInspector(model.getValue('duration'), {min: EmblemModel.minDuration, max: EmblemModel.maxDuration});
+
+	durationInspector.setManagedWidget(container.querySelector('.ojs_duration')).resetWidget();
+
+	const delayInspector = new NumberInspector(model.getValue('delay'), {min: EmblemModel.minDelay, max: EmblemModel.maxDelay});
+
+	delayInspector.setManagedWidget(container.querySelector('.ojs_delay')).resetWidget();
+
+	const easingInspector = new SelectInspector(model.getValue('easing'), {tags: EmblemModel.easingOptions});
+
+	easingInspector.setManagedWidget(container.querySelector('.ojs_easing')).resetWidget();
+
+	const timing = new View();
+
+	timing.setManagedWidget(container.querySelector('.ojs_timing'));
+
+	const inspectors = {
+		size:		sizeInspector,
+		text:		textInspector,
+		textFont:	textFontInspector,
+		textSize:	textSizeInspector,
+		textBold:	textBoldInspector,
+		textColor:	textColorInspector,
+		duration:	durationInspector,
+		delay:		delayInspector,
+		easing:		easingInspector
+	};
+
+	const editor = new ClipEditor(model, clip, inspectors, panel, timing);
+<?php else: ?>
+	const controller = new ClipController(clip, model);
+<?php endif; ?>
+
+	model.setDelegate(new ModelCookieDelegate());
+
+	if (model.isSaved())
+		model.readIn();
+	else
+		model.setValue('text', 'Paris • London • ');
+
+	model.enableSync();
+<?php if (!$debug): ?>
+})();
+<?php endif; ?>
+</script>

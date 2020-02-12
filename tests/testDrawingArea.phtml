@@ -1,0 +1,92 @@
+<?php
+
+/**
+ *
+ * @copyright  2020 objectivejs.org
+ * @version    1
+ * @link       http://www.objectivejs.org
+ */
+?>
+<?php $maxwidth=320; ?>
+<?php $tagname='img'; ?>
+<?php
+switch ($tagname) {
+case 'img':
+	$src='/files/images/htmlcssjs.jpg';
+	$width=1280;
+	$height=720;
+	break;
+case 'video':
+	$src='/files/videos/Horloge.webm';
+	$type='video/webm';
+	$width=854;
+	$height=480;
+	break;
+case 'canvas':
+	$width=600;
+	$height=$width;
+	break;
+}
+?>
+<?php $id=uniqid('id'); ?>
+<div id="<?php echo $id; ?>" class="noprint">
+<div class="test_display">
+<?php if ($tagname == 'img'): ?>
+<img src="<?php echo $src; ?>" alt="" width="<?php echo $width; ?>" height="<?php echo $height; ?>" hidden/>
+<?php elseif ($tagname == 'video'): ?>
+<video width="<?php echo $width; ?>" height="<?php echo $height; ?>" preload="auto">
+<source src="<?php echo $src; ?>" type="<?php echo $type; ?>" />
+</video>
+<?php elseif ($tagname == 'canvas'): ?>
+<canvas width="<?php echo $width; ?>" height="<?php echo $height; ?>"></canvas>
+<?php endif; ?>
+</div>
+</div>
+<?php head('javascript', '/objectivejs/Objective.js') ?>
+<?php head('javascript', '/objectivejs/Responder.js') ?>
+<?php head('javascript', '/objectivejs/View.js') ?>
+<?php head('javascript', '/objectivejs/DrawingArea.js') ?>
+<?php if ($tagname == 'canvas'): ?>
+<script>
+(function() {
+	const canvas = document.querySelector('#<?php echo $id; ?> canvas');
+	const ctx = canvas.getContext('2d');
+
+	const w = canvas.width / 2;
+	const h = canvas.height / 2;
+
+	ctx.fillStyle = '#FD0';
+	ctx.fillRect(0, 0, w, h);
+	ctx.fillStyle = '#6C0';
+	ctx.fillRect(w, 0, w, h);
+	ctx.fillStyle = '#09F';
+	ctx.fillRect(0, h, w, h);
+	ctx.fillStyle = '#F30';
+	ctx.fillRect(w, h, w, h);
+	ctx.fillStyle = '#FFF';
+
+	ctx.globalAlpha = 0.2;
+
+	for (let i = 0; i < 7; i++) {
+		ctx.beginPath();
+		ctx.arc(w, h, w / 10 + h / 10 * i, 0, Math.PI * 2, true);
+		ctx.fill();
+	}
+})();
+</script>
+<?php endif; ?>
+<script>
+const width = <?php echo $width; ?>;
+const height = <?php echo $height; ?>;
+const maxwidth = <?php echo $maxwidth; ?>;
+
+const ratio = Math.round(width / height * 100) / 100;
+
+const image = document.querySelector('#<?php echo $id; ?> <?php echo $tagname; ?>');
+
+const canvas = new DrawingArea();
+
+canvas.size = [maxwidth, Math.ceil(maxwidth / ratio)];
+
+canvas.setManagedWidget(image);
+</script>

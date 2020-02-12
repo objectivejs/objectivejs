@@ -1,0 +1,146 @@
+/**
+ *
+ * @copyright  2019 objectivejs.org
+ * @version    1
+ * @link       http://www.objectivejs.org
+ */
+ 
+/* objectivejs.css */
+
+@media print {
+	.ojs {
+		display: none;
+	}
+}
+
+.ojs {
+	margin-bottom: 1em;
+}
+
+.ojs > div {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	align-content: flex-start;
+	margin: 10px 0;
+}
+
+.ojs > div > div,
+.ojs > div > span {
+	margin-right: 10px;
+	line-height: 14px;
+}
+
+.ojs label.sepia {
+	width: 16px;
+	height: 16px;
+	display: inline-block;
+	background: linear-gradient(#fca, #a86);
+}
+
+.ojs label.grayscale {
+	width: 16px;
+	height: 16px;
+	display: inline-block;
+	background: linear-gradient(#ccc, #666);
+}
+
+.ojs input[type=range] {
+	width: 60px;
+	outline: none;
+	vertical-align: middle;
+	-webkit-appearance: none;
+}
+
+.ojs input[type=range]::focus {
+	outline: none !important;
+}
+
+.ojs input[type=range]::-moz-focus-outer {
+	border: 0;
+}
+
+.ojs input[type=range]::-webkit-slider-runnable-track {
+	width: 60px;
+	height: 8px;
+	margin-top: -2px;
+	background: #ccc;
+	border-radius: 4px;
+	border: none;
+}
+
+.ojs input[type=range]::-webkit-slider-thumb {
+	width: 12px;
+	height: 12px;
+	margin-top: -2px;
+	background: #666;
+	border-radius: 6px;
+	border: none;
+	-webkit-appearance: none;
+}
+
+.ojs input[type=range]::-moz-range-track {
+	width: 60px;
+	height: 8px;
+	background: #ccc;
+	border-radius: 4px;
+	border: none;
+}
+
+.ojs input[type=range]::-moz-range-thumb {
+	width: 12px;
+	height: 12px;
+	background: #666;
+	border-radius: 6px;
+	border: none;
+}
+
+.ojs input[type=range].disabled::-webkit-slider-thumb,
+.ojs input[type=range].disabled::-moz-range-thumb {
+	background: #ccc
+}
+
+.ojs input[type=range] .rangeslider {
+	width: 60px;
+	height: 8px;
+	background: #ccc;
+	border-radius: 4px;
+	border: none;
+}
+
+.ojs input[type=range] .rangethumb {
+	width: 12px;
+	height: 12px;
+	background: #666;
+	border-radius: 6px;
+	border: none;
+}
+
+.ojs output {
+	font-size: small;
+	color: #666;
+}
+
+.ojs_undo {
+	margin-right: 10px;
+}
+
+.ojs_size,
+.ojs_width,
+.ojs_height {
+	width: 4em;
+}
+
+.ojs_interval,
+.ojs_duration {
+	width: 3em;
+}
+
+.ojs_delay {
+	width: 2em;
+}
+
+.ojs_video {
+	display: inline-flex;
+	background: black;
+}

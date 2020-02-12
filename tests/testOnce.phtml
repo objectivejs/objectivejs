@@ -1,0 +1,34 @@
+<?php
+
+/**
+ *
+ * @copyright  2019 objectivejs.org
+ * @version    1
+ * @link       http://www.objectivejs.org
+ */
+?>
+<?php head('javascript', '/objectivejs/Objective.js'); ?>
+<?php head('javascript', '/objectivejs/Once.js'); ?>
+<script>
+console.log(new Once() === new Once());	// true
+
+function Application(name) {
+	let app = Once.call(this);
+
+	if (app === this)
+		this._name = name;
+
+	return app;
+}
+
+Application.prototype = Object.create(Once.prototype);
+
+Object.defineProperty(Application.prototype, 'constructor', { value: Application, enumerable: false, writable: true });
+
+let app1 = new Application('foobar');
+let app2 = new Application('barfoo');
+
+console.log(app1.constructor.name);	// Application
+console.log(app1 === app2);			// true
+console.log(app1._name);			// foobar
+</script>

@@ -1,0 +1,63 @@
+<?php
+
+/**
+ *
+ * @copyright  2020 objectivejs.org
+ * @version    1
+ * @link       http://www.objectivejs.org
+ */
+?>
+<?php $filetypes=array('image/jpeg', 'image/png', 'image/gif', 'image/svg+xml'); ?>
+<?php $maxsize=1000000; ?>
+<?php $imgsrc='/files/images/loadimage.png'; ?>
+<?php $imgwidth=320; ?>
+<?php $imgheight=180; ?>
+<?php $id=uniqid('id'); ?>
+<style>
+.test_display img {
+	max-width: <?php echo $imgwidth; ?>px;
+}
+</style>
+<div id="<?php echo $id; ?>" class="noprint">
+<div class="ojs">
+<div>
+<span><button id="loadimage" type="submit" class="narrow"><i class="fa fa-file-image"></i></button></span>
+<span>
+<input class="ojs_width" type="number" min="0"/>&nbsp;<i class="fa fa-arrows-alt-h small"></i>
+<input class="ojs_height" type="number" min="0"/>&nbsp;<i class="fa fa-arrows-alt-v small"></i>
+</span>
+</div>
+</div>
+<div class="test_display"><img src="<?php echo $imgsrc; ?>" alt="" width="<?php echo $imgwidth; ?>" height="<?php echo $imgheight; ?>"/></div>
+</div>
+<?php head('javascript', '/objectivejs/Objective.js'); ?>
+<?php head('javascript', '/objectivejs/Responder.js'); ?>
+<?php head('javascript', '/objectivejs/View.js'); ?>
+<?php head('javascript', '/objectivejs/Validator.js'); ?>
+<?php head('javascript', '/objectivejs/Inspector.js'); ?>
+<?php head('javascript', '/objectivejs/NumberInspector.js'); ?>
+<?php head('javascript', '/objectivejs/DimensionInspector.js'); ?>
+<?php head('javascript', '/objectivejs/ImageInspector.js') ?>
+<?php head('javascript', '/objectivejs/SequenceInspector.js') ?>
+<?php head('javascript', '/objectivejs/ImageSizeInspector.js') ?>
+<script>
+const container = document.querySelector('#<?php echo $id; ?>');
+
+const display = container.querySelector('.test_display');
+
+const filetypes = [<?php echo implode(',', array_map(function($s) { return "'$s'"; }, $filetypes)); ?>];
+
+const imageInspector = new ImageInspector(null, { filetypes: filetypes, maxsize: <?php echo $maxsize; ?> });
+
+imageInspector.setManagedWidget(display.querySelector('img'));
+
+const sizeInspector = new DimensionInspector(0, 0, {minWidth: 0, minHeight: 0});
+
+sizeInspector.setManagedWidget(container.querySelector('.ojs span+span')).resetWidget();
+
+const inspector = new ImageSizeInspector(imageInspector, sizeInspector);
+
+const loadimage = container.querySelector('.ojs span');
+
+loadimage.onclick = () => imageInspector.loadImage();
+</script>
