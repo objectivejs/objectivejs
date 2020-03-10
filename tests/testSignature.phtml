@@ -1,0 +1,61 @@
+<?php
+
+/**
+ *
+ * @copyright  2020 objectivejs.org
+ * @version    1
+ * @link       http://www.objectivejs.org
+ */
+?>
+<?php $bg='#ffc'; ?>
+<?php $width=600; ?>
+<?php $height=400; ?>
+<?php $linewidth=5; ?>
+<?php $linecolor='#00f'; ?>
+<?php $trashcolor='#e02'; ?>
+<?php $id=uniqid('id'); ?>
+<style>
+.test_display {
+	display: inline-block;
+	position: relative;
+	margin: 1em 0 0;
+}
+.test_display canvas {
+	background-color: <?php echo $bg; ?>;
+}
+.test_display i.fa-trash {
+	position: absolute;	bottom: 10px; right: 5px;
+	padding: 10px; border-radius: 50%; background-color: #fff;
+	color: <?php echo $trashcolor; ?>;
+	cursor: pointer;
+}
+</style>
+<div id="<?php echo $id; ?>" class="noprint">
+<div class="test_display">
+<canvas width="<?php echo $width; ?>" height="<?php echo $height; ?>"></canvas>
+<i class="fa fa-trash"></i>
+</div>
+</div>
+<?php head('javascript', '/objectivejs/Objective.js') ?>
+<?php head('javascript', '/objectivejs/Responder.js') ?>
+<?php head('javascript', '/objectivejs/View.js') ?>
+<?php head('javascript', '/objectivejs/Validator.js') ?>
+<?php head('javascript', '/objectivejs/Signature.js') ?>
+<script>
+const signature = new Signature({lineColor: '<?php echo $linecolor; ?>', lineWidth: <?php echo $linewidth; ?>});
+
+const container = document.querySelector('#<?php echo $id; ?>');
+
+signature.setWidget(container.querySelector('canvas'));
+
+const trash = container.querySelector('i.fa-trash');
+
+trash.onclick = () => signature.erase();
+
+signature.setAttribute('tabindex', 0);
+
+signature.addEventListener('keydown', (e) => {
+	if (e.key === 'Delete')
+		signature.erase();
+});
+</script>
