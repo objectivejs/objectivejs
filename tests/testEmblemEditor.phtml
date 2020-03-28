@@ -2,8 +2,8 @@
 
 /**
  *
- * @copyright  2019 objectivejs.org
- * @version    1
+ * @copyright  2019-2020 objectivejs.org
+ * @version    2
  * @link       http://www.objectivejs.org
  */
 ?>
@@ -183,8 +183,13 @@
 
 	if (model.isSaved())
 		model.readIn();
-	else
+	else {
 		model.setValue('text', 'Paris • London • ');
+		model.setValue('textFont', 'Slackey');
+		model.setValue('textColor', '#CB6');
+		model.setValue('textSize', 36);
+		model.setValue('size', 240);
+	}
 
 	model.enableSync();
 <?php if (!$debug): ?>
