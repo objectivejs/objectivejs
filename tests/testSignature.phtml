@@ -3,7 +3,7 @@
 /**
  *
  * @copyright  2020 objectivejs.org
- * @version    1
+ * @version    2
  * @link       http://www.objectivejs.org
  */
 ?>
@@ -36,11 +36,11 @@
 <i class="fa fa-trash"></i>
 </div>
 </div>
-<?php head('javascript', '/objectivejs/Objective.js') ?>
-<?php head('javascript', '/objectivejs/Responder.js') ?>
-<?php head('javascript', '/objectivejs/View.js') ?>
-<?php head('javascript', '/objectivejs/Validator.js') ?>
-<?php head('javascript', '/objectivejs/Signature.js') ?>
+<?php head('javascript', '/objectivejs/Objective.js'); ?>
+<?php head('javascript', '/objectivejs/Responder.js'); ?>
+<?php head('javascript', '/objectivejs/View.js'); ?>
+<?php head('javascript', '/objectivejs/Validator.js'); ?>
+<?php head('javascript', '/objectivejs/Signature.js'); ?>
 <script>
 const signature = new Signature({lineColor: '<?php echo $linecolor; ?>', lineWidth: <?php echo $linewidth; ?>});
 
