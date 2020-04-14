@@ -1,7 +1,7 @@
 /**
  *
- * @copyright  2019 objectivejs.org
- * @version    1
+ * @copyright  2019-2020 objectivejs.org
+ * @version    2
  * @link       http://www.objectivejs.org
  */
 
@@ -22,7 +22,7 @@ function VideoClip() {
 
 	this._onmute = null;
 
-	this._streamVideo = null;
+	this._streamvideo = null;
 }
 
 VideoClip.prototype = Object.create(Clip.prototype);
@@ -83,6 +83,15 @@ Object.defineProperty(VideoClip.prototype, 'muted', {
 					if (this._mutedWidget)
 						this._mutedWidget.checked = this._video.muted;
 				}
+		}
+});
+
+Object.defineProperty(VideoClip.prototype, 'options', {
+	get:	function() {
+				return this._drawingarea.getOptions();
+			},
+	set:	function(options) {
+				this._drawingarea.setOptions(options);
 		}
 });
 
@@ -291,7 +300,7 @@ VideoClip.prototype.enablePlayer = function() {
 
 	Clip.prototype.enablePlayer.call(this);
 
-	if (this._streamvideo === undefined) {
+	if (this._streamvideo === null) {
 		this._streamvideo = () => {
 			if (this._video.paused || this._video.ended)
 				return;
