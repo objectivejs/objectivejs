@@ -3,7 +3,7 @@
 /**
  *
  * @copyright  2020 objectivejs.org
- * @version    2
+ * @version    3
  * @link       http://www.objectivejs.org
  */
 ?>
@@ -46,7 +46,7 @@ const signature = new Signature({lineColor: '<?php echo $linecolor; ?>', lineWid
 
 const container = document.querySelector('#<?php echo $id; ?>');
 
-signature.setWidget(container.querySelector('canvas'));
+signature.setManagedWidget(container.querySelector('canvas'));
 
 const trash = container.querySelector('i.fa-trash');
 
