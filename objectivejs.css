@@ -1,7 +1,7 @@
 /**
  *
- * @copyright  2019 objectivejs.org
- * @version    1
+ * @copyright  2019-2020 objectivejs.org
+ * @version    2
  * @link       http://www.objectivejs.org
  */
  
@@ -48,6 +48,7 @@
 .ojs input[type=range] {
 	width: 60px;
 	outline: none;
+	background: transparent;
 	vertical-align: middle;
 	-webkit-appearance: none;
 }
@@ -97,7 +98,7 @@
 
 .ojs input[type=range].disabled::-webkit-slider-thumb,
 .ojs input[type=range].disabled::-moz-range-thumb {
-	background: #ccc
+	background: #ccc;
 }
 
 .ojs input[type=range] .rangeslider {
