@@ -1,0 +1,252 @@
+<?php
+
+/**
+ *
+ * @copyright  2020 objectivejs.org
+ * @version    1
+ * @link       http://www.objectivejs.org
+ */
+?>
+<?php $colors=['#541743', '#8C0C3C', '#C10037', '#F75431', '#F7BD00']; ?>
+<?php $stripesmin=2; ?>
+<?php $stripesmax=6; ?>
+<?php $stripewidth=40; ?>
+<?php $stripeminwidth=10; ?>
+<?php $stripemaxwidth=60; ?>
+<?php head('javascript', 'jquery.minicolors'); ?>
+<?php head('stylesheet', 'jquery.minicolors', 'screen'); ?>
+<?php $id=uniqid('id'); ?>
+<style>
+.test_display {
+	display: flex;
+	margin-bottom: 10px;
+	border-radius: 3px;
+}
+</style>
+<div id="<?php echo $id; ?>" class="noprint">
+<div class="ojs">
+<div id="control_panel_1">
+<span><button type="submit" class="tiny"><i class="fa fa-caret-left"></i></button></span>
+<span><button type="submit" class="tiny"><i class="fa fa-caret-right"></i></button></span>
+<span><output></output></span>
+</div>
+<div class="test_display">
+<canvas width="360" height="120"></canvas>
+</div>
+<div id="control_panel_2">
+<span><button type="submit" class="tiny"><i class="fa fa-sm fa-plus"></i></button></span>
+<span><button type="submit" class="tiny"><i class="fa fa-sm fa-minus"></i></button></span>
+<span><button type="submit" class="tiny"><i class="fa fa-sm fa-arrow-left"></i></button></span>
+<span><button type="submit" class="tiny"><i class="fa fa-sm fa-arrow-right"></i></button></span>
+</div>
+<div>
+<span class="color_panel"></span>
+<span>
+<input id="stripe_size" type="range" min="<?php echo $stripeminwidth; ?>" max="<?php echo $stripemaxwidth; ?>" step="10" size="2" maxlength="2" value="<?php echo $stripewidth; ?>"/>
+<output for="stripe_size"><?php echo $stripewidth; ?></output>
+</span>
+</div>
+</div>
+</div>
+<?php head('javascript', '/objectivejs/Objective.js'); ?>
+<?php head('javascript', '/objectivejs/Validator.js'); ?>
+<?php head('javascript', '/objectivejs/Responder.js'); ?>
+<?php head('javascript', '/objectivejs/View.js'); ?>
+<?php head('javascript', '/objectivejs/Inspector.js'); ?>
+<?php head('javascript', '/objectivejs/NumberInspector.js'); ?>
+<?php head('javascript', '/objectivejs/RangeInspector.js'); ?>
+<?php head('javascript', '/objectivejs/ColorInspector.js'); ?>
+<?php head('javascript', '/objectivejs/SequenceInspector.js'); ?>
+<?php head('javascript', '/objectivejs/SetOfInspector.js'); ?>
+<script>
+function Stripes() {
+	View.call(this);
+
+	this._colors = null;
+
+	this._selectable = false;
+
+	this._click = null;
+}
+
+Stripes.prototype = Object.create(View.prototype);
+
+Object.defineProperty(Stripes.prototype, 'constructor', { value: Stripes, enumerable: false, writable: true });
+
+Object.defineProperty(Stripes.prototype, 'colors', {
+	get:	function() {
+				return this._colors;
+			},
+	set:	function(colors) {
+				this._colors = colors;
+
+				if (this.interfaced())
+					this.resetWidget();
+			}
+});
+
+Stripes.prototype.enable = function() {
+	if (this._selectable)
+		return this;
+
+	if (this._click === null) {
+		this._click = () => {
+			if (this._colors === null)
+				return;
+
+			const rect = event.target.getBoundingClientRect();
+			const x = event.clientX - rect.left;
+
+			for (let dx = 0, i = 0; i < this._colors.length; i++) {
+				dx += this._colors[i].width;
+
+				if (dx >= x) {
+					this.notify('stripeSelected', this, i+1, this._colors[i]);
+					break;
+				}
+			}
+		};
+	}
+
+	this.addEventListener('click', this._click);
+
+	this.setStyle('cursor', 'pointer');
+
+	this._selectable = true;
+
+	return this;
+}
+
+Stripes.prototype.disable = function() {
+	if (!this._selectable)
+		return this;
+
+	this.removeEventListener('click', this._click);
+
+	this.setStyle('cursor', 'default');
+
+	this._selectable = false;
+
+	return this;
+}
+
+Stripes.prototype.resetWidget = function() {
+	const canvas = this._widget;
+	const ctx = canvas.getContext('2d');
+
+	if (this._colors === null) {
+		canvas.width = 0;
+
+		return this;
+	}
+
+	let width = 0;
+
+	for (let c of this._colors)
+		width += c.width;
+
+	canvas.width = width;
+
+	let x = 0;
+
+	for (let c of this._colors) {
+		ctx.fillStyle = c.color;
+		ctx.fillRect(x, 0, c.width, canvas.height);
+
+		x += c.width;
+	}
+
+	return this;
+}
+
+Stripes.prototype.setWidget = function(w) {
+	if (w.tagName != 'CANVAS')
+		throw new TypeError();
+
+	View.prototype.setWidget.call(this, w);
+
+	this.enable();
+
+	return this;
+}
+</script>
+<script>
+function Tester(display, inspector) {
+	Responder.call(this);
+
+	display.addListener(this);
+
+	this._display = display;
+
+	inspector.addNextResponder(this);
+
+	this._inspector = inspector;
+}
+
+Tester.prototype = Object.create(Responder.prototype);
+
+Object.defineProperty(Tester.prototype, 'constructor', { value: Tester, enumerable: false, writable: true });
+
+Tester.prototype.inspectorValueChanged = function(sender) {
+	if (sender === this._inspector)
+		this._display.colors = sender.get();
+
+	return true;
+}
+
+Tester.prototype.stripeSelected = function(sender, i) {
+	this._inspector.itemIndex = i;
+}
+
+Tester.prototype.enable = function() {
+	this._display.enable();
+	this._inspector.enable();
+
+	return this;
+}
+
+Tester.prototype.disable = function() {
+	this._display.disable();
+	this._inspector.disable();
+
+	return this;
+}
+</script>
+<script>
+const colors = [<?php echo implode(',', array_map(function($c) { return "{color: '$c', width: " . rand(2, 5)*10 . '}'; }, $colors)); ?>];
+
+const container = document.querySelector('#<?php echo $id; ?>');
+
+const display = new Stripes();
+
+display.setWidget(container.querySelector('.test_display canvas'));
+
+display.colors = colors;
+
+const colorInspector = new ColorInspector('<?php echo $colors[0]; ?>');
+
+colorInspector.createManagedWidget(container.querySelector('.color_panel'));
+
+const widthInspector = new RangeInspector(<?php echo $stripewidth; ?>, { min: <?php echo $stripeminwidth; ?>, max: <?php echo $stripemaxwidth; ?> });
+
+widthInspector.setManagedWidget(container.querySelector('#stripe_size')).resetWidget();
+
+const stripeInspector = new SequenceInspector({ color: colorInspector, width: widthInspector });
+
+const inspector = new SetOfInspector(stripeInspector, { min: <?php echo $stripesmin; ?>, max: <?php echo $stripesmax; ?>, defaultItem: {color: ColorInspector.defaultColor, width: <?php echo $stripewidth; ?>} });
+
+inspector.setPreviousWidget(container.querySelector('#control_panel_1 span:nth-child(1) button'));
+inspector.setNextWidget(container.querySelector('#control_panel_1 span:nth-child(2) button'));
+
+inspector.setAddWidget(container.querySelector('#control_panel_2 span:nth-child(1) button'));
+inspector.setRemoveWidget(container.querySelector('#control_panel_2 span:nth-child(2) button'));
+
+inspector.setShiftWidget(container.querySelector('#control_panel_2 span:nth-child(3) button'));
+inspector.setUnshiftWidget(container.querySelector('#control_panel_2 span:nth-child(4) button'));
+
+inspector.setIndexWidget(container.querySelector('#control_panel_1 output'));
+
+inspector.set(colors);
+
+const tester = new Tester(display, inspector);
+</script>
