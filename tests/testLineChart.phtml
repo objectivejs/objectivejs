@@ -1,0 +1,378 @@
+<?php
+
+/**
+ *
+ * @copyright  2020 objectivejs.org
+ * @version    1
+ * @link       http://www.objectivejs.org
+ */
+?>
+<?php $title='Plotly'; ?>
+<?php $name1='Markers'; ?>
+<?php $mode1='markers'; ?>
+<?php $color1='#8C0C3C'; ?>
+<?php $x1=array(1, 2, 3, 4); ?>
+<?php $y1=array(10, 15, 13, 17); ?>
+<?php $name2='Lines'; ?>
+<?php $mode2='lines'; ?>
+<?php $color2='#F7BD00'; ?>
+<?php $x2=array(1, 2, 3, 4); ?>
+<?php $y2=array(16, 5, 11, 9); ?>
+<?php $name3='Markers • Lines'; ?>
+<?php $mode3='lines+markers'; ?>
+<?php $color3='#C10037'; ?>
+<?php $x3=array(1, 2, 3, 4); ?>
+<?php $y3=array(12, 9, 15, 12); ?>
+<?php head('javascript', 'jquery.minicolors'); ?>
+<?php head('stylesheet', 'jquery.minicolors', 'screen'); ?>
+<?php head('javascript', 'https://cdn.plot.ly/plotly-latest.min.js'); ?>
+<?php $id=uniqid('id'); ?>
+<style>
+i.btn_plotly {width:20px;height:16px;display:inline-block;line-height:16px;background:transparent url(/objectivejs/tests/images/plotly.png) no-repeat;vertical-align:middle;text-indent:-9999px;}
+i.btn_lines {background-position:0 0;}
+i.btn_markers {background-position:-20px 0;}
+i.btn_lines_markers {background-position:-40px 0;}
+i.btn_solid {background-position:-60px 0;}
+i.btn_dot {background-position:-80px 0;}
+i.btn_dashdot {background-position:-100px 0;}
+#<?php echo $id; ?>_line_width, #<?php echo $id; ?>_marker_size {
+	width: 3em;
+}
+#<?php echo $id; ?>_xaxis_dtick, #<?php echo $id; ?>_yaxis_dtick {
+	width: 3em;
+}
+#<?php echo $id; ?>_xaxis_dtick::-webkit-inner-spin-button,
+#<?php echo $id; ?>_xaxis_dtick::-webkit-outer-spin-button,
+#<?php echo $id; ?>_yaxis_dtick::-webkit-inner-spin-button,
+#<?php echo $id; ?>_yaxis_dtick::-webkit-outer-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+#<?php echo $id; ?>_xaxis_dtick,
+#<?php echo $id; ?>_yaxis_dtick {
+	-moz-appearance: textfield;
+}
+</style>
+<div id="<?php echo $id; ?>" class="noprint">
+<div class="test_display"></div>
+<div class="ojs">
+<div>
+<span><button id="<?php echo $id; ?>_prev" type="submit" class="tiny round"><i class="fa fa-caret-left"></i></button></span>
+<span><button id="<?php echo $id; ?>_next" type="submit" class="tiny round"><i class="fa fa-caret-right"></i></button></span>
+<span><output id="<?php echo $id; ?>_index"></output></span>
+</div>
+<div>
+<span><input id="<?php echo $id; ?>_x" type="text" size="30" spellcheck="false" title="X" placeholder="1 2 3 4 ..."/>&nbsp;<b class="small">X</b></span>
+</div>
+<div>
+<span><input id="<?php echo $id; ?>_y" type="text" size="30" spellcheck="false" title="Y" placeholder="-5 2.5 10 5 ..."/>&nbsp;<b class="small">Y</b></span>
+</div>
+<div>
+<span><input id="<?php echo $id; ?>_name" type="text" size="20" spellcheck="false"/></span>
+<span id="<?php echo $id; ?>_line_color"></span>
+<span class="nowrap"><input id="<?php echo $id; ?>_hidden" type="checkbox"/><i class="fa fa-minus-circle red"></i></span>
+</div>
+<div>
+<span id="<?php echo $id; ?>_mode">
+<span><input type="radio" id="<?php echo $id; ?>_mode_lines" name="<?php echo $id; ?>_mode" value="lines" checked><label for="<?php echo $id; ?>_mode_lines"><i class="btn_plotly btn_lines">lines</i></label></span>
+<span><input type="radio" id="<?php echo $id; ?>_mode_markers" name="<?php echo $id; ?>_mode" value="markers"><label for="<?php echo $id; ?>_mode_markers"><i class="btn_plotly btn_markers">markers</i></label></span>
+<span><input type="radio" id="<?php echo $id; ?>_mode_lines_markers" name="<?php echo $id; ?>_mode" value="lines+markers"><label for="<?php echo $id; ?>_mode_lines_markers"><i class="btn_plotly btn_lines_markers">lines+markers</i></label></span>
+</span>
+<span><input id="<?php echo $id; ?>_line_width" type="number" min="1" max="10" step="1"/>&nbsp;<i class="btn_plotly btn_lines">lines</i></span>
+<span><input id="<?php echo $id; ?>_marker_size" type="number" min="1" max="60" step="1"/>&nbsp;<i class="btn_plotly btn_markers">markers</i></span>
+</div>
+<div>
+<span id="<?php echo $id; ?>_line_dash">
+<span><input type="radio" id="<?php echo $id; ?>_line_dash_solid" name="<?php echo $id; ?>_line_dash" value="solid"><label for="<?php echo $id; ?>_line_dash_solid"><i class="btn_plotly btn_solid">solid</i></label></span>
+<span><input type="radio" id="<?php echo $id; ?>_line_dash_dot" name="<?php echo $id; ?>_line_dash" value="dot"><label for="<?php echo $id; ?>_line_dash_dot"><i class="btn_plotly btn_dot">dot</i></label></span>
+<span><input type="radio" id="<?php echo $id; ?>_line_dash_dashdot" name="<?php echo $id; ?>_line_dash" value="dashdot"><label for="<?php echo $id; ?>_line_dash_dashdot"><i class="btn_plotly btn_dashdot">dashdot</i></label></span>
+</span>
+</div>
+<div>
+<span><button id="<?php echo $id; ?>_add" type="submit" class="tiny"><i class="fa fa-sm fa-plus"></i></button></span>
+<span><button id="<?php echo $id; ?>_remove" type="submit" class="tiny"><i class="fa fa-sm fa-minus"></i></button></span>
+<span><button id="<?php echo $id; ?>_shift" type="submit" class="tiny"><i class="fa fa-sm fa-arrow-up"></i></button></span>
+<span><button id="<?php echo $id; ?>_unshift" type="submit" class="tiny"><i class="fa fa-sm fa-arrow-down"></i></button></span>
+</div>
+<div>
+<span><input id="<?php echo $id; ?>_title" type="text" size="30"/></span>
+<span class="nowrap"><input id="<?php echo $id; ?>_legend" type="checkbox"/><i class="fa fa-list fa-xs"></i></span>
+</div>
+<div>
+<span><input id="<?php echo $id; ?>_xaxis_dtick" type="number"/>&nbsp;<i class="fa fa-arrows-alt-h fa-xs"></i></span>
+<span><input id="<?php echo $id; ?>_yaxis_dtick" type="number"/>&nbsp;<i class="fa fa-arrows-alt-v fa-xs"></i></span>
+<span class="nowrap"><input id="<?php echo $id; ?>_xaxis_grid" type="checkbox"/><i class="fa fa-grip-lines-vertical fa-xs"></i></span>
+<span class="nowrap"><input id="<?php echo $id; ?>_yaxis_grid" type="checkbox"/><i class="fa fa-grip-lines fa-xs"></i></span>
+</div>
+</div>
+</div>
+<?php head('javascript', '/objectivejs/Objective.js'); ?>
+<?php head('javascript', '/objectivejs/Validator.js'); ?>
+<?php head('javascript', '/objectivejs/Responder.js'); ?>
+<?php head('javascript', '/objectivejs/View.js'); ?>
+<?php head('javascript', '/objectivejs/Inspector.js'); ?>
+<?php head('javascript', '/objectivejs/BooleanInspector.js'); ?>
+<?php head('javascript', '/objectivejs/StringInspector.js'); ?>
+<?php head('javascript', '/objectivejs/NumberInspector.js'); ?>
+<?php head('javascript', '/objectivejs/RangeInspector.js'); ?>
+<?php head('javascript', '/objectivejs/OptionInspector.js'); ?>
+<?php head('javascript', '/objectivejs/ColorInspector.js'); ?>
+<?php head('javascript', '/objectivejs/SequenceInspector.js'); ?>
+<?php head('javascript', '/objectivejs/SetOfInspector.js'); ?>
+<script>
+function Tester(display, inspector) {
+	Responder.call(this);
+
+	this._display = display;
+
+	inspector.addNextResponder(this);
+
+	this._inspector = inspector;
+
+	this._plotly = null;
+}
+
+Tester.prototype = Object.create(Responder.prototype);
+
+Object.defineProperty(Tester.prototype, 'constructor', { value: Tester, enumerable: false, writable: true });
+
+Tester.prototype.get = function() {
+	return this._inspector.get();
+}
+
+Tester.prototype.set = function(value) {
+	if (!this._inspector.set(value))
+		return false;
+
+	this.plot(this._inspector.get());
+
+	return true;
+}
+
+Tester.prototype.inspectorValueChanged = function(sender) {
+	if (sender === this._inspector)
+		this.plot(sender.get());
+
+	return true;
+}
+
+Tester.prototype.plot = function(value) {
+	const config = {
+		staticPlot: true,
+		responsive: true
+	};
+
+	const layout = {
+		height: 360,
+		margin: { l: 20, r: 20, t: 50, b: 40 },
+		title: value.layout.title,
+		showlegend: value.layout.legend,
+		xaxis: {
+			dtick: value.layout.xaxisdtick,
+			showgrid: value.layout.xaxisgrid,
+			zeroline: false
+		},
+		yaxis: {
+			dtick: value.layout.yaxisdtick,
+			showgrid: value.layout.yaxisgrid,
+			zeroline: false
+		}
+	};
+
+	const data = [];
+
+	for (let v of value.data) {
+		const trace = {};
+
+		trace.type = 'scatter';
+
+		trace.name = v.name;
+
+		trace.x = v.x.match(/-?\d+(\.\d+)?/g);
+		trace.y = v.y.match(/-?\d+(\.\d+)?/g);
+
+		trace.mode = v.mode;
+		trace.visible = !v.hidden;
+
+		trace.line = {
+			color: v.linecolor,
+			width: v.linewidth,
+			dash: v.linedash
+		};
+
+		trace.marker = {
+			color: v.linecolor,
+			size: v.markersize
+		};
+
+		data.push(trace);
+	}
+
+	if (this._plotly === null)
+		this._plotly = Plotly.newPlot(this._display, data, layout, config);
+	else
+		Plotly.react(this._display, data, layout);
+
+	return this;
+}
+</script>
+<script>
+const container = document.querySelector('#<?php echo $id; ?>');
+
+const linecolor = new ColorInspector();
+
+linecolor.createManagedWidget(document.getElementById('<?php echo $id; ?>_line_color'));
+
+const linewidth = new NumberInspector(3, { min: 1, max: 10 });
+
+linewidth.setManagedWidget(document.getElementById('<?php echo $id; ?>_line_width')).resetWidget();
+
+const markersize = new NumberInspector(3, { min: 1, max: 60 });
+
+markersize.setManagedWidget(document.getElementById('<?php echo $id; ?>_marker_size')).resetWidget();
+
+const mode = new OptionInspector('lines', { tags: ['lines', 'markers', 'lines+markers'] });
+
+mode.setManagedWidget(document.getElementById('<?php echo $id; ?>_mode')).resetWidget();
+
+const linedash = new OptionInspector('solid', { tags: ['solid', 'dot', 'dashdot'] });
+
+linedash.setManagedWidget(document.getElementById('<?php echo $id; ?>_line_dash')).resetWidget();
+
+const name = new StringInspector();
+
+name.setManagedWidget(document.getElementById('<?php echo $id; ?>_name')).resetWidget();
+
+const x = new StringInspector();
+
+x.setManagedWidget(document.getElementById('<?php echo $id; ?>_x')).resetWidget();
+
+const y = new StringInspector();
+
+y.setManagedWidget(document.getElementById('<?php echo $id; ?>_y')).resetWidget();
+
+const hidden = new BooleanInspector(false);
+
+hidden.setManagedWidget(document.getElementById('<?php echo $id; ?>_hidden')).resetWidget();
+
+const trace = new SequenceInspector({
+	x: x,
+	y: y,
+	name: name,
+	mode: mode,
+	linedash: linedash,
+	linecolor: linecolor,
+	linewidth: linewidth,
+	markersize: markersize,
+	hidden: hidden
+});
+
+const trace0 = {
+	x: '',
+	y: '',
+	name: '',
+	mode: 'lines',
+	linedash: 'solid',
+	linecolor: '#333',
+	linewidth: 3,
+	markersize: 10,
+	hidden: false
+};
+
+const data = new SetOfInspector(trace, { min: 1, defaultItem: trace0 });
+
+data.setPreviousWidget(document.getElementById('<?php echo $id; ?>_prev'));
+data.setNextWidget(document.getElementById('<?php echo $id; ?>_next'));
+
+data.setIndexWidget(document.getElementById('<?php echo $id; ?>_index'));
+
+data.setAddWidget(document.getElementById('<?php echo $id; ?>_add'));
+data.setRemoveWidget(document.getElementById('<?php echo $id; ?>_remove'));
+
+data.setShiftWidget(document.getElementById('<?php echo $id; ?>_shift'));
+data.setUnshiftWidget(document.getElementById('<?php echo $id; ?>_unshift'));
+
+const title = new StringInspector('<?php echo $title; ?>', { escapeHTML: false });
+
+title.setManagedWidget(document.getElementById('<?php echo $id; ?>_title')).resetWidget();
+
+const legend = new BooleanInspector(true);
+
+legend.setManagedWidget(document.getElementById('<?php echo $id; ?>_legend')).resetWidget();
+
+const xaxisdtick = new NumberInspector(0, { min: 0 });
+
+xaxisdtick.setManagedWidget(document.getElementById('<?php echo $id; ?>_xaxis_dtick')).resetWidget();
+
+const yaxisdtick = new NumberInspector(0, { min: 0 });
+
+yaxisdtick.setManagedWidget(document.getElementById('<?php echo $id; ?>_yaxis_dtick')).resetWidget();
+
+const xaxisgrid = new BooleanInspector(false);
+
+xaxisgrid.setManagedWidget(document.getElementById('<?php echo $id; ?>_xaxis_grid')).resetWidget();
+
+const yaxisgrid = new BooleanInspector(true);
+
+yaxisgrid.setManagedWidget(document.getElementById('<?php echo $id; ?>_yaxis_grid')).resetWidget();
+
+const layout = new SequenceInspector({
+	title: title,
+	legend: legend,
+	xaxisdtick: xaxisdtick,
+	yaxisdtick: yaxisdtick,
+	xaxisgrid: xaxisgrid,
+	yaxisgrid: yaxisgrid
+});
+
+const inspector = new SequenceInspector({ data: data, layout: layout });
+
+const line1 = {
+	x: '<?php echo implode(' ', $x1); ?>',
+	y: '<?php echo implode(' ', $y1); ?>',
+	name: '<?php echo $name1; ?>',
+	mode: '<?php echo $mode1; ?>',
+	linedash: 'solid',
+	linewidth: 3,
+	markersize: 20,
+	linecolor: '<?php echo $color1; ?>',
+	hidden: false
+};
+const line2 = {
+	x: '<?php echo implode(' ', $x2); ?>',
+	y: '<?php echo implode(' ', $y2); ?>',
+	name: '<?php echo $name2; ?>',
+	mode: '<?php echo $mode2; ?>',
+	linedash: 'solid',
+	linewidth: 5,
+	markersize: 10,
+	linecolor: '<?php echo $color2; ?>',
+	hidden: false
+};
+const line3 = {
+	x: '<?php echo implode(' ', $x3); ?>',
+	y: '<?php echo implode(' ', $y3); ?>',
+	name: '<?php echo $name3; ?>',
+	mode: '<?php echo $mode3; ?>',
+	linedash: 'dashdot',
+	linewidth: 3,
+	markersize: 10,
+	linecolor: '<?php echo $color3; ?>',
+	hidden: false
+};
+
+const display = container.querySelector('.test_display');
+
+const tester = new Tester(display, inspector);
+
+tester.set({
+	data: [line1, line2, line3],
+	layout: {
+		title: '<?php echo $title; ?>',
+		legend: true,
+		xaxisdtick: 1,
+		xaxisgrid: false,
+		yaxisgrid: true
+	}
+});
+</script>
