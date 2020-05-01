@@ -1,0 +1,166 @@
+<?php
+
+/**
+ *
+ * @copyright  2020 objectivejs.org
+ * @version    1
+ * @link       http://www.objectivejs.org
+ */
+?>
+<?php $debug=false; ?>
+<?php $title='Plotly'; ?>
+<?php
+$data=array(
+	array('#8C0C3C', array(1, 4, 9, 16)),
+	array('#F7BD00', array(6, -8, -4.5, 8)),
+	array('#F75431', array(-15, -3, 4.5, -8)),
+	array('#C10037', array(-1, 3, -3, -4))
+);
+?>
+<?php head('javascript', 'jquery.minicolors'); ?>
+<?php head('stylesheet', 'jquery.minicolors', 'screen'); ?>
+<?php head('javascript', 'https://cdn.plot.ly/plotly-latest.min.js'); ?>
+<?php $id=uniqid('id'); ?>
+<div id="<?php echo $id; ?>" class="noprint">
+<div class="ojs">
+<div>
+<div class="undo_panel" style="margin-right:20px">
+<button type="submit" class="narrow" disabled><i class="fa fa-undo"></i></button>
+<button type="submit" class="narrow" disabled><i class="fa fa-redo"></i></button>
+</div>
+<button id="<?php echo $id; ?>_reset" type="submit" class="narrow"><i class="fa fa-chart-bar"></i></button>
+</div>
+<div>
+<span><input id="<?php echo $id; ?>_title" type="text" size="30"/></span>
+<span class="nowrap"><input id="<?php echo $id; ?>_legend" type="checkbox"/><i class="fa fa-list fa-xs"></i></span>
+</div>
+<div>
+<span><button id="<?php echo $id; ?>_prev" type="submit" class="tiny round"><i class="fa fa-caret-left"></i></button></span>
+<span><button id="<?php echo $id; ?>_next" type="submit" class="tiny round"><i class="fa fa-caret-right"></i></button></span>
+<span><output id="<?php echo $id; ?>_index"></output></span>
+</div>
+<div>
+<span><input id="<?php echo $id; ?>_x" type="text" size="20" spellcheck="false" title="X"/>&nbsp;<b class="small">X</b></span>
+<span><input id="<?php echo $id; ?>_y" type="text" size="20" spellcheck="false" title="Y"/>&nbsp;<b class="small">Y</b></span>
+<span id="<?php echo $id; ?>_marker_color"></span>
+</div>
+<div>
+<span><button id="<?php echo $id; ?>_insert" type="submit" class="tiny"><i class="fa fa-sm fa-plus"></i></button></span>
+<span><button id="<?php echo $id; ?>_remove" type="submit" class="tiny"><i class="fa fa-sm fa-minus"></i></button></span>
+<span><button id="<?php echo $id; ?>_shift" type="submit" class="tiny"><i class="fa fa-sm fa-arrow-left"></i></button></span>
+<span><button id="<?php echo $id; ?>_unshift" type="submit" class="tiny"><i class="fa fa-sm fa-arrow-right"></i></button></span>
+</div>
+</div>
+</div>
+<?php head('javascript', '/objectivejs/Objective.js'); ?>
+<?php head('javascript', '/objectivejs/Validator.js'); ?>
+<?php head('javascript', '/objectivejs/Responder.js'); ?>
+<?php head('javascript', '/objectivejs/View.js'); ?>
+<?php head('javascript', '/objectivejs/Inspector.js'); ?>
+<?php head('javascript', '/objectivejs/BooleanInspector.js'); ?>
+<?php head('javascript', '/objectivejs/StringInspector.js'); ?>
+<?php head('javascript', '/objectivejs/ColorInspector.js'); ?>
+<?php head('javascript', '/objectivejs/SequenceInspector.js'); ?>
+<?php head('javascript', '/objectivejs/SetOfInspector.js'); ?>
+<?php head('javascript', '/objectivejs/Model.js'); ?>
+<?php head('javascript', '/objectivejs/Undo.js'); ?>
+<?php head('javascript', '/objectivejs/Panel.js'); ?>
+<?php head('javascript', '/objectivejs/UndoPanel.js'); ?>
+<?php head('javascript', '/objectivejs/Editor.js'); ?>
+<?php head('javascript', '/objectivejs/ModelCookieDelegate.js'); ?>
+<?php head('javascript', '/objectivejs/tests/BarChartModel.js'); ?>
+<?php head('javascript', '/objectivejs/tests/BarChart.js'); ?>
+<script>
+<?php if (!$debug): ?>
+(function() {
+<?php endif; ?>
+	const model = new BarChartModel('barchart');
+
+	const container = document.querySelector('#<?php echo $id; ?>');
+
+	const plotly = new BarChart();
+
+	plotly.createManagedWidget(container);
+
+	const panel = new UndoPanel();
+
+	panel.setManagedWidget(container.querySelector('.undo_panel')).resetWidget();
+
+	const x = new StringInspector();
+
+	x.setManagedWidget(document.getElementById('<?php echo $id; ?>_x')).resetWidget();
+
+	const y = new StringInspector();
+
+	y.setManagedWidget(document.getElementById('<?php echo $id; ?>_y')).resetWidget();
+
+	const markercolor = new ColorInspector();
+
+	markercolor.createManagedWidget(document.getElementById('<?php echo $id; ?>_marker_color'));
+
+	const trace = new SequenceInspector({
+		x: x, y: y, markercolor: markercolor
+	});
+
+	const trace0 = {
+		x: '1 2 3 4', y: '0', markercolor: '#333'
+	};
+
+	const dataInspector = new SetOfInspector(trace, { min: 1, max: 10, defaultItem: trace0 });
+
+	dataInspector.setPreviousWidget(document.getElementById('<?php echo $id; ?>_prev'));
+	dataInspector.setNextWidget(document.getElementById('<?php echo $id; ?>_next'));
+
+	dataInspector.setIndexWidget(document.getElementById('<?php echo $id; ?>_index'));
+
+	dataInspector.setInsertWidget(document.getElementById('<?php echo $id; ?>_insert'));
+	dataInspector.setRemoveWidget(document.getElementById('<?php echo $id; ?>_remove'));
+
+	dataInspector.setShiftWidget(document.getElementById('<?php echo $id; ?>_shift'));
+	dataInspector.setUnshiftWidget(document.getElementById('<?php echo $id; ?>_unshift'));
+
+	const title = new StringInspector('<?php echo $title; ?>', { escapeHTML: false });
+
+	title.setManagedWidget(document.getElementById('<?php echo $id; ?>_title')).resetWidget();
+
+	const legend = new BooleanInspector(false);
+
+	legend.setManagedWidget(document.getElementById('<?php echo $id; ?>_legend')).resetWidget();
+
+	const layoutInspector = new SequenceInspector({	title: title, legend: legend });
+
+	const inspectors = {
+		data:		dataInspector,
+		layout:		layoutInspector
+	};
+
+	const editor = new Editor(model, plotly, inspectors, panel);
+
+	model.setDelegate(new ModelCookieDelegate());
+
+	if (model.isSaved())
+		model.readIn();
+	else
+		_init()
+
+	model.enableSync();
+
+	function _init() {
+		const data = [
+			{ x: '1 2 3 4', y: '<?php list($c, $y)=$data[0]; echo implode(' ', $y); ?>', markercolor: '<?php echo $c; ?>' },
+			{ x: '1 2 3 4', y: '<?php list($c, $y)=$data[1]; echo implode(' ', $y); ?>', markercolor: '<?php echo $c; ?>' },
+			{ x: '1 2 3 4', y: '<?php list($c, $y)=$data[2]; echo implode(' ', $y); ?>', markercolor: '<?php echo $c; ?>' },
+			{ x: '1 2 3 4', y: '<?php list($c, $y)=$data[3]; echo implode(' ', $y); ?>', markercolor: '<?php echo $c; ?>' }
+		];
+		const layout = { title: '<?php echo $title; ?>', legend: false }
+
+		model.set({ data: data, layout: layout }).sync();
+	}
+
+	const reset = document.getElementById('<?php echo $id; ?>_reset');
+
+	reset.onclick = _init;
+<?php if (!$debug): ?>
+})();
+<?php endif; ?>
+</script>
