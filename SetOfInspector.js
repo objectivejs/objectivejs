@@ -1,7 +1,7 @@
 /**
  *
  * @copyright  2020 objectivejs.org
- * @version    1
+ * @version    2
  * @link       http://www.objectivejs.org
  */
 
@@ -97,7 +97,7 @@ SetOfInspector.prototype.normalize = function(val) {
 }
 
 SetOfInspector.prototype.get = function() {
-	return this._value.length > 0 ? this._value : null;
+	return this._value.length > 0 ? Array.from(this._value) : null;
 }
 
 SetOfInspector.prototype.set = function(val) {
@@ -107,10 +107,10 @@ SetOfInspector.prototype.set = function(val) {
 	val = this.normalize(val);
 
 	if (this._value !== val) {
-		this._value = val;
-		this._pos = 1;
+		this._value = val === null ? null : Array.from(val);
 
-		this._inspector.set(val[0] || this.defaultItem);
+		if (val === null || this._pos > val.length)
+			this._pos = 1;
 
 		this.resetWidget();
 	}
@@ -239,7 +239,7 @@ SetOfInspector.prototype.removeItem = function() {
 
 SetOfInspector.prototype.moveItem = function(from, to = false) {
 	if (this._value.length <= 1)
-		return;
+		return false;
 
 	if (to === false)
 		to = from, from = this._pos;
@@ -259,7 +259,7 @@ SetOfInspector.prototype.moveItem = function(from, to = false) {
 
 SetOfInspector.prototype.shiftItem = function() {
 	if (this._value.length <= 1)
-		return;
+		return false;
 
 	const from = this._pos;
 	const to = from == 1 ? this._value.length : from-1;
@@ -278,7 +278,7 @@ SetOfInspector.prototype.shiftItem = function() {
 
 SetOfInspector.prototype.unshiftItem = function() {
 	if (this._value.length <= 1)
-		return;
+		return false;
 
 	const from = this._pos;
 	const to = from == this._value.length ? 1 : from+1;
