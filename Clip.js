@@ -1,7 +1,7 @@
 /**
  *
- * @copyright  2019 objectivejs.org
- * @version    1
+ * @copyright  2019-2020 objectivejs.org
+ * @version    2
  * @link       http://www.objectivejs.org
  */
 
@@ -141,27 +141,27 @@ Clip.prototype.enablePlayer = function() {
 
 			let duration, currentTime, d, ms;
 
-			switch (e.code) {
-			case 'Space':
+			switch (e.key) {
+			case ' ':
 				if (this._paused)
 					this.play();
 				else
 					this.pause();
 				break;
 
-			case 'Numpad0':
+			case '0':
 				this.seek(0);
 				break;
 
-			case 'NumpadAdd':
+			case '+':
 				if (this.playbackRate < Clip.maxPlaybackRate)
 					this.playbackRate += 0.25;
 				break;
-			case 'NumpadSubtract':
+			case '-':
 				if (this.playbackRate > Clip.minPlaybackRate)
 					this.playbackRate -= 0.25;
 				break;
-			case 'NumpadMultiply':
+			case '*':
 				this.playbackRate = 1;
 				break;
 
