@@ -1,0 +1,71 @@
+<?php
+
+/**
+ *
+ * @copyright  2020 objectivejs.org
+ * @version    1
+ * @link       http://www.objectivejs.org
+ */
+?>
+<?php $debug=false; ?>
+<?php $text='Paris • London • '; ?>
+<?php $color='#ccbb66'?>
+<?php $size=240; ?>
+<?php $font='Slackey'; ?>
+<?php $fontsize=36; ?>
+<?php head('font', $font); ?>
+<?php $id=uniqid('id'); ?>
+<style>
+.emblem {
+	position: relative;
+	overflow: hidden;
+	margin: 0;
+	text-align: center;
+	text-transform: uppercase;
+	user-select: none;
+}
+.emblem span {position:absolute;left:0;right:0;top:0;bottom:0;}
+</style>
+<div id="<?php echo $id; ?>" class="clip">
+<div class="emblem"></div>
+</div>
+<?php head('javascript', '/objectivejs/Objective.js'); ?>
+<?php head('javascript', '/objectivejs/Responder.js'); ?>
+<?php head('javascript', '/objectivejs/View.js'); ?>
+<?php head('javascript', '/objectivejs/Clip.js'); ?>
+<?php head('javascript', '/objectivejs/Model.js'); ?>
+<?php head('javascript', '/objectivejs/Validator.js'); ?>
+<?php head('javascript', '/objectivejs/ClipModel.js'); ?>
+<?php head('javascript', '/objectivejs/ClipController.js'); ?>
+<?php head('javascript', '/objectivejs/AnimateClip.js'); ?>
+<?php head('javascript', '/objectivejs/tests/EmblemModel.js'); ?>
+<?php head('javascript', '/objectivejs/tests/EmblemClip.js'); ?>
+<script>
+<?php if (!$debug): ?>
+(function() {
+<?php endif; ?>
+	const clip = new EmblemClip();
+
+	const model = new EmblemModel();
+
+	const container = document.querySelector('#<?php echo $id; ?>');
+
+	clip.setManagedWidget(container.querySelector('.emblem'));
+
+	clip.enablePlayer();
+
+	const controller = new ClipController(clip, model);
+
+	const options = {
+		size: <?php echo $size; ?>,
+		text: '<?php echo $text; ?>',
+		textColor: '<?php echo $color; ?>',
+		textFont: '<?php echo $font; ?>',
+		textSize: <?php echo $fontsize; ?>
+	};
+
+	model.set(options);
+<?php if (!$debug): ?>
+})();
+<?php endif; ?>
+</script>
