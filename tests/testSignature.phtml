@@ -3,7 +3,7 @@
 /**
  *
  * @copyright  2020 objectivejs.org
- * @version    3
+ * @version    4
  * @link       http://www.objectivejs.org
  */
 ?>
@@ -58,4 +58,17 @@ signature.addEventListener('keydown', (e) => {
 	if (e.key === 'Delete')
 		signature.erase();
 });
+
+const storage = sessionStorage;
+
+const url = storage.getItem('signature');
+
+if (url !== null) {
+	const img = new Image();
+
+	img.onload = () => signature.widget.getContext('2d').drawImage(img, 0, 0);
+	img.src = url;
+}
+
+signature.addEventListener('mouseout', () => storage.setItem('signature', signature.widget.toDataURL()));
 </script>
