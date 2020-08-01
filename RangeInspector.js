@@ -1,7 +1,7 @@
 /**
  *
- * @copyright  2019 objectivejs.org
- * @version    1
+ * @copyright  2019-2020 objectivejs.org
+ * @version    2
  * @link       http://www.objectivejs.org
  */
 
@@ -48,7 +48,7 @@ RangeInspector.prototype.setWidget = function(w) {
 		this._outputWidget = document.querySelector(`output[for="${this._widget.id}"]`);
 
 		if (this._outputWidget)
-			this._widget.onchange = () => this._outputWidget.value = this._fixed !== false ? this._value.toFixed(this._fixed) : this._value;
+			this._widget.addEventListener('change', () => this._outputWidget.value = this._fixed !== false ? this._value.toFixed(this._fixed) : this._value);
 	}
 
 	return this;
