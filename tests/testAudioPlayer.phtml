@@ -1,0 +1,89 @@
+<?php
+
+/**
+ *
+ * @copyright  2020 objectivejs.org
+ * @version    1
+ * @link       http://www.objectivejs.org
+ */
+?>
+<?php $debug=true; ?>
+<?php $upload_url='/uploadaudio'; ?>
+<?php $delete_url='/deleteaudio'; ?>
+<?php $chunksize=100000; ?>
+<?php $id=uniqid('id'); ?>
+<div id="<?php echo $id; ?>" class="noprint">
+<audio controls preload="metadata">
+<source src="/files/sounds/thanatos.mp3" type="audio/mpeg" />
+<source src="/files/sounds/thanatos.ogg" type="audio/ogg" />
+</audio>
+</div>
+<?php head('javascript', '/objectivejs/Objective.js'); ?>
+<?php head('javascript', '/objectivejs/Responder.js'); ?>
+<?php head('javascript', '/objectivejs/View.js'); ?>
+<?php head('javascript', '/objectivejs/AudioPlayer.js'); ?>
+<script>
+AudioPlayer.prototype.createWidget = function() {
+	const htmlaudiocontrols = [
+		'<span class="audiocontrols">',
+		'<span class="audioplay"><i class="fa fa-3x fa-play-circle"></i></span>',
+		'<span class="audiopause"><i class="fa fa-3x fa-pause-circle"></i></span>',
+		'<input class="audiobar" type="range" min="0" max="100" step="1" value="0"/>',
+		'<span class="audiotime">00:00:00</span>',
+		'<span class="audioloop"><i class="fa fa-sm fa-sync-alt"></i></span>',
+		'</span>'
+	].join('\n');
+
+	const htmlmediacontrols = [
+		'<span class="mediacontrols">',
+		'<span class="recordstart"><i class="fa fa-lg fa-fw fa-microphone"></i></span>',
+		'<span class="recordstop"><i class="fa fa-lg fa-fw fa-microphone-alt"></i></span>',
+		'<span class="fileload"><i class="fa fa-lg fa-fw fa-file-audio"></i></span>',
+		'<span class="audiodelete"><i class="fa fa-lg fa-fw fa-trash"></i></span>',
+		'<span class="audioupload"><i class="fa fa-lg fa-fw fa-file-export"></i></span>',
+		'<span class="mediastatus"></span>',
+		'</span>',
+		'<input class="mediafile" type="file" accept="audio/*"/>'
+	].join('\n');
+
+	const html='<div class="ojs_audio">' + '\n' + htmlaudiocontrols + '\n' + htmlmediacontrols + '\n' + '</div>';
+
+	let template = document.createElement('template');
+
+	template.innerHTML = html;
+
+	let widget = template.content.children[0];
+
+	this.setWidget(widget);
+
+	return this;
+}
+</script>
+<script>
+<?php if (!$debug): ?>
+(function() {
+<?php endif; ?>
+	const options = {
+		recorder: true,
+		load: true,
+		draganddrop: true,
+		deleteURL: '<?php echo $delete_url; ?>',
+		uploadURL: '<?php echo $upload_url; ?>',
+		chunksize: <?php echo $chunksize; ?>
+	}
+
+	const audioplayer = new AudioPlayer(options);
+
+	const container = document.querySelector('#<?php echo $id; ?>');
+
+	const audio = container.querySelector('audio');
+
+	audioplayer.setFromAudio(audio);
+
+	audioplayer.createManagedWidget(container).resetWidget();
+
+	audio.hidden = true;
+<?php if (!$debug): ?>
+})();
+<?php endif; ?>
+</script>

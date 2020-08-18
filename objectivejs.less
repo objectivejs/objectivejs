@@ -1,7 +1,7 @@
 /**
  *
  * @copyright  2019-2020 objectivejs.org
- * @version    3
+ * @version    4
  * @link       http://www.objectivejs.org
  */
  
@@ -9,10 +9,10 @@
 
 .ojs {
 	@media print {
-		display: none;
+		display:none;
 	}
 
-	margin-bottom: 1em;
+	margin-bottom:1em;
 
 	> div {
 		display:flex;flex-wrap:wrap;align-items:center;align-content:flex-start;
@@ -50,13 +50,14 @@
 		&::-webkit-slider-thumb {.rangethumb;-webkit-appearance:none;margin-top:-2px;}
 		&::-moz-range-track {.rangeslider;}
 		&::-moz-range-thumb {.rangethumb;}
-		&.disabled::-webkit-slider-thumb, &.disabled::-moz-range-thumb {background:#ccc;}
+		&:disabled::-webkit-slider-thumb {background:#ccc;}
+		&:disabled::-moz-range-thumb {background:#ccc;}
 		.rangeslider {width:@rangewidth;height:8px;background:#ccc;border-radius:4px;border:none;}
 		.rangethumb {width:12px;height:12px;background:#666;border-radius:6px;border:none;}
 	}
 	output {
-		font-size: small;
-		color: #666;
+		font-size:small;
+		color:#666;
 	}
 }
 
@@ -74,7 +75,51 @@
 }
 .ojs_video {
 	display:inline-flex;
-	flex-direction: column;
-	align-items: center;
+	flex-direction:column;
+	align-items:center;
 	background:black;
+}
+.ojs_audio {
+	display:flex;align-items:center;margin:1em 0;
+
+	.disabled {color:#ccc;cursor:default !important;}
+	.off {color:#ccc;}
+
+	.audioplay, .audiopause, .audioloop {cursor:pointer;}
+
+	.audiocontrols {display:flex;align-items:center;}
+	.audiotime {font-size:small;font-weight:bold;margin-left:4px;}
+	.audioloop {margin-left:4px;}
+	.audiobar {-webkit-appearance:none;width:100px;outline:none;margin-left:4px;background:transparent;}
+	.audiobar:focus {outline:none !important;}
+	.audiobar::-moz-focus-outer {border:0;}
+	.audiobar {
+		&::-webkit-slider-runnable-track {.audioslider;}
+		&::-webkit-slider-thumb {.audiothumb;-webkit-appearance:none;margin-top:-4px;}
+		&::-moz-range-track {.audioslider;}
+		&::-moz-range-thumb {.audiothumb;}
+		&:disabled::-webkit-slider-thumb {background:#ccc;}
+		&:disabled::-moz-range-thumb {background:#ccc;}
+		.audioslider {width:100px;height:16px;background:#ccc;border:none;border-radius:8px;}
+		.audiothumb {width:24px;height:24px;background:#333;border-radius:12px;border:none;}
+	}
+
+	.recordstart, .recordstop, .fileload, .audiodelete, .audioupload {cursor:pointer;}
+
+	.mediacontrols {display:flex;justify-content:space-between;align-items:center;}
+	.mediacontrols > * {margin-left:4px;}
+	.mediastatus {font-size:small;font-weight:bold;text-align:center;margin-left:2px !important;}
+	.mediafile {display:none;}
+
+	@media screen and (max-width:480px) {
+		flex-direction:column;align-items:flex-start;
+		.mediacontrols {margin-left:30px;}
+	}
+}
+.ojs_playlist {
+	display:inline-block;margin:0;font-weight:bold;
+
+	li {margin-bottom:.5em;}
+	li span {cursor:pointer;}
+	li span:hover, li span.selected {color:#ccc;}
 }

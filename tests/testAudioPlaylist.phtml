@@ -1,0 +1,69 @@
+<?php
+
+/**
+ *
+ * @copyright  2020 objectivejs.org
+ * @version    1
+ * @link       http://www.objectivejs.org
+ */
+?>
+<?php $debug=true; ?>
+<?php $ojs_audiolistdir='/files/sounds/djduppy'; ?>
+<?php $ojs_audiolist=array('bigbeat', 'electro', 'garage', 'hardtrance', 'hipfunk', 'ragga'); ?>
+<?php $id=uniqid('id'); ?>
+<style>
+.ojs_playlist {
+	columns: 2;
+}
+.ojs_playlist li span:hover, .ojs_playlist li span.selected {
+	color: #3bc;
+}
+</style>
+<div id="<?php echo $id; ?>" class="noprint">
+<div class="ojs_audio">
+<span class="audiocontrols">
+<span class="audioplay"><i class="fa fa-3x fa-play-circle"></i></span>
+<span class="audiopause"><i class="fa fa-3x fa-pause-circle"></i></span>
+<input class="audiobar" type="range" min="0" max="100" step="1" value="0"/>
+<span class="audiotime">00:00:00</span>
+<span class="audioloop"><i class="fa fa-sm fa-sync-alt"></i></span>
+</span>
+</div>
+</div>
+<?php head('javascript', '/objectivejs/Objective.js'); ?>
+<?php head('javascript', '/objectivejs/Responder.js'); ?>
+<?php head('javascript', '/objectivejs/View.js'); ?>
+<?php head('javascript', '/objectivejs/AudioPlayer.js'); ?>
+<?php head('javascript', '/objectivejs/AudioPlaylist.js'); ?>
+<script>
+<?php if (!$debug): ?>
+(function() {
+<?php endif; ?>
+	const audioplayer = new AudioPlayer();
+
+	const container = document.querySelector('#<?php echo $id; ?>');
+
+	audioplayer.setManagedWidget(container.querySelector('.ojs_audio'));
+
+	audioplayer.loop = true;
+
+	const dirname = '<?php echo $ojs_audiolistdir; ?>';
+
+	const filelist = [<?php echo implode(',', array_map(function($s) { return "'$s'"; }, $ojs_audiolist)); ?>];
+
+	const filetype = audioplayer.canPlayType('audio/ogg') ? '.ogg' : '.mp3';
+
+	const audiotracks = [];
+
+	for (let filename of filelist)
+		audiotracks.push({title: filename, url: `${dirname}/${filename}${filetype}`});
+
+	const audioplaylist = new AudioPlaylist(audioplayer, audiotracks);
+
+	audioplaylist.createManagedWidget(container);
+
+	audioplaylist.currentTrack = 1;
+<?php if (!$debug): ?>
+})();
+<?php endif; ?>
+</script>
