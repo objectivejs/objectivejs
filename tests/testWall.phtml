@@ -1,0 +1,81 @@
+<?php
+
+/**
+ *
+ * @copyright  2020 objectivejs.org
+ * @version    1
+ * @link       http://www.objectivejs.org
+ */
+?>
+<?php $debug=true; ?>
+<?php
+require_once 'models/wall.inc';
+
+if (!isset($_SESSION['wall_id'])) {
+	$wall_id = uniqid();
+
+	$_SESSION['wall_id'] = $wall_id;
+
+}
+else {
+	$wall_id = $_SESSION['wall_id'];
+}
+
+wall_create_directory($wall_id);
+
+$filelist=wall_contents($wall_id);
+?>
+<?php $tags_url='/wallfile/tags'; ?>
+<?php $download_url='/wallfile'; ?>
+<?php $upload_url='/wallupload'; ?>
+<?php $delete_url='/walldelete'; ?>
+<?php $filetypes=array('image/jpeg', 'image/png', 'image/gif', 'application/pdf'); ?>
+<?php $maxfilesize=5*100000; ?>
+<?php $chunksize=100000; ?>
+<?php $maxfiles=20; ?>
+<?php $id=uniqid('id'); ?>
+<div id="<?php echo $id; ?>" class="noprint">
+<div class="ojs_wall">
+<div class="tags"></div>
+<div class="filecontrols">
+<i class="fileupload fa fa-lg fa-fw fa-upload"></i>
+<i class="filedelete fa fa-lg fa-fw fa-trash"></i>
+<i class="filedownload fa fa-lg fa-fw fa-download"></i>
+<span class="filestatus"></span>
+</div>
+<input type="file" class="fileinput"/>
+</div>
+</div>
+<?php head('javascript', '/objectivejs/Objective.js'); ?>
+<?php head('javascript', '/objectivejs/Responder.js'); ?>
+<?php head('javascript', '/objectivejs/View.js'); ?>
+<?php head('javascript', '/objectivejs/Wall.js'); ?>
+<script>
+<?php if (!$debug): ?>
+(function() {
+<?php endif; ?>
+	const options = {
+		draganddrop: true,
+		maxfiles: 10,
+		maxfilesize: 5*1000000,
+		filetypes: [<?php echo implode(',', array_map(function($s) { return "'$s'"; }, $filetypes)); ?>],
+		tagsURL: '<?php echo $tags_url; ?>',
+		downloadURL: '<?php echo $download_url; ?>',
+		deleteURL: '<?php echo $delete_url; ?>',
+		uploadURL: '<?php echo $upload_url; ?>',
+		chunksize: <?php echo $chunksize; ?>
+	}
+
+	const wall = new Wall(options);
+
+	const container = document.querySelector('#<?php echo $id; ?>');
+
+	wall.setManagedWidget(container.querySelector('.ojs_wall')).resetWidget();
+
+	const filelist = [<?php echo implode(',', array_map(function($s) { return "'$s'"; }, $filelist)); ?>];
+
+	wall.files = filelist;
+<?php if (!$debug): ?>
+})();
+<?php endif; ?>
+</script>

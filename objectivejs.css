@@ -1,7 +1,7 @@
 /**
  *
  * @copyright  2019-2020 objectivejs.org
- * @version    4
+ * @version    5
  * @link       http://www.objectivejs.org
  */
  
@@ -316,4 +316,63 @@
 
 .ojs_playlist li span:hover, .ojs_playlist li span.selected {
 	color: #ccc;
+}
+
+.ojs_wall {
+	display: flex;
+	margin: 1em 0;
+}
+
+.ojs_wall .disabled {
+	color: #ccc;
+	cursor: default !important;
+}
+
+.ojs_wall .tags {
+	flex: 100%;
+	min-height: 140px;
+}
+
+.ojs_wall img {
+	display: inline;
+	margin: 0 5px 5px 0;
+	vertical-align: top;
+	cursor: pointer;
+	max-width: 180px;
+}
+
+.ojs_wall img.selected {
+	opacity: 0.5;
+}
+
+.ojs_wall .fileupload,
+.ojs_wall .filedelete,
+.ojs_wall .filedownload {
+	cursor: pointer;
+}
+
+.ojs_wall .filecontrols {
+	flex: 0 0 auto;
+	padding: 5px 0;
+}
+
+.ojs_wall .filecontrols > * {
+	display: block;
+	margin: 0 auto 16px;
+}
+
+.ojs_wall .filestatus {
+	font-size: small;
+	font-weight: bold;
+	text-align: center;
+}
+
+.ojs_wall .fileinput {
+	display: none;
+}
+
+@media screen and (max-width: 480px) {
+	.ojs_wall img {
+		max-width: 100px;
+	}
 }
