@@ -1,7 +1,7 @@
 /**
  *
  * @copyright  2020 objectivejs.org
- * @version    2
+ * @version    3
  * @link       http://www.objectivejs.org
  */
 
@@ -787,9 +787,6 @@ AudioPlayer.prototype.uploadFile = function() {
 				if (this._statusWidget)
 					this._statusWidget.innerText = '';
 
-				if (this._uploadWidget)
-					this._uploadWidget.classList.add('inerror');
-
 				this._uploading = false;
 
 				this._error = 'upload';
@@ -834,9 +831,6 @@ AudioPlayer.prototype.deleteFile = function() {
 				this.notify('audioDeleted', this);
 			})
 			.fail(() => {
-				if (this._deleteWidget)
-					this._deleteWidget.classList.add('inerror');
-
 				this._error = 'delete';
 
 				if (this.interfaced())
