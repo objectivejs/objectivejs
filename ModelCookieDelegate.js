@@ -1,7 +1,7 @@
 /**
  *
- * @copyright  2019 objectivejs.org
- * @version    1
+ * @copyright  2019-2020 objectivejs.org
+ * @version    2
  * @link       http://www.objectivejs.org
  */
 
@@ -15,22 +15,22 @@ ModelCookieDelegate.prototype = Object.create(Objective.prototype);
 Object.defineProperty(ModelCookieDelegate.prototype, 'constructor', { value: ModelCookieDelegate, enumerable: false, writable: true });
 
 ModelCookieDelegate.prototype.isSaved = function(model) {
-	return $.cookie(model.name) !== undefined;
+	return Cookies.get(model.name) !== undefined;
 }
 
 ModelCookieDelegate.prototype.readIn = function(model) {
-	let json = $.cookie(model.name);
+	let json = Cookies.get(model.name);
 
 	if (json !== undefined)
 		model.set(JSON.parse(json));
 }
 
 ModelCookieDelegate.prototype.writeOut = function(model) {
-	$.cookie(model.name, JSON.stringify(model.get()), { path: '/' });
+	Cookies.set(model.name, JSON.stringify(model.get()), { path: '/', sameSite: 'lax' });
 
 	model.changed = false;
 }
 
 ModelCookieDelegate.prototype.clearSave = function(model) {
-	$.removeCookie(model.name, { path: '/' });
+	Cookies.remove(model.name, { path: '/' });
 }
