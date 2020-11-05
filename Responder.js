@@ -1,14 +1,13 @@
 /**
  *
- * @copyright  2019 objectivejs.org
- * @version    1
+ * @copyright  2019-2020 objectivejs.org
+ * @version    2
  * @link       http://www.objectivejs.org
  */
 
 "use strict";
 
 function Responder() {
-	this._nextResponders = null;
 }
 
 Responder.prototype = Object.create(Objective.prototype);
@@ -17,7 +16,7 @@ Object.defineProperty(Responder.prototype, 'constructor', { value: Responder, en
 
 Object.defineProperty(Responder.prototype, 'nextResponders', {
 	get:	function() {
-				return this._nextResponders;
+				return this._nextResponders || null;
 			},
 	set:	function(responders) {
 				if (! (responders === null || (Array.isArray(responders) && responders.every((r) => r instanceof Responder))))
@@ -31,7 +30,7 @@ Responder.prototype.addNextResponder = function(r) {
 	if (! r instanceof Responder)
 		throw new TypeError();
 
-	if (this._nextResponders === null)
+	if (! this._nextResponders)
 		this._nextResponders = [r];
 	else if (this._nextResponders.indexOf(r) == -1)
 		this._nextResponders.push(r);
@@ -40,7 +39,7 @@ Responder.prototype.addNextResponder = function(r) {
 }
 
 Responder.prototype.removeNextResponder = function(r) {
-	if (!this._nextResponders !== null) {
+	if (this._nextResponders) {
 		let i = this._nextResponders.indexOf(r);
 
 		if (i != -1)
