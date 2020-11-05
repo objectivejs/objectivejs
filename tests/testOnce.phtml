@@ -2,8 +2,8 @@
 
 /**
  *
- * @copyright  2019 objectivejs.org
- * @version    1
+ * @copyright  2019-2020 objectivejs.org
+ * @version    2
  * @link       http://www.objectivejs.org
  */
 ?>
@@ -31,4 +31,7 @@ let app2 = new Application('barfoo');
 console.log(app1.constructor.name);	// Application
 console.log(app1 === app2);			// true
 console.log(app1._name);			// foobar
+
+let app3 = app1.clone();
+console.log(app1 === app3);			// true
 </script>

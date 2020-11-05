@@ -28,4 +28,12 @@ console.log(calc.value);	// 0
 calc.rcl();
 
 console.log(calc.value);	// 1.618
+
+calc2 = calc.clone();
+console.log(calc2.value);	// 1.618
+calc2.clear();
+console.log(calc.value);	// 1.618
+calc2.clr();
+calc.rcl();
+console.log(calc.value);	// 0
 </script>
