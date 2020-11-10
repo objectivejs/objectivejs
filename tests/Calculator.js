@@ -1,7 +1,7 @@
 /**
  *
- * @copyright  2019 objectivejs.org
- * @version    1
+ * @copyright  2019-2020 objectivejs.org
+ * @version    2
  * @link       http://www.objectivejs.org
  */
 
@@ -87,6 +87,10 @@ Calculator.prototype.rcl = function() {
 function CalculatorMemory() {
 	this._mem = 0.0;
 }
+
+CalculatorMemory.prototype = Object.create(Objective.prototype);
+
+Object.defineProperty(CalculatorMemory.prototype, 'constructor', { value: CalculatorMemory, enumerable: false, writable: true });
 
 CalculatorMemory.prototype.clr = function() {
 	this._mem = 0.0;
