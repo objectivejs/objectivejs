@@ -1,7 +1,7 @@
 /**
  *
  * @copyright  2019-2020 objectivejs.org
- * @version    2
+ * @version    3
  * @link       http://www.objectivejs.org
  */
 
@@ -25,13 +25,6 @@ UndoPanel.prototype.disable = function() {
 UndoPanel.prototype.enable = function() {
 	this.enableUndo();
 	this.enableRedo();
-
-	return this;
-}
-
-UndoPanel.prototype.resetWidget = function() {
-	this._undoWidget.disabled = true;
-	this._redoWidget.disabled = true;
 
 	return this;
 }
