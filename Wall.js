@@ -1,7 +1,7 @@
 /**
  *
  * @copyright  2020 objectivejs.org
- * @version    1
+ * @version    2
  * @link       http://www.objectivejs.org
  */
 
@@ -232,7 +232,7 @@ Wall.prototype.setWidget = function(w) {
 
 			e.preventDefault();
 
-			dt.dropEffect = dt.types.indexOf('Files') != -1 && !(this._recording || this._uploading) ? 'copy' : 'none';
+			dt.dropEffect = dt.types.indexOf('Files') != -1 && !this._uploading ? 'copy' : 'none';
 		});
 	}
 
