@@ -1,7 +1,7 @@
 /**
  *
- * @copyright  2019 objectivejs.org
- * @version    1
+ * @copyright  2019-2020 objectivejs.org
+ * @version    2
  * @link       http://www.objectivejs.org
  */
 
@@ -42,7 +42,7 @@ ColorInspector.prototype.manageWidget = function(parent = null) {
 	Inspector.prototype.manageWidget.call(this, parent);
 
     if (this._parent && this._widget) {
-    	jQuery(this._widget).minicolors({
+		jQuery(this._widget).minicolors({
     		letterCase: 'uppercase',
     		defaultColor: ColorInspector.defaultColor,
     		hide: function() {
@@ -50,6 +50,15 @@ ColorInspector.prototype.manageWidget = function(parent = null) {
     		}
     	});
     }
+
+	return this;
+}
+
+ColorInspector.prototype.unmanageWidget = function() {
+    if (this._widget)
+		jQuery(this._widget).minicolors('destroy');
+
+	Inspector.prototype.unmanageWidget.call(this);
 
 	return this;
 }
