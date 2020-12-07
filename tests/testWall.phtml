@@ -3,7 +3,7 @@
 /**
  *
  * @copyright  2020 objectivejs.org
- * @version    1
+ * @version    2
  * @link       http://www.objectivejs.org
  */
 ?>
@@ -30,9 +30,9 @@ $filelist=wall_contents($wall_id);
 <?php $upload_url='/wallupload'; ?>
 <?php $delete_url='/walldelete'; ?>
 <?php $filetypes=array('image/jpeg', 'image/png', 'image/gif', 'application/pdf'); ?>
-<?php $maxfilesize=5*100000; ?>
+<?php $maxfilesize=5*1000000; ?>
 <?php $chunksize=100000; ?>
-<?php $maxfiles=20; ?>
+<?php $maxfiles=10; ?>
 <?php $id=uniqid('id'); ?>
 <div id="<?php echo $id; ?>" class="noprint">
 <div class="ojs_wall">
@@ -56,8 +56,8 @@ $filelist=wall_contents($wall_id);
 <?php endif; ?>
 	const options = {
 		draganddrop: true,
-		maxfiles: 10,
-		maxfilesize: 5*1000000,
+		maxfiles: <?php echo $maxfiles; ?>,
+		maxfilesize: <?php echo $maxfilesize; ?>,
 		filetypes: [<?php echo implode(',', array_map(function($s) { return "'$s'"; }, $filetypes)); ?>],
 		tagsURL: '<?php echo $tags_url; ?>',
 		downloadURL: '<?php echo $download_url; ?>',
