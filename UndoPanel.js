@@ -1,7 +1,7 @@
 /**
  *
- * @copyright  2019 objectivejs.org
- * @version    1
+ * @copyright  2019-2020 objectivejs.org
+ * @version    2
  * @link       http://www.objectivejs.org
  */
 
@@ -9,9 +9,6 @@
 
 function UndoPanel() {
 	Panel.call(this);
-
-	this._undoWidget = null;
-	this._redoWidget = null;
 }
 
 UndoPanel.prototype = Object.create(Panel.prototype);
@@ -40,25 +37,25 @@ UndoPanel.prototype.resetWidget = function() {
 }
 
 UndoPanel.prototype.setWidget = function(w) {
-	let undo = w.children[0], redo = w.children[1];
-
 	Panel.prototype.setWidget.call(this, w);
 
-	if (undo) {
-		undo.addEventListener('click', () => {
+	let [undoWidget, redoWidget] = w.querySelectorAll('button');
+
+	if (undoWidget) {
+		undoWidget.addEventListener('click', () => {
 		    this.respondTo('undo', this);
 		});
 	}
 
-	this._undoWidget = undo;
+	this._undoWidget = undoWidget;
 
-	if (redo) {
-		redo.addEventListener('click', () => {
+	if (redoWidget) {
+		redoWidget.addEventListener('click', () => {
 			this.respondTo('redo', this);
 		});
 	}
 
-	this._redoWidget = redo;
+	this._redoWidget = redoWidget;
 
 	return this;
 }
