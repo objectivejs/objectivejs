@@ -1,7 +1,7 @@
 /**
  *
- * @copyright  2019 objectivejs.org
- * @version    1
+ * @copyright  2019-2020 objectivejs.org
+ * @version    2
  * @link       http://www.objectivejs.org
  */
 
@@ -185,12 +185,17 @@ View.prototype.setManagedWidget = function(w) {
 	return this;
 }
 
+View.prototype.cloneWidget = function() {
+	return this._widget ? this._widget.cloneNode(true) : null;
+}
+
 View.prototype.createWidget = function() {
 	return this;
 }
 
 View.prototype.createManagedWidget = function(parent, ...args) {
 	this.createWidget(...args);
+
 	this.manageWidget(parent);
 
 	return this;
