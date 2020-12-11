@@ -3,7 +3,7 @@
 /**
  *
  * @copyright  2020 objectivejs.org
- * @version    3
+ * @version    4
  * @link       http://www.objectivejs.org
  */
 ?>
@@ -101,6 +101,8 @@ textInspector.setManagedWidget(container.querySelector('#text_input')).resetWidg
 italicInspector.setManagedWidget(container.querySelector('#text_italic')).resetWidget();
 
 const inspector = new SequenceInspector({ font: fontInspector, text: textInspector, italic: italicInspector });
+
+inspector.setManagedWidget(container.querySelector('.ojs > div'));
 
 const tester = new Tester(display, inspector);
 </script>

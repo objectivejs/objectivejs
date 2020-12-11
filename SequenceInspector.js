@@ -1,7 +1,7 @@
 /**
  *
  * @copyright  2020 objectivejs.org
- * @version    1
+ * @version    2
  * @link       http://www.objectivejs.org
  */
 
@@ -77,5 +77,7 @@ SequenceInspector.prototype.resetWidget = function() {
 }
 
 SequenceInspector.prototype.setWidget = function(w) {
+	View.prototype.setWidget.call(this, w);
+
 	return this;
 }

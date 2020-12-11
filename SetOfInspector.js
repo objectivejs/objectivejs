@@ -1,7 +1,7 @@
 /**
  *
  * @copyright  2020 objectivejs.org
- * @version    2
+ * @version    3
  * @link       http://www.objectivejs.org
  */
 
@@ -432,5 +432,7 @@ SetOfInspector.prototype.resetWidget = function() {
 }
 
 SetOfInspector.prototype.setWidget = function(w) {
+	View.prototype.setWidget.call(this, w);
+
 	return this;
 }
