@@ -1,10 +1,10 @@
 /**
  *
  * @copyright  2019-2020 objectivejs.org
- * @version    5
+ * @version    6
  * @link       http://www.objectivejs.org
  */
- 
+
 /* objectivejs.css */
 
 .ojs {
@@ -53,7 +53,7 @@
 	background: transparent;
 }
 
-.ojs input[type=range]::focus {
+.ojs input[type=range]:focus {
 	outline: none !important;
 }
 
@@ -154,12 +154,12 @@
 .ojs_audio {
 	display: flex;
 	align-items: center;
-	margin: 1em 0
+	margin: 1em 0;
 }
 
 .ojs_audio .disabled {
 	color: #ccc;
-	cursor: default !important
+	cursor: default !important;
 }
 
 .ojs_audio .off {
@@ -307,14 +307,15 @@
 }
 
 .ojs_playlist li {
-	margin-bottom: .5em;
+	margin-bottom: 0.5em;
 }
 
 .ojs_playlist li span {
 	cursor: pointer;
 }
 
-.ojs_playlist li span:hover, .ojs_playlist li span.selected {
+.ojs_playlist li span:hover,
+.ojs_playlist li span.selected {
 	color: #ccc;
 }
 
