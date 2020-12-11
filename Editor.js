@@ -1,7 +1,7 @@
 /**
  *
- * @copyright  2019 objectivejs.org
- * @version    1
+ * @copyright  2019-2020 objectivejs.org
+ * @version    2
  * @link       http://www.objectivejs.org
  */
 
@@ -45,15 +45,15 @@ Editor.prototype.modelSet = function(sender) {
 	let inspectors = this._inspectors;
 
 	for (let p in inspectors)
-		inspectors[p].set(options[p])
-}
+		inspectors[p].set(options[p]);
+};
 
 Editor.prototype.modelValueChanged = function(sender, prop, val) {
 	if (this._view)
 		this._view.setValue(prop, val);
 
 	this._inspectors[prop].set(val);
-}
+};
 
 Editor.prototype.modelUndoChanged = function(sender) {
 	if (this._panel) {
@@ -67,19 +67,19 @@ Editor.prototype.modelUndoChanged = function(sender) {
 		else
 			this._panel.disableRedo();
 	}
-}
+};
 
 Editor.prototype.undo = function(sender) {
 	this._model.undo();
 
 	return true;
-}
+};
 
 Editor.prototype.redo = function(sender) {
 	this._model.redo();
 
 	return true;
-}
+};
 
 Editor.prototype.inspectorValueChanged = function(sender) {
 	let inspectors = this._inspectors;
@@ -92,7 +92,7 @@ Editor.prototype.inspectorValueChanged = function(sender) {
 	}
 
 	return true;
-}
+};
 
 Editor.prototype.disable = function() {
 	let inspectors = this._inspectors;
@@ -104,7 +104,7 @@ Editor.prototype.disable = function() {
 		this._panel.disable();
 
 	return this;
-}
+};
 
 Editor.prototype.enable = function() {
 	let inspectors = this._inspectors;
@@ -120,4 +120,4 @@ Editor.prototype.enable = function() {
 	}
 
 	return this;
-}
+};

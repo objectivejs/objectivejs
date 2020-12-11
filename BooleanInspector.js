@@ -1,7 +1,7 @@
 /**
  *
- * @copyright  2019 objectivejs.org
- * @version    1
+ * @copyright  2019-2020 objectivejs.org
+ * @version    2
  * @link       http://www.objectivejs.org
  */
 
@@ -19,7 +19,7 @@ Object.defineProperty(BooleanInspector.prototype, 'constructor', { value: Boolea
 
 BooleanInspector.prototype.normalize = function(val) {
 	return val ? true : false;
-}
+};
 
 BooleanInspector.prototype.reset = function() {
 	if (!this._widget)
@@ -28,7 +28,7 @@ BooleanInspector.prototype.reset = function() {
 	this._value = this._widget.checked;
 
 	return true;
-}
+};
 
 BooleanInspector.prototype.changeCallback = function(e) {
 	let val = e.target.checked;
@@ -38,11 +38,11 @@ BooleanInspector.prototype.changeCallback = function(e) {
 
 		this.respondTo('inspectorValueChanged', this);
 	}
-}
+};
 
 BooleanInspector.prototype.resetWidget = function() {
 	if (this._widget)
 		this._widget.checked = this._value;
 
 	return this;
-}
+};

@@ -1,7 +1,7 @@
 /**
  *
- * @copyright  2019 objectivejs.org
- * @version    1
+ * @copyright  2019-2020 objectivejs.org
+ * @version    2
  * @link       http://www.objectivejs.org
  */
 
@@ -22,34 +22,34 @@ function Undo(size = 100) {
 
 Object.defineProperty(Undo.prototype, 'size', {
 	get:	function() {
-				return this._size;
-			},
+		return this._size;
+	},
 	set:	function(n) {
-				if (! Number.isInteger(n))
-					throw new TypeError();
+		if (! Number.isInteger(n))
+			throw new TypeError();
 
-				if (n < 1)
-					throw new RangeError();
+		if (n < 1)
+			throw new RangeError();
 
-				if (this._size > n)
-					this._undo = this._undo.slice(-n);
+		if (this._size > n)
+			this._undo = this._undo.slice(-n);
 
-				this._redo = null;
+		this._redo = null;
 
-				this._size = n;
-			}
+		this._size = n;
+	}
 });
 
 Object.defineProperty(Undo.prototype, 'undoLength', {
 	get:	function() {
-				return this._undo.length;
-			}
+		return this._undo.length;
+	}
 });
 
 Object.defineProperty(Undo.prototype, 'redoLength', {
 	get:	function() {
-				return this._redo === null ? 0 : this._redo.length;
-			}
+		return this._redo === null ? 0 : this._redo.length;
+	}
 });
 
 Undo.prototype.push = function(f, ...args) {
@@ -61,7 +61,7 @@ Undo.prototype.push = function(f, ...args) {
 	this._redo = null;
 
 	return this;
-}
+};
 
 Undo.prototype.pop = function() {
 	this._undo.pop();
@@ -69,7 +69,7 @@ Undo.prototype.pop = function() {
 	this._redo = null;
 
 	return this;
-}
+};
 
 Undo.prototype.undo = function() {
 	let exp = this._undo.pop();
@@ -99,7 +99,7 @@ Undo.prototype.undo = function() {
 	this._redo.push(exp);
 
 	return true;
-}
+};
 
 Undo.prototype.redo = function() {
 	if (! this._redo)
@@ -120,11 +120,11 @@ Undo.prototype.redo = function() {
 	this._redo = redo;
 
 	return true;
-}
+};
 
 Undo.prototype.clear = function() {
 	this._undo = [];
 	this._redo = null;
 
 	return this;
-}
+};

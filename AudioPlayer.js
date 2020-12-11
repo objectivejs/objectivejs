@@ -1,7 +1,7 @@
 /**
  *
  * @copyright  2020 objectivejs.org
- * @version    3
+ * @version    4
  * @link       http://www.objectivejs.org
  */
 
@@ -106,81 +106,81 @@ Object.defineProperty(AudioPlayer.prototype, 'constructor', { value: AudioPlayer
 
 Object.defineProperty(AudioPlayer.prototype, 'duration', {
 	get:	function() {
-				return this._audio.src ? Math.floor(this._audio.duration * 1000) : 0;
-			}
+		return this._audio.src ? Math.floor(this._audio.duration * 1000) : 0;
+	}
 });
 
 Object.defineProperty(AudioPlayer.prototype, 'currentTime', {
 	get:	function() {
-				return this._audio.src ? Math.floor(this._audio.currentTime * 1000) : 0;
-			},
+		return this._audio.src ? Math.floor(this._audio.currentTime * 1000) : 0;
+	},
 	set:	function(ms) {
-				if (this._recording || this._uploading)
-					return;
+		if (this._recording || this._uploading)
+			return;
 
-				if (!this._audio.src)
-					return;
+		if (!this._audio.src)
+			return;
 
-				this._audio.currentTime = ms / 1000;
-			}
+		this._audio.currentTime = ms / 1000;
+	}
 });
 
 Object.defineProperty(AudioPlayer.prototype, 'src', {
 	get:	function() {
-				return this._audio.src;
-			},
+		return this._audio.src;
+	},
 	set:	function(url) {
-				if (this._recording || this._uploading)
-					return;
+		if (this._recording || this._uploading)
+			return;
 
-				this._autoplay = this.playing && url;
+		this._autoplay = this.playing && url;
 
-				if (this._audio.src)
-					URL.revokeObjectURL(this._audio.src);
+		if (this._audio.src)
+			URL.revokeObjectURL(this._audio.src);
 
-				if (url)
-					this._audio.src = url;
-				else {
-					this._audio.removeAttribute('src');
+		if (url)
+			this._audio.src = url;
+		else {
+			this._audio.removeAttribute('src');
 
-					if (this._timeWidget)
-						this._showDuration();
-				}
+			if (this._timeWidget)
+				this._showDuration();
+		}
 
-				this._mediablob = null;
+		this._mediablob = null;
 
-				this._uploadable = false;
+		this._uploadable = false;
 
-				this._error = null;
-			}
+		this._error = null;
+	}
 });
 
 Object.defineProperty(AudioPlayer.prototype, 'loop', {
 	get:	function() {
-				return this._audio.loop;
-			},
+		return this._audio.loop;
+	},
 	set:	function(flag) {
-				this._audio.loop = flag ? true : false;
+		this._audio.loop = flag ? true : false;
 
-				if (this._loopWidget) {
-					if (this._audio.loop)
-						this._loopWidget.classList.remove('off');
-					else
-						this._loopWidget.classList.add('off');
-				}
-			}
+		if (this._loopWidget) {
+			if (this._audio.loop)
+				this._loopWidget.classList.remove('off');
+			else
+				this._loopWidget.classList.add('off');
+		}
+	}
 });
 
 Object.defineProperty(AudioPlayer.prototype, 'playing', {
 	get:	function() {
-				return this._audio.src && !this._audio.paused;
-			}
+		return this._audio.src && !this._audio.paused;
+	}
 });
 
 Object.defineProperty(AudioPlayer.prototype, 'recording', {
 	get:	function() {
-				return this._mediarecorder && this._mediarecorder.state !== 'inactive';
-			}
+		return this._mediarecorder && this._mediarecorder.state !== 'inactive';
+	}
 });
 
 AudioPlayer.prototype.setFromTracks = function(soundtracks) {
@@ -202,7 +202,7 @@ AudioPlayer.prototype.setFromTracks = function(soundtracks) {
 	}
 
 	return this.src = url;
-}
+};
 
 AudioPlayer.prototype.setFromAudio = function(w) {
 	if (w.tagName != 'AUDIO')
@@ -214,11 +214,11 @@ AudioPlayer.prototype.setFromAudio = function(w) {
 		soundtracks[source.getAttribute('type')] = source.getAttribute('src');
 
 	return this.setFromTracks(soundtracks);
-}
+};
 
 AudioPlayer.prototype.canPlayType = function(type) {
 	return this._audio.canPlayType(type) ? true : false;
-}
+};
 
 AudioPlayer.prototype.play = function() {
 	if (!this._audio.src)
@@ -230,7 +230,7 @@ AudioPlayer.prototype.play = function() {
 	this._audio.play();
 
 	return this;
-}
+};
 
 AudioPlayer.prototype.pause = function() {
 	if (!this._audio.src)
@@ -242,7 +242,7 @@ AudioPlayer.prototype.pause = function() {
 	this._audio.pause();
 
 	return this;
-}
+};
 
 AudioPlayer.prototype.replay = function() {
 	if (!this._audio.src)
@@ -256,7 +256,7 @@ AudioPlayer.prototype.replay = function() {
 	this._audio.play();
 
 	return this;
-}
+};
 
 AudioPlayer.prototype.resetWidget = function() {
 	if (this._playWidget && this._pauseWidget) {
@@ -337,7 +337,7 @@ AudioPlayer.prototype.resetWidget = function() {
 	}
 
 	return this;
-}
+};
 
 AudioPlayer.prototype.setWidget = function(w) {
 	View.prototype.setWidget.call(this, w);
@@ -535,7 +535,7 @@ AudioPlayer.prototype.setWidget = function(w) {
 
 		if (this._autoplay)
 			this._audio.play();
-	}
+	};
 
 	this._audio.ontimeupdate = () => {
 		if (this._barWidget && !this._seeking)
@@ -585,10 +585,10 @@ AudioPlayer.prototype.setWidget = function(w) {
 		this._showDuration();
 
 		this.notify('audioError', this);
-	}
+	};
 
 	return this;
-}
+};
 
 AudioPlayer.prototype.destroyWidget = function() {
 	View.prototype.destroyWidget.call(this);
@@ -610,7 +610,7 @@ AudioPlayer.prototype.destroyWidget = function() {
 	this._recordStopWidget = null;
 
 	return this;
-}
+};
 
 AudioPlayer.prototype.recordStart = function() {
 	if (!this._recorder)
@@ -718,14 +718,14 @@ AudioPlayer.prototype.recordStart = function() {
 		this._mediarecorder.start(1000);
 
 	return this;
-}
+};
 
 AudioPlayer.prototype.recordStop = function() {
 	if (this._mediarecorder)
 		this._mediarecorder.stop();
 
 	return this;
-}
+};
 
 AudioPlayer.prototype.uploadFile = function() {
 	if (!this._uploadURL)
@@ -756,7 +756,7 @@ AudioPlayer.prototype.uploadFile = function() {
 
 		blob = mediablob.slice(offset, offset + chunksize);
 		filereader.readAsDataURL(blob);
-	}
+	};
 
 	const postdata = (data) => {
 		$.post(uploadurl, {file_size: filesize, file_type: filetype, file_offset: offset, file_data: data})
@@ -806,7 +806,7 @@ AudioPlayer.prototype.uploadFile = function() {
 	uploadslice();
 
 	return this;
-}
+};
 
 AudioPlayer.prototype.deleteFile = function() {
 	if (!this._deleteURL)
@@ -843,7 +843,7 @@ AudioPlayer.prototype.deleteFile = function() {
 	deletefile();
 
 	return this;
-}
+};
 
 AudioPlayer.prototype.loadAudio = function() {
 	if (this._recording || this._uploading)
@@ -853,7 +853,7 @@ AudioPlayer.prototype.loadAudio = function() {
 		this._fileWidget.click();
 
 	return this;
-}
+};
 
 AudioPlayer.prototype._loadFile = function(fd) {
 	if (!this._audio.canPlayType(fd.type)) {
@@ -880,28 +880,28 @@ AudioPlayer.prototype._loadFile = function(fd) {
 	this.resetWidget();
 
 	this.notify('audioLoaded', this);
-}
+};
 
 AudioPlayer.prototype._showDuration = function() {
 	if (this._timeWidget)
 		this._timeWidget.innerText = AudioPlayer._toHHMMSS(this._audio.src ? this._audio.duration : 0);
-}
+};
 
 AudioPlayer.prototype._showCurrentTime = function() {
 	if (this._timeWidget)
 		this._timeWidget.innerText = AudioPlayer._toHHMMSS(this._audio.src ? this._audio.currentTime : 0);
-}
+};
 
 AudioPlayer._toHHMMSS = function(nsecs) {
 	nsecs = Math.floor(nsecs);
 
 	let hh = Math.floor(nsecs / 3600);
-    let mm = Math.floor((nsecs - (hh * 3600)) / 60);
-    let ss = nsecs - (hh * 3600) - (mm * 60);
+	let mm = Math.floor((nsecs - (hh * 3600)) / 60);
+	let ss = nsecs - (hh * 3600) - (mm * 60);
 
-    hh = (hh < 10 ? '0' : '') + hh;
-    mm = (mm < 10 ? '0' : '') + mm;
-    ss = (ss < 10 ? '0' : '') + ss;
+	hh = (hh < 10 ? '0' : '') + hh;
+	mm = (mm < 10 ? '0' : '') + mm;
+	ss = (ss < 10 ? '0' : '') + ss;
 
-    return `${hh}:${mm}:${ss}`;
-}
+	return `${hh}:${mm}:${ss}`;
+};

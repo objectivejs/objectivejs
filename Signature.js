@@ -1,7 +1,7 @@
 /**
  *
  * @copyright  2020 objectivejs.org
- * @version    1
+ * @version    2
  * @link       http://www.objectivejs.org
  */
 
@@ -37,12 +37,12 @@ Signature.defaultLineColor = '#000000';
 Signature.defaultLineWidth = 5;
 
 Signature.prototype.erase = function() {
-    if (this._widget) {
+	if (this._widget) {
     	this._widget.getContext('2d').clearRect(0, 0, this._widget.width, this._widget.height);
-    }
+	}
 
-    return this;
-}
+	return this;
+};
 
 Signature.prototype.setWidget = function(w) {
 	if (w.tagName != 'CANVAS')
@@ -79,7 +79,7 @@ Signature.prototype.setWidget = function(w) {
 
 		x0 = x;
 		y0 = y;
-	};
+	}
 
 	w.addEventListener('mousedown', () => {
 	    if (event.which === 1)
@@ -113,4 +113,4 @@ Signature.prototype.setWidget = function(w) {
 	}, false);
 
 	return this;
-}
+};

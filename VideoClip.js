@@ -1,7 +1,7 @@
 /**
  *
  * @copyright  2019-2020 objectivejs.org
- * @version    2
+ * @version    3
  * @link       http://www.objectivejs.org
  */
 
@@ -31,79 +31,79 @@ Object.defineProperty(VideoClip.prototype, 'constructor', { value: VideoClip, en
 
 Object.defineProperty(VideoClip.prototype, 'dimension', {
 	get:	function() {
-				return this._drawingarea.size;
-			},
+		return this._drawingarea.size;
+	},
 	set:	function(d) {
-				this._drawingarea.size = d;
-			}
+		this._drawingarea.size = d;
+	}
 });
 
 Object.defineProperty(VideoClip.prototype, 'duration', {
 	get:	function() {
-				return this._video ? Math.floor(this._video.duration * 1000) : 0;
-			}
+		return this._video ? Math.floor(this._video.duration * 1000) : 0;
+	}
 });
 
 Object.defineProperty(VideoClip.prototype, 'currentTime', {
 	get:	function() {
-				return this._video && this._video.currentTime > 0 ? Math.floor(this._video.currentTime * 1000) - 1 : 0;
-			}
+		return this._video && this._video.currentTime > 0 ? Math.floor(this._video.currentTime * 1000) - 1 : 0;
+	}
 });
 
 Object.defineProperty(VideoClip.prototype, 'playbackRate', {
 	get:	function() {
-				return this._playbackRate;
-			},
+		return this._playbackRate;
+	},
 	set:	function(r) {
-				if (typeof r !== 'number')
-					throw new TypeError();
+		if (typeof r !== 'number')
+			throw new TypeError();
 
-				if (r < Clip.minPlaybackRate || r > Clip.maxPlaybackRate)
-					throw new RangeError();
+		if (r < Clip.minPlaybackRate || r > Clip.maxPlaybackRate)
+			throw new RangeError();
 
-				this._playbackRate = r;
+		this._playbackRate = r;
 
-				if (this._video)
-					this._video.playbackRate = r;
+		if (this._video)
+			this._video.playbackRate = r;
 
-				if (this._animlist)
-					for (let e of this._animlist)
-						e.playbackRate = r;
-			}
+		if (this._animlist)
+			for (let e of this._animlist)
+				e.playbackRate = r;
+	}
 });
 
 Object.defineProperty(VideoClip.prototype, 'muted', {
 	get:	function() {
-				return this._video ? this._video.muted : false;
-			},
+		return this._video ? this._video.muted : false;
+	},
 	set:	function(muted) {
-				if (this._video) {
-					this._video.muted = muted ? true : false;
+		if (this._video) {
+			this._video.muted = muted ? true : false;
 
-					if (this._mutedWidget)
-						this._mutedWidget.checked = this._video.muted;
-				}
+			if (this._mutedWidget)
+				this._mutedWidget.checked = this._video.muted;
 		}
+	}
 });
 
 Object.defineProperty(VideoClip.prototype, 'options', {
 	get:	function() {
-				return this._drawingarea.getOptions();
-			},
+		return this._drawingarea.getOptions();
+	},
 	set:	function(options) {
-				this._drawingarea.setOptions(options);
-		}
+		this._drawingarea.setOptions(options);
+	}
 });
 
 VideoClip.prototype.get = function() {
 	return this._drawingarea.getOptions();
-}
+};
 
 VideoClip.prototype.set = function(options) {
 	this._drawingarea.setOptions(options);
 
 	return this;
-}
+};
 
 VideoClip.prototype.setValue = function(prop, val) {
 	if (prop == 'size')
@@ -130,7 +130,7 @@ VideoClip.prototype.setValue = function(prop, val) {
 		this._drawingarea.opacity = val;
 
 	return this;
-}
+};
 
 VideoClip.prototype.animate = function(animations) {
 	if (! (Array.isArray(animations) && animations.length > 0))
@@ -161,7 +161,7 @@ VideoClip.prototype.animate = function(animations) {
 	this._animlist = animlist;
 
 	return this;
-}
+};
 
 VideoClip.prototype.seek = function(ms) {
 	if (!this._video)
@@ -178,7 +178,7 @@ VideoClip.prototype.seek = function(ms) {
 	}
 
 	return this;
-}
+};
 
 VideoClip.prototype.play = function() {
 	if (!this._video)
@@ -197,7 +197,7 @@ VideoClip.prototype.play = function() {
 	}
 
 	return this;
-}
+};
 
 VideoClip.prototype.pause = function() {
 	if (!this._video)
@@ -213,7 +213,7 @@ VideoClip.prototype.pause = function() {
 	}
 
 	return this;
-}
+};
 
 VideoClip.prototype.setWidget = function(w) {
 	if (w.tagName != 'VIDEO')
@@ -254,7 +254,7 @@ VideoClip.prototype.setWidget = function(w) {
 	w.load();
 
 	return this;
-}
+};
 
 VideoClip.prototype.addTimeWidget = function(w) {
 	w.innerText = VideoClip._toHHMMSS(this._video.currentTime);
@@ -262,13 +262,13 @@ VideoClip.prototype.addTimeWidget = function(w) {
 	this._timeWidget = w;
 
 	return this;
-}
+};
 
 VideoClip.prototype.removeTimeWidget = function() {
 	this._timeWidget = null;
 
 	return this;
-}
+};
 
 VideoClip.prototype.addMutedWidget = function(w) {
 	if (this._onmute)
@@ -283,7 +283,7 @@ VideoClip.prototype.addMutedWidget = function(w) {
 	this._mutedWidget = w;
 
 	return this;
-}
+};
 
 VideoClip.prototype.removeMutedWidget = function() {
 	if (this._onmute)
@@ -292,7 +292,7 @@ VideoClip.prototype.removeMutedWidget = function() {
 	this._mutedWidget = null;
 
 	return this;
-}
+};
 
 VideoClip.prototype.enablePlayer = function() {
 	if (this.hasPlayer())
@@ -317,18 +317,18 @@ VideoClip.prototype.enablePlayer = function() {
 	}
 
 	return this;
-}
+};
 
 VideoClip._toHHMMSS = function(nsecs) {
 	nsecs = Math.floor(nsecs);
 
 	let hh = Math.floor(nsecs / 3600);
-    let mm = Math.floor((nsecs - (hh * 3600)) / 60);
-    let ss = nsecs - (hh * 3600) - (mm * 60);
+	let mm = Math.floor((nsecs - (hh * 3600)) / 60);
+	let ss = nsecs - (hh * 3600) - (mm * 60);
 
-    hh = (hh < 10 ? '0' : '') + hh;
-    mm = (mm < 10 ? '0' : '') + mm;
-    ss = (ss < 10 ? '0' : '') + ss;
+	hh = (hh < 10 ? '0' : '') + hh;
+	mm = (mm < 10 ? '0' : '') + mm;
+	ss = (ss < 10 ? '0' : '') + ss;
 
-    return `${hh}:${mm}:${ss}`;
-}
+	return `${hh}:${mm}:${ss}`;
+};

@@ -1,7 +1,7 @@
 /**
  *
- * @copyright  2019 objectivejs.org
- * @version    1
+ * @copyright  2019-2020 objectivejs.org
+ * @version    2
  * @link       http://www.objectivejs.org
  */
 
@@ -45,49 +45,49 @@ Object.defineProperty(NumberInspector.prototype, 'constructor', { value: NumberI
 
 Object.defineProperty(NumberInspector.prototype, 'min', {
 	get:	function() {
-				return this._min;
-			},
+		return this._min;
+	},
 	set:	function(min) {
-				if (! (typeof min === 'undefined' || typeof min === 'number'))
-					throw new TypeError();
+		if (! (typeof min === 'undefined' || typeof min === 'number'))
+			throw new TypeError();
 
-				if (this._min !== min) {
-					this._min = min;
+		if (this._min !== min) {
+			this._min = min;
 
-					if (min !== undefined && this._value < min) {
-						this._value = min
+			if (min !== undefined && this._value < min) {
+				this._value = min;
 
-						if (this.interfaced)
-							this.resetWidget();
-					}
-				}
+				if (this.interfaced)
+					this.resetWidget();
 			}
+		}
+	}
 });
 
 Object.defineProperty(NumberInspector.prototype, 'max', {
 	get:	function() {
-				return this._max;
-			},
+		return this._max;
+	},
 	set:	function(max) {
-				if (! (typeof max === 'undefined' || typeof max === 'number'))
-					throw new TypeError();
+		if (! (typeof max === 'undefined' || typeof max === 'number'))
+			throw new TypeError();
 
-				if (this._max !== max) {
-					this._max = max;
+		if (this._max !== max) {
+			this._max = max;
 
-					if (max !== undefined && this._value > max) {
-						this._value = max
+			if (max !== undefined && this._value > max) {
+				this._value = max;
 
-						if (this.interfaced)
-							this.resetWidget();
-					}
-				}
+				if (this.interfaced)
+					this.resetWidget();
 			}
+		}
+	}
 });
 
 NumberInspector.prototype.validate = function(val) {
 	return typeof val === 'number';
-}
+};
 
 NumberInspector.prototype.normalize = function(val) {
 	if (this._min !== undefined && val < this._min)
@@ -97,7 +97,7 @@ NumberInspector.prototype.normalize = function(val) {
 		return this._max;
 
 	return val;
-}
+};
 
 NumberInspector.prototype.changeCallback = function(e) {
 	let val = Number.parseFloat(e.target.value.trim());
@@ -111,4 +111,4 @@ NumberInspector.prototype.changeCallback = function(e) {
 			this.respondTo('inspectorValueChanged', this);
 		}
 	}
-}
+};

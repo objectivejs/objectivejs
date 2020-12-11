@@ -1,7 +1,7 @@
 /**
  *
- * @copyright  2019 objectivejs.org
- * @version    1
+ * @copyright  2019-2020 objectivejs.org
+ * @version    2
  * @link       http://www.objectivejs.org
  */
 
@@ -22,11 +22,11 @@ ClipEditor.prototype.modelSet = function(sender) {
 
 	if (this._timing)
 		this._timing.widget.innerText = this._view.duration;
-}
+};
 
 ClipEditor.prototype.modelValueChanged = function(sender, prop, val) {
 	Editor.prototype.modelValueChanged.call(this, sender, prop, val);
 
 	if (this._timing)
 		this._timing.widget.innerText = this._view.duration;
-}
+};

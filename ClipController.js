@@ -1,7 +1,7 @@
 /**
  *
- * @copyright  2019 objectivejs.org
- * @version    1
+ * @copyright  2019-2020 objectivejs.org
+ * @version    2
  * @link       http://www.objectivejs.org
  */
 
@@ -22,4 +22,4 @@ Object.defineProperty(ClipController.prototype, 'constructor', { value: ClipCont
 
 ClipController.prototype.modelSet = function(sender) {
 	this._clip.set(sender.get());
-}
+};

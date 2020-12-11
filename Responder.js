@@ -1,7 +1,7 @@
 /**
  *
  * @copyright  2019-2020 objectivejs.org
- * @version    2
+ * @version    3
  * @link       http://www.objectivejs.org
  */
 
@@ -16,18 +16,18 @@ Object.defineProperty(Responder.prototype, 'constructor', { value: Responder, en
 
 Object.defineProperty(Responder.prototype, 'nextResponders', {
 	get:	function() {
-				return this._nextResponders || null;
-			},
+		return this._nextResponders || null;
+	},
 	set:	function(responders) {
-				if (! (responders === null || (Array.isArray(responders) && responders.every((r) => r instanceof Responder))))
-					throw new TypeError();
+		if (! (responders === null || (Array.isArray(responders) && responders.every((r) => r instanceof Responder))))
+			throw new TypeError();
 
-				this._nextResponders = responders;
-			}
+		this._nextResponders = responders;
+	}
 });
 
 Responder.prototype.addNextResponder = function(r) {
-	if (! r instanceof Responder)
+	if (!( r instanceof Responder))
 		throw new TypeError();
 
 	if (! this._nextResponders)
@@ -36,7 +36,7 @@ Responder.prototype.addNextResponder = function(r) {
 		this._nextResponders.push(r);
 
 	return this;
-}
+};
 
 Responder.prototype.removeNextResponder = function(r) {
 	if (this._nextResponders) {
@@ -47,20 +47,20 @@ Responder.prototype.removeNextResponder = function(r) {
 	}
 
 	return this;
-}
+};
 
 Responder.prototype.respondTo = function(f, ...args) {
 	if (typeof this[f] === 'function' && this[f](...args))
 		return this;
 
-    if (! this._nextResponders)
-        return this;
+	if (! this._nextResponders)
+		return this;
 
 	for (let r of this._nextResponders)
 		r.respondTo(f, ...args);
 
 	return this;
-}
+};
 
 Responder.prototype.nextRespondTo = function(f, ...args) {
 	if (this._nextResponders)
@@ -68,4 +68,4 @@ Responder.prototype.nextRespondTo = function(f, ...args) {
 			r.respondTo(f, ...args);
 
 	return this;
-}
+};

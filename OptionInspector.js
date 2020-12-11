@@ -1,7 +1,7 @@
 /**
  *
- * @copyright  2019 objectivejs.org
- * @version    1
+ * @copyright  2019-2020 objectivejs.org
+ * @version    2
  * @link       http://www.objectivejs.org
  */
 
@@ -36,7 +36,7 @@ Object.defineProperty(OptionInspector.prototype, 'constructor', { value: OptionI
 
 OptionInspector.prototype.validate = function(val) {
 	return typeof val === 'string' && this._tags.indexOf(val) != -1;
-}
+};
 
 OptionInspector.prototype.reset = function() {
 	if (!this._inputWidgets)
@@ -50,7 +50,7 @@ OptionInspector.prototype.reset = function() {
 	}
 
 	return true;
-}
+};
 
 OptionInspector.prototype.resetWidget = function() {
 	if (this._inputWidgets) {
@@ -61,7 +61,7 @@ OptionInspector.prototype.resetWidget = function() {
 	}
 
 	return this;
-}
+};
 
 OptionInspector.prototype.setWidget = function(w) {
 	Inspector.prototype.setWidget.call(this, w);
@@ -80,4 +80,4 @@ OptionInspector.prototype.setWidget = function(w) {
 	}
 
 	return this;
-}
+};

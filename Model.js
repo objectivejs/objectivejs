@@ -1,7 +1,7 @@
 /**
  *
- * @copyright  2019 objectivejs.org
- * @version    1
+ * @copyright  2019-2020 objectivejs.org
+ * @version    2
  * @link       http://www.objectivejs.org
  */
 
@@ -30,22 +30,22 @@ Object.defineProperty(Model.prototype, 'constructor', { value: Model, enumerable
 
 Object.defineProperty(Model.prototype, 'name', {
 	get:	function() {
-				return this._name;
-			}
+		return this._name;
+	}
 });
 
 Object.defineProperty(Model.prototype, 'changed', {
 	get:	function() {
-				return this._changed;
-			},
+		return this._changed;
+	},
 	set:	function(changed) {
-				return this._changed = changed ? true : false;
-			}
+		return this._changed = changed ? true : false;
+	}
 });
 
 Model.prototype.get = function() {
 	return this._value;
-}
+};
 
 Model.prototype.set = function(val) {
 	if (this._undo)
@@ -63,11 +63,11 @@ Model.prototype.set = function(val) {
 		this.notify('modelUndoChanged', this);
 
 	return this;
-}
+};
 
 Model.prototype.getValue = function(prop) {
 	return this._value[prop];
-}
+};
 
 Model.prototype.setValue = function(prop, val) {
 	val = this.checkValue(prop, val);
@@ -90,41 +90,41 @@ Model.prototype.setValue = function(prop, val) {
 		this.notify('modelUndoChanged', this);
 
 	return this;
-}
+};
 
 Model.prototype.validateValue = function(prop, val) {
 	return true;
-}
+};
 
 Model.prototype.normalizeValue = function(prop, val) {
 	return val;
-}
+};
 
 Model.prototype.checkValue = function(prop, val) {
 	return val === undefined || !this.validateValue(prop, val) ? this.getValue(prop) : this.normalizeValue(prop, val);
-}
+};
 
 Model.prototype.readIn = function() {
 	this.delegate('readIn', this);
 
 	return this;
-}
+};
 
 Model.prototype.writeOut = function() {
 	this.delegate('writeOut', this);
 
 	return this;
-}
+};
 
 Model.prototype.clearSave = function() {
 	this.delegate('clearSave', this);
 
 	return this;
-}
+};
 
 Model.prototype.isSaved = function() {
 	return !this.changed && (this._delegate === undefined || this.delegate('isSaved', this) === true);
-}
+};
 
 Model.prototype.sync = function() {
 	if (this._timer)
@@ -136,11 +136,11 @@ Model.prototype.sync = function() {
 		this.writeOut();
 
 	return this;
-}
+};
 
 Model.prototype.haSsync = function() {
 	return this._sync;
-}
+};
 
 Model.prototype.enableSync = function(timeout = 0) {
 	if (!Number.isInteger(timeout))
@@ -153,7 +153,7 @@ Model.prototype.enableSync = function(timeout = 0) {
 	this._sync = true;
 
 	return this;
-}
+};
 
 Model.prototype.disableSync = function() {
 	if (this._timer) {
@@ -165,44 +165,44 @@ Model.prototype.disableSync = function() {
 	this._sync = false;
 
 	return this;
-}
+};
 
 Model.prototype.hasUndo = function() {
 	return this._undo !== null;
-}
+};
 
 Model.prototype.enableUndo = function() {
 	if (this._undo === null)
 		this._undo = new Undo();
 
 	return this;
-}
+};
 
 Model.prototype.disableUndo = function() {
 	if (this._undo !== null)
 		this._undo = null;
 
 	return this;
-}
+};
 
 Model.prototype.undo = function() {
 	if (this._undo && this._undo.undo())
 		this.notify('modelUndoChanged', this);
 
 	return this;
-}
+};
 
 Model.prototype.redo = function() {
 	if (this._undo && this._undo.redo())
 		this.notify('modelUndoChanged', this);
 
 	return this;
-}
+};
 
 Model.prototype.canUndo = function() {
 	return this._undo && this._undo.undoLength > 0 ? true : false;
-}
+};
 
 Model.prototype.canRedo = function() {
 	return this._undo && this._undo.redoLength > 0 ? true : false;
-}
+};

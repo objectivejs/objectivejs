@@ -1,7 +1,7 @@
 /**
  *
- * @copyright  2019 objectivejs.org
- * @version    1
+ * @copyright  2019-2020 objectivejs.org
+ * @version    2
  * @link       http://www.objectivejs.org
  */
 
@@ -20,21 +20,21 @@ Object.defineProperty(ModelStorageDelegate.prototype, 'constructor', { value: Mo
 
 ModelStorageDelegate.prototype.isSaved = function(model) {
 	return this._storage.getItem(model.name) !== null;
-}
+};
 
 ModelStorageDelegate.prototype.readIn = function(model) {
 	let json = this._storage.getItem(model.name);
 
 	if (json !== null)
 		model.set(JSON.parse(json));
-}
+};
 
 ModelStorageDelegate.prototype.writeOut = function(model) {
 	this._storage.setItem(model.name, JSON.stringify(model.get()));
 
 	model.changed = false;
-}
+};
 
 ModelStorageDelegate.prototype.clearSave = function(model) {
 	this._storage.removeItem(model.name);
-}
+};

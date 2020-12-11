@@ -1,7 +1,7 @@
 /**
  *
- * @copyright  2019 objectivejs.org
- * @version    1
+ * @copyright  2019-2020 objectivejs.org
+ * @version    2
  * @link       http://www.objectivejs.org
  */
 
@@ -20,27 +20,27 @@ Object.defineProperty(AnimateClip.prototype, 'constructor', { value: AnimateClip
 
 Object.defineProperty(AnimateClip.prototype, 'currentTime', {
 	get:	function() {
-				return this._animlist ? Math.floor(this._lastanim.currentTime) : 0;
-			}
+		return this._animlist ? Math.floor(this._lastanim.currentTime) : 0;
+	}
 });
 
 Object.defineProperty(AnimateClip.prototype, 'playbackRate', {
 	get:	function() {
-				return this._playbackRate;
-			},
+		return this._playbackRate;
+	},
 	set:	function(r) {
-				if (typeof r !== 'number')
-					throw new TypeError();
+		if (typeof r !== 'number')
+			throw new TypeError();
 
-				if (r < Clip.minPlaybackRate || r > Clip.maxPlaybackRate)
-					throw new RangeError();
+		if (r < Clip.minPlaybackRate || r > Clip.maxPlaybackRate)
+			throw new RangeError();
 
-				this._playbackRate = r;
+		this._playbackRate = r;
 
-				if (this._animlist)
-					for (let e of this._animlist)
-						e.playbackRate = r;
-			}
+		if (this._animlist)
+			for (let e of this._animlist)
+				e.playbackRate = r;
+	}
 });
 
 AnimateClip.prototype.animate = function(animations, autoplay = false) {
@@ -79,7 +79,7 @@ AnimateClip.prototype.animate = function(animations, autoplay = false) {
 		this._ended = this._paused = true;
 
 		this.notify('clipEnded', this);
-	}
+	};
 
 	this._duration = duration;
 
@@ -95,7 +95,7 @@ AnimateClip.prototype.animate = function(animations, autoplay = false) {
 	this._ended = false;
 
 	return this;
-}
+};
 
 AnimateClip.prototype.seek = function(ms) {
 	if (!this._animlist)
@@ -110,7 +110,7 @@ AnimateClip.prototype.seek = function(ms) {
 	this.notify('clipSeeked', this);
 
 	return this;
-}
+};
 
 AnimateClip.prototype.play = function() {
 	if (!this._animlist)
@@ -123,7 +123,7 @@ AnimateClip.prototype.play = function() {
 	this._ended = this._paused = false;
 
 	return this;
-}
+};
 
 AnimateClip.prototype.pause = function() {
 	if (!this._animlist)
@@ -136,4 +136,4 @@ AnimateClip.prototype.pause = function() {
 	this._paused = true;
 
 	return this;
-}
+};

@@ -1,7 +1,7 @@
 /**
  *
  * @copyright  2020 objectivejs.org
- * @version    1
+ * @version    2
  * @link       http://www.objectivejs.org
  */
 
@@ -29,40 +29,40 @@ Object.defineProperty(AudioPlaylist.prototype, 'constructor', { value: AudioPlay
 
 Object.defineProperty(AudioPlaylist.prototype, 'currentTrack', {
 	get:	function() {
-				return this._currentTrack;
-			},
+		return this._currentTrack;
+	},
 	set:	function(n) {
-				if (!Number.isInteger(n))
-					throw new TypeError();
+		if (!Number.isInteger(n))
+			throw new TypeError();
 
-				if (n < 1 || n > this._tracks.length)
-					n = this._tracks.length;
+		if (n < 1 || n > this._tracks.length)
+			n = this._tracks.length;
 
-				if (this._tracks[this._currentTrack-1].widget)
-					this._tracks[this._currentTrack-1].widget.classList.remove('selected');
+		if (this._tracks[this._currentTrack-1].widget)
+			this._tracks[this._currentTrack-1].widget.classList.remove('selected');
 
-				this._currentTrack = n;
+		this._currentTrack = n;
 
-				if (this._tracks[this._currentTrack-1].widget)
-					this._tracks[this._currentTrack-1].widget.classList.add('selected');
+		if (this._tracks[this._currentTrack-1].widget)
+			this._tracks[this._currentTrack-1].widget.classList.add('selected');
 
-				this._player.src = this._tracks[n-1].url;
-			}
+		this._player.src = this._tracks[n-1].url;
+	}
 });
 
 Object.defineProperty(AudioPlaylist.prototype, 'gap', {
 	get:	function() {
-				return this._gap;
-			},
+		return this._gap;
+	},
 	set:	function(ms) {
-				if (!Number.isInteger(ms))
-					throw new TypeError();
+		if (!Number.isInteger(ms))
+			throw new TypeError();
 
-				if (ms < 0)
-					throw new RangeError();
+		if (ms < 0)
+			throw new RangeError();
 
-				this._gap = ms;
-			}
+		this._gap = ms;
+	}
 });
 
 AudioPlaylist.prototype.audioEnded = function(sender) {
@@ -76,22 +76,22 @@ AudioPlaylist.prototype.audioEnded = function(sender) {
 		else
 			this._player.play();
 	}
-}
+};
 
 AudioPlaylist.prototype.audioPlayed = function(sender) {
 	if (this._timer) {
 		clearTimeout(this._timer);
 		this._timer = null;
 	}
-}
+};
 
 AudioPlaylist.prototype.nextTrack = function() {
 	return this.currentTrack = this._currentTrack == this._tracks.length ? 1 : this._currentTrack + 1;
-}
+};
 
 AudioPlaylist.prototype.previousTrack = function() {
 	return this.currentTrack = this._currentTrack == 1 ? this._tracks.length : this._currentTrack - 1;
-}
+};
 
 AudioPlaylist.prototype.setWidget = function(w) {
 	if (! (w.tagName == 'OL' || w.tagName == 'UL'))
@@ -105,7 +105,7 @@ AudioPlaylist.prototype.setWidget = function(w) {
 	View.prototype.setWidget.call(this, w);
 
 	return this;
-}
+};
 
 AudioPlaylist.prototype.createWidget = function() {
 	const playlist = [];
@@ -124,7 +124,7 @@ AudioPlaylist.prototype.createWidget = function() {
 	this.setWidget(widget);
 
 	return this;
-}
+};
 
 AudioPlaylist.prototype.destroyWidget = function() {
 	View.prototype.destroyWidget.call(this);
@@ -133,4 +133,4 @@ AudioPlaylist.prototype.destroyWidget = function() {
 		delete trackdata.widget;
 
 	return this;
-}
+};

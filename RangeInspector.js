@@ -1,7 +1,7 @@
 /**
  *
  * @copyright  2019-2020 objectivejs.org
- * @version    2
+ * @version    3
  * @link       http://www.objectivejs.org
  */
 
@@ -39,7 +39,7 @@ RangeInspector.prototype.resetWidget = function() {
 		this._outputWidget.value = this._fixed !== false ? this._value.toFixed(this._fixed) : this._value;
 
 	return this;
-}
+};
 
 RangeInspector.prototype.setWidget = function(w) {
 	NumberInspector.prototype.setWidget.call(this, w);
@@ -52,4 +52,4 @@ RangeInspector.prototype.setWidget = function(w) {
 	}
 
 	return this;
-}
+};

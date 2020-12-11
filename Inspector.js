@@ -1,7 +1,7 @@
 /**
  *
- * @copyright  2019 objectivejs.org
- * @version    1
+ * @copyright  2019-2020 objectivejs.org
+ * @version    2
  * @link       http://www.objectivejs.org
  */
 
@@ -17,15 +17,15 @@ Object.defineProperty(Inspector.prototype, 'constructor', { value: Inspector, en
 
 Inspector.prototype.validate = function(val) {
 	return true;
-}
+};
 
 Inspector.prototype.normalize = function(val) {
 	return val;
-}
+};
 
 Inspector.prototype.get = function() {
 	return this._value;
-}
+};
 
 Inspector.prototype.set = function(val) {
 	if (!this.validate(val))
@@ -41,7 +41,7 @@ Inspector.prototype.set = function(val) {
 	}
 
 	return true;
-}
+};
 
 Inspector.prototype.reset = function() {
 	if (!this._widget)
@@ -55,7 +55,7 @@ Inspector.prototype.reset = function() {
 	this._value = this.normalize(val);
 
 	return true;
-}
+};
 
 Inspector.prototype.changeCallback = function(e) {
 	let val = e.target.value;
@@ -69,14 +69,14 @@ Inspector.prototype.changeCallback = function(e) {
 			this.respondTo('inspectorValueChanged', this);
 		}
 	}
-}
+};
 
 Inspector.prototype.resetWidget = function() {
 	if (this._widget)
 		this._widget.value = this._value;
 
 	return this;
-}
+};
 
 Inspector.prototype.setWidget = function(w) {
 	w.addEventListener('change', (e) => this.changeCallback(e));
@@ -84,4 +84,4 @@ Inspector.prototype.setWidget = function(w) {
 	View.prototype.setWidget.call(this, w);
 
 	return this;
-}
+};

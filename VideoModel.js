@@ -1,7 +1,7 @@
 /**
  *
- * @copyright  2019 objectivejs.org
- * @version    1
+ * @copyright  2019-2020 objectivejs.org
+ * @version    2
  * @link       http://www.objectivejs.org
  */
 
@@ -19,7 +19,6 @@ function VideoModel(clipname) {
 		contrast:		VideoModel.defaultContrast,
 		saturate:		VideoModel.defaultSaturate,
 		brightness:		VideoModel.defaultBrightness,
-		saturate:		VideoModel.defaultSaturate,
 		grayscale:		VideoModel.defaultGrayscale,
 		sepia:			VideoModel.defaultSepia,
 		blur:			VideoModel.defaultBlur
@@ -78,7 +77,7 @@ VideoModel.prototype.validateValue = function(prop, val) {
 		return typeof val === 'number';
 
 	return true;
-}
+};
 
 VideoModel.prototype.normalizeValue = function(prop, val) {
 	if (prop == 'size') {
@@ -138,4 +137,4 @@ VideoModel.prototype.normalizeValue = function(prop, val) {
 	}
 
 	return val;
-}
+};

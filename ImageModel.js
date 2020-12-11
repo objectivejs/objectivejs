@@ -1,7 +1,7 @@
 /**
  *
- * @copyright  2019 objectivejs.org
- * @version    1
+ * @copyright  2019-2020 objectivejs.org
+ * @version    2
  * @link       http://www.objectivejs.org
  */
 
@@ -39,4 +39,4 @@ ImageModel.prototype.validateValue = function(prop, val) {
 	}
 
 	return true;
-}
+};

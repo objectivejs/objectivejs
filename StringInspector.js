@@ -1,7 +1,7 @@
 /**
  *
- * @copyright  2019 objectivejs.org
- * @version    1
+ * @copyright  2019-2020 objectivejs.org
+ * @version    2
  * @link       http://www.objectivejs.org
  */
 
@@ -81,7 +81,7 @@ StringInspector.prototype.validate = function(val) {
 		return false;
 
 	return true;
-}
+};
 
 StringInspector.prototype.normalize = function(val) {
 	if (this._trim)
@@ -91,7 +91,7 @@ StringInspector.prototype.normalize = function(val) {
 		val = StringInspector._escapeHTML(val);
 
 	return val;
-}
+};
 
 StringInspector.prototype.setWidget = function(w) {
 	Inspector.prototype.setWidget.call(this, w);
@@ -105,14 +105,14 @@ StringInspector.prototype.setWidget = function(w) {
 	this._widget.required = this._required === true;
 
 	return this;
-}
+};
 
 StringInspector._escapeHTML = function(s) {
 	const map = {
 		'&': '&amp;',
 		'<': '&lt;',
 		'>': '&gt;'
-	  };
+	};
 
 	return s.replace(/[&<>]/g, function(c) { return map[c]; });
-}
+};

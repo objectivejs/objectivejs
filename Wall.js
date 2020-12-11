@@ -106,35 +106,33 @@ Object.defineProperty(Wall.prototype, 'constructor', { value: Wall, enumerable: 
 
 Object.defineProperty(Wall.prototype, 'files', {
 	get:	function() {
-				return Object.values(this._slots).map(e => e.file)
-			},
+		return Object.values(this._slots).map(e => e.file);
+	},
 	set:	function(filelist) {
-				let slots = {};
+		let slots = {};
 
-				if (filelist) {
-					for (let f of filelist) {
-						const id = Number.parseInt(f.split('.')[0]);
+		if (filelist) {
+			for (let f of filelist) {
+				const id = Number.parseInt(f.split('.')[0]);
 
-						if (!Number.isInteger(id))
-							throw new TypeError();
+				if (!Number.isInteger(id))
+					throw new TypeError();
 
-						if (id < 1)
-							throw new RangeError();
+				if (id < 1)
+					throw new RangeError();
 
-						slots[id] = {file: f};
-					}
-				}
-
-				this._slots = slots;
-
-				if (this._tagsWidget)
-					this.resetTagsWidget();
+				slots[id] = {file: f};
 			}
+		}
+
+		this._slots = slots;
+
+		if (this._tagsWidget)
+			this.resetTagsWidget();
+	}
 });
 
 Wall.prototype.resetTagsWidget = function() {
-	let imglist = [];
-
 	const timestamp = Date.now();
 
 	this._tagsWidget.innerHTML = '';
@@ -142,7 +140,7 @@ Wall.prototype.resetTagsWidget = function() {
 	for (let id in this._slots) {
 		const img = document.createElement('img');
 
-		img.src = `${this._tagsURL}/${id}.png?nocache=${Date.now()}`;
+		img.src = `${this._tagsURL}/${id}.png?nocache=${timestamp}`;
 
 		img.addEventListener('click', (e) => this._clickImage(e, id));
 
@@ -152,7 +150,7 @@ Wall.prototype.resetTagsWidget = function() {
 	}
 
 	return this;
-}
+};
 
 Wall.prototype.resetWidget = function() {
 	if (this._uploadWidget) {
@@ -187,7 +185,7 @@ Wall.prototype.resetWidget = function() {
 	}
 
 	return this;
-}
+};
 
 Wall.prototype.setWidget = function(w) {
 	View.prototype.setWidget.call(this, w);
@@ -285,7 +283,7 @@ Wall.prototype.setWidget = function(w) {
 	}
 
 	return this;
-}
+};
 
 Wall.prototype.destroyWidget = function() {
 	View.prototype.destroyWidget.call(this);
@@ -309,7 +307,7 @@ Wall.prototype.destroyWidget = function() {
 	this._tag = null;
 
 	return this;
-}
+};
 
 Wall.prototype.uploadFile = function() {
 	if (this._uploading)
@@ -319,7 +317,7 @@ Wall.prototype.uploadFile = function() {
 		this._fileWidget.click();
 
 	return this;
-}
+};
 
 Wall.prototype._uploadFile = function(fd) {
 	if (!this._uploadURL)
@@ -368,7 +366,7 @@ Wall.prototype._uploadFile = function(fd) {
 
 		blob = fd.slice(offset, offset + chunksize);
 		filereader.readAsDataURL(blob);
-	}
+	};
 
 	const postdata = (data) => {
 		$.post(uploadurl, {file_id: id, file_size: filesize, file_type: filetype, file_offset: offset, file_data: data})
@@ -445,7 +443,7 @@ Wall.prototype._uploadFile = function(fd) {
 	uploadslice();
 
 	return this;
-}
+};
 
 Wall.prototype.deleteFile = function() {
 	if (!this._deleteURL)
@@ -488,7 +486,7 @@ Wall.prototype.deleteFile = function() {
 	deletefile();
 
 	return this;
-}
+};
 
 Wall.prototype.downloadFile = function() {
 	if (!this._downloadURL)
@@ -500,7 +498,7 @@ Wall.prototype.downloadFile = function() {
 	window.open(`${this._downloadURL}/${this._slots[this._tag].file}`);
 
 	return this;
-}
+};
 
 Wall.prototype.selectTag = function(id) {
 	if (this._tag === id)
@@ -527,7 +525,7 @@ Wall.prototype.selectTag = function(id) {
 		this.resetWidget();
 
 	return this;
-}
+};
 
 Wall.prototype.unselectTag = function() {
 	if (!this._tag)
@@ -544,12 +542,12 @@ Wall.prototype.unselectTag = function() {
 		this.resetWidget();
 
 	return this;
-}
+};
 
 Wall.prototype._clickImage = function(e, id) {
 	if (e.shiftKey) {
 		if (!this._downloadURL)
-			return this;
+			return;
 
 		window.open(`${this._downloadURL}/${this._slots[id].file}`);
 	}
@@ -559,4 +557,4 @@ Wall.prototype._clickImage = function(e, id) {
 		else
 			this.selectTag(id);
 	}
-}
+};

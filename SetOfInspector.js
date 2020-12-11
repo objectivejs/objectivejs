@@ -1,14 +1,14 @@
 /**
  *
  * @copyright  2020 objectivejs.org
- * @version    4
+ * @version    5
  * @link       http://www.objectivejs.org
  */
 
 "use strict";
 
 function SetOfInspector(inspector, options = false) {
-	if (! inspector instanceof Inspector)
+	if (!( inspector instanceof Inspector))
 		throw new TypeError();
 
 	options = options || {};
@@ -55,37 +55,37 @@ Object.defineProperty(SetOfInspector.prototype, 'constructor', { value: SetOfIns
 
 Object.defineProperty(SetOfInspector.prototype, 'itemIndex', {
 	get:	function() {
-				return this._pos;
-			},
+		return this._pos;
+	},
 	set:	function(pos) {
-				if (!Number.isInteger(pos))
-					throw new TypeError();
+		if (!Number.isInteger(pos))
+			throw new TypeError();
 
-				const len = this._value.length || 1;
+		const len = this._value.length || 1;
 
-				if (pos == -1)
-					this._pos = len;
-				else if (pos < 1 || pos > len)
-					throw new RangeError();
-				else
-					this._pos = pos;
+		if (pos == -1)
+			this._pos = len;
+		else if (pos < 1 || pos > len)
+			throw new RangeError();
+		else
+			this._pos = pos;
 
-				this.resetWidget();
-			}
+		this.resetWidget();
+	}
 });
 
 Object.defineProperty(SetOfInspector.prototype, 'defaultItem', {
 	get:	function() {
-				return this._defaultItem;
-			},
+		return this._defaultItem;
+	},
 	set:	function(val) {
-				this._defaultItem = val;
-			}
+		this._defaultItem = val;
+	}
 });
 
 SetOfInspector.prototype.validate = function(val) {
 	return val === null || Array.isArray(val);
-}
+};
 
 SetOfInspector.prototype.normalize = function(val) {
 	if (val === null)
@@ -94,11 +94,11 @@ SetOfInspector.prototype.normalize = function(val) {
 		val = val.slice(0, this._max);
 
 	return val;
-}
+};
 
 SetOfInspector.prototype.get = function() {
 	return this._value.length > 0 ? Array.from(this._value) : null;
-}
+};
 
 SetOfInspector.prototype.set = function(val) {
 	if (!this.validate(val))
@@ -116,11 +116,11 @@ SetOfInspector.prototype.set = function(val) {
 	}
 
 	return true;
-}
+};
 
 SetOfInspector.prototype.reset = function() {
 	return this._inspector.reset();
-}
+};
 
 SetOfInspector.prototype.disable = function() {
 	this._inspector.disable();
@@ -150,7 +150,7 @@ SetOfInspector.prototype.disable = function() {
 		this._posWidget.hidden = true;
 
 	return this;
-}
+};
 
 SetOfInspector.prototype.enable = function() {
 	this._inspector.enable();
@@ -180,7 +180,7 @@ SetOfInspector.prototype.enable = function() {
 		this._posWidget.hidden = false;
 
 	return this;
-}
+};
 
 SetOfInspector.prototype.inspectorValueChanged = function(sender) {
 	this._value[this._pos-1] = sender.get();
@@ -188,11 +188,11 @@ SetOfInspector.prototype.inspectorValueChanged = function(sender) {
 	this.nextRespondTo('inspectorValueChanged', this);
 
 	return true;
-}
+};
 
 SetOfInspector.prototype.forward = function(f, ...args) {
 	this._inspector.forwardTo(f, args);
-}
+};
 
 SetOfInspector.prototype.addItem = function() {
 	if (this._max && this._value.length >= this._max)
@@ -208,7 +208,7 @@ SetOfInspector.prototype.addItem = function() {
 	this.resetWidget();
 
 	return true;
-}
+};
 
 SetOfInspector.prototype.insertItem = function() {
 	if (this._max && this._value.length >= this._max)
@@ -219,7 +219,7 @@ SetOfInspector.prototype.insertItem = function() {
 	this.resetWidget();
 
 	return true;
-}
+};
 
 SetOfInspector.prototype.removeItem = function() {
 	if (this._value.length == 0 || (this._min && this._value.length <= this._min))
@@ -235,7 +235,7 @@ SetOfInspector.prototype.removeItem = function() {
 	this.resetWidget();
 
 	return true;
-}
+};
 
 SetOfInspector.prototype.moveItem = function(from, to = false) {
 	if (this._value.length <= 1)
@@ -244,7 +244,7 @@ SetOfInspector.prototype.moveItem = function(from, to = false) {
 	if (to === false)
 		to = from, from = this._pos;
 
-	if (from < 1 || to < 1 || from == to || from > this._value.length || to > this._value.length)
+	if (from < 1 || to < 1 || from == to || from > this._value.length || to > this._value.length)
 		return false;
 
 	const val = this._value[from-1];
@@ -255,7 +255,7 @@ SetOfInspector.prototype.moveItem = function(from, to = false) {
 	this.resetWidget();
 
 	return true;
-}
+};
 
 SetOfInspector.prototype.shiftItem = function() {
 	if (this._value.length <= 1)
@@ -274,7 +274,7 @@ SetOfInspector.prototype.shiftItem = function() {
 	this.resetWidget();
 
 	return true;
-}
+};
 
 SetOfInspector.prototype.unshiftItem = function() {
 	if (this._value.length <= 1)
@@ -293,7 +293,7 @@ SetOfInspector.prototype.unshiftItem = function() {
 	this.resetWidget();
 
 	return true;
-}
+};
 
 SetOfInspector.prototype.setPreviousWidget = function(w) {
 	w.addEventListener('click', () => {
@@ -309,7 +309,7 @@ SetOfInspector.prototype.setPreviousWidget = function(w) {
 	this._previousWidget = w;
 
 	return this;
-}
+};
 
 SetOfInspector.prototype.setNextWidget = function(w) {
 	w.addEventListener('click', () => {
@@ -325,7 +325,7 @@ SetOfInspector.prototype.setNextWidget = function(w) {
 	this._nextWidget = w;
 
 	return this;
-}
+};
 
 SetOfInspector.prototype.setAddWidget = function(w) {
 	w.addEventListener('click', () => {
@@ -338,7 +338,7 @@ SetOfInspector.prototype.setAddWidget = function(w) {
 	this._addWidget = w;
 
 	return this;
-}
+};
 
 SetOfInspector.prototype.setInsertWidget = function(w) {
 	w.addEventListener('click', () => {
@@ -351,7 +351,7 @@ SetOfInspector.prototype.setInsertWidget = function(w) {
 	this._insertWidget = w;
 
 	return this;
-}
+};
 
 SetOfInspector.prototype.setRemoveWidget = function(w) {
 	w.addEventListener('click', () => {
@@ -364,7 +364,7 @@ SetOfInspector.prototype.setRemoveWidget = function(w) {
 	this._removeWidget = w;
 
 	return this;
-}
+};
 
 SetOfInspector.prototype.setShiftWidget = function(w) {
 	w.addEventListener('click', () => {
@@ -377,7 +377,7 @@ SetOfInspector.prototype.setShiftWidget = function(w) {
 	this._shiftWidget = w;
 
 	return this;
-}
+};
 
 
 SetOfInspector.prototype.setUnshiftWidget = function(w) {
@@ -391,7 +391,7 @@ SetOfInspector.prototype.setUnshiftWidget = function(w) {
 	this._unshiftWidget = w;
 
 	return this;
-}
+};
 
 SetOfInspector.prototype.setIndexWidget = function(w) {
 	w.innerText = this._value.length > 0 ? `${this._pos} / ${this._value.length}` : '';
@@ -399,7 +399,7 @@ SetOfInspector.prototype.setIndexWidget = function(w) {
 	this._posWidget = w;
 
 	return this;
-}
+};
 
 SetOfInspector.prototype.resetWidget = function() {
 	this._inspector.set(this._value[this._pos-1]);
@@ -429,13 +429,13 @@ SetOfInspector.prototype.resetWidget = function() {
 		this._posWidget.innerText = this._value.length > 0 ? `${this._pos} / ${this._value.length}` : '';
 
 	return this;
-}
+};
 
 SetOfInspector.prototype.setWidget = function(w) {
 	View.prototype.setWidget.call(this, w);
 
 	return this;
-}
+};
 
 SetOfInspector.prototype.destroyWidget = function() {
 	this._inspector.destroyWidget();
@@ -443,4 +443,4 @@ SetOfInspector.prototype.destroyWidget = function() {
 	View.prototype.destroyWidget.call(this);
 
 	return this;
-}
+};

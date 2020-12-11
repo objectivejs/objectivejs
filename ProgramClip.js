@@ -1,7 +1,7 @@
 /**
  *
- * @copyright  2019 objectivejs.org
- * @version    1
+ * @copyright  2019-2020 objectivejs.org
+ * @version    2
  * @link       http://www.objectivejs.org
  */
 
@@ -20,25 +20,25 @@ Object.defineProperty(ProgramClip.prototype, 'constructor', { value: ProgramClip
 
 Object.defineProperty(ProgramClip.prototype, 'playbackRate', {
 	get:	function() {
-				return this._playbackRate;
-			},
+		return this._playbackRate;
+	},
 	set:	function(r) {
-				if (typeof r !== 'number')
-					throw new TypeError();
+		if (typeof r !== 'number')
+			throw new TypeError();
 
-				if (r < Clip.minPlaybackRate || r > Clip.maxPlaybackRate)
-					throw new RangeError();
+		if (r < Clip.minPlaybackRate || r > Clip.maxPlaybackRate)
+			throw new RangeError();
 
-				this._playbackRate = r;
+		this._playbackRate = r;
 
-				if (this._timer)
-					this._startTimer();
-			}
+		if (this._timer)
+			this._startTimer();
+	}
 });
 
 ProgramClip.prototype.drawWidget = function() {
 	return this;
-}
+};
 
 ProgramClip.prototype.setInterval = function(ms) {
 	if (!Number.isInteger(ms))
@@ -56,7 +56,7 @@ ProgramClip.prototype.setInterval = function(ms) {
 		this._startTimer();
 
 	return this;
-}
+};
 
 ProgramClip.prototype.seek = function(ms) {
 	if (!Number.isInteger(ms))
@@ -79,7 +79,7 @@ ProgramClip.prototype.seek = function(ms) {
 	this.notify('clipSeeked', this);
 
 	return this;
-}
+};
 
 ProgramClip.prototype.play = function() {
 	if (this._timer)
@@ -93,7 +93,7 @@ ProgramClip.prototype.play = function() {
 	this._startTimer();
 
 	return this;
-}
+};
 
 ProgramClip.prototype.pause = function() {
 	if (!this._timer)
@@ -104,7 +104,7 @@ ProgramClip.prototype.pause = function() {
 	this._stopTimer();
 
 	return this;
-}
+};
 
 ProgramClip.prototype._startTimer = function() {
 	if (this._timer)
@@ -129,7 +129,7 @@ ProgramClip.prototype._startTimer = function() {
 	}, Math.floor(this._interval / this._playbackRate));
 
 	return this;
-}
+};
 
 ProgramClip.prototype._stopTimer = function() {
 	if (this._timer) {
@@ -139,4 +139,4 @@ ProgramClip.prototype._stopTimer = function() {
 	}
 
 	return this;
-}
+};

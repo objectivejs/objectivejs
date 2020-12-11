@@ -1,7 +1,7 @@
 /**
  *
  * @copyright  2019-2020 objectivejs.org
- * @version    2
+ * @version    3
  * @link       http://www.objectivejs.org
  */
 
@@ -12,7 +12,7 @@ function Objective() {
 
 Objective.prototype.clone = function() {
 	return Object.assign(Object.create(this), this);
-}
+};
 
 Objective.prototype.delegate = function(f = null, ...args) {
 	let d = this._delegate;
@@ -27,7 +27,7 @@ Objective.prototype.delegate = function(f = null, ...args) {
 		return undefined;
 
 	return d[f](...args);
-}
+};
 
 Objective.prototype.setDelegate = function(d) {
 	if (! (d === null || (typeof d === 'object')))
@@ -36,11 +36,11 @@ Objective.prototype.setDelegate = function(d) {
 	this._delegate = d;
 
 	return this;
-}
+};
 
 Objective.prototype.hasListener = function(l) {
 	return this._listeners !== undefined && this._listeners.indexOf(l) != -1;
-}
+};
 
 Objective.prototype.addListener = function(l) {
 	if (this._listeners === undefined)
@@ -49,7 +49,7 @@ Objective.prototype.addListener = function(l) {
 		this._listeners.push(l);
 
 	return this;
-}
+};
 
 Objective.prototype.removeListener = function(l) {
 	if (this._listeners !== undefined) {
@@ -60,23 +60,23 @@ Objective.prototype.removeListener = function(l) {
 	}
 
 	return this;
-}
+};
 
 Objective.prototype.notify = function(f, ...args) {
 	if (this._listeners !== undefined) {
-    	for (let l of this._listeners)
-    		l.forwardTo(f, ...args)
-    }
+		for (let l of this._listeners)
+			l.forwardTo(f, ...args);
+	}
 
-    return this;
-}
+	return this;
+};
 
 Objective.prototype.forwardTo = function(f, ...args) {
 	if (typeof this[f] === 'function')
 		this[f](...args);
 	else
 		this.forward(f, ...args);
-}
+};
 
 Objective.prototype.forward = function(f, ...args) {
-}
+};

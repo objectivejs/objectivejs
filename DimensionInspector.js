@@ -1,7 +1,7 @@
 /**
  *
- * @copyright  2019 objectivejs.org
- * @version    1
+ * @copyright  2019-2020 objectivejs.org
+ * @version    2
  * @link       http://www.objectivejs.org
  */
 
@@ -31,7 +31,7 @@ function DimensionInspector(width = 0, height = 0, options = false) {
 
 	Inspector.call(this);
 
-	const widthInspector = new NumberInspector(width, {min: minWidth, max: maxWidth})
+	const widthInspector = new NumberInspector(width, {min: minWidth, max: maxWidth});
 	const heightInspector = new NumberInspector(height, {min: minHeight, max: maxHeight});
 
 	this._widthInspector = widthInspector.addNextResponder(this);
@@ -46,41 +46,41 @@ Object.defineProperty(DimensionInspector.prototype, 'constructor', { value: Dime
 
 Object.defineProperty(DimensionInspector.prototype, 'ratio', {
 	get:	function() {
-				return this._ratio;
-			}
+		return this._ratio;
+	}
 });
 
 Object.defineProperty(DimensionInspector.prototype, 'minWidth', {
 	get:	function() {
-				return this._widthInspector.min;
-			}
+		return this._widthInspector.min;
+	}
 });
 
 Object.defineProperty(DimensionInspector.prototype, 'maxWidth', {
 	get:	function() {
-				return this._widthInspector.max;
-			}
+		return this._widthInspector.max;
+	}
 });
 
 Object.defineProperty(DimensionInspector.prototype, 'minHeight', {
 	get:	function() {
-				return this._heightInspector.min;
-			}
+		return this._heightInspector.min;
+	}
 });
 
 Object.defineProperty(DimensionInspector.prototype, 'maxHeight', {
 	get:	function() {
-				return this._heightInspector.max;
-			}
+		return this._heightInspector.max;
+	}
 });
 
 DimensionInspector.prototype.validate = function(val) {
 	return Array.isArray(val) && val.length == 2 && this._widthInspector.validate(val[0]) && this._heightInspector.validate(val[1]);
-}
+};
 
 DimensionInspector.prototype.get = function() {
 	return [this._widthInspector.get(), this._heightInspector.get()];
-}
+};
 
 DimensionInspector.prototype.set = function(val) {
 	if (!this.validate(val))
@@ -110,7 +110,7 @@ DimensionInspector.prototype.set = function(val) {
 		this.resetWidget();
 
 	return true;
-}
+};
 
 DimensionInspector.prototype.setOptions = function(width, height, options) {
 	options = options || {};
@@ -133,8 +133,8 @@ DimensionInspector.prototype.setOptions = function(width, height, options) {
 		}
 	}
 
- 	return this;
-}
+	return this;
+};
 
 DimensionInspector.prototype.validateOptions = function(width, height, options) {
 	let ratio = DimensionInspector._computeRatio(width, height);
@@ -192,17 +192,17 @@ DimensionInspector.prototype.validateOptions = function(width, height, options) 
 	options.maxHeight = maxHeight;
 
 	return ratio;
-}
+};
 
 DimensionInspector.prototype.adjustWidth = function() {
 	if (this._ratio)
 		this._widthInspector.set(2 * Math.round(this._heightInspector.get() * this._ratio / 2));
-}
+};
 
 DimensionInspector.prototype.adjustHeight = function() {
 	if (this._ratio)
 		this._heightInspector.set(2 * Math.round(this._widthInspector.get() / this._ratio / 2));
-}
+};
 
 DimensionInspector.prototype.inspectorValueChanged = function(sender) {
 	if (sender === this._widthInspector)
@@ -213,14 +213,14 @@ DimensionInspector.prototype.inspectorValueChanged = function(sender) {
 	this.nextRespondTo('inspectorValueChanged', this);
 
 	return true;
-}
+};
 
-DimensionInspector.prototype.resetWidget = function(val) {
+DimensionInspector.prototype.resetWidget = function() {
 	this._widthInspector.resetWidget();
 	this._heightInspector.resetWidget();
 
 	return true;
-}
+};
 
 DimensionInspector.prototype.setWidget = function(w) {
 	let wlist = w.querySelectorAll('input[type=number]');
@@ -234,6 +234,6 @@ DimensionInspector.prototype.setWidget = function(w) {
 	View.prototype.setWidget.call(this, w);
 
 	return this;
-}
+};
 
 DimensionInspector._computeRatio = (w, h) => w !== 0 && h !== 0 ? Math.round(w / h * 100) / 100 : 0;

@@ -33,220 +33,220 @@ Object.defineProperty(DrawingArea.prototype, 'constructor', { value: DrawingArea
 
 Object.defineProperty(DrawingArea.prototype, 'size', {
 	get:	function() {
-				return [this._width, this._height];
-			},
+		return [this._width, this._height];
+	},
 	set:	function(size) {
-				if (! (Array.isArray(size) && size.length == 2))
-					throw new TypeError();
+		if (! (Array.isArray(size) && size.length == 2))
+			throw new TypeError();
 
-				const [width, height] = size;
+		const [width, height] = size;
 
-				if (! (Number.isInteger(width) && Number.isInteger(height)))
-					throw new TypeError();
+		if (! (Number.isInteger(width) && Number.isInteger(height)))
+			throw new TypeError();
 
-				if (width < 0 || height < 0)
-					throw new RangeError();
+		if (width < 0 || height < 0)
+			throw new RangeError();
 
-				if (this._width != width || this._height != height) {
-					this._width = width;
-					this._height = height;
+		if (this._width != width || this._height != height) {
+			this._width = width;
+			this._height = height;
 
-					if (this.interfaced()) {
-						this._ctxTransform();
-						this._drawImage();
-					}
-				}
+			if (this.interfaced()) {
+				this._ctxTransform();
+				this._drawImage();
 			}
+		}
+	}
 });
 
 Object.defineProperty(DrawingArea.prototype, 'hflip', {
 	get:	function() {
-				return this._hflip;
-			},
+		return this._hflip;
+	},
 	set:	function(hflip) {
-				if (this._hflip != hflip) {
-					this._hflip = hflip ? true : false;
+		if (this._hflip != hflip) {
+			this._hflip = hflip ? true : false;
 
-					if (this.interfaced()) {
-						this._ctxTransform();
-						this._drawImage();
-					}
-				}
+			if (this.interfaced()) {
+				this._ctxTransform();
+				this._drawImage();
 			}
+		}
+	}
 });
 
 Object.defineProperty(DrawingArea.prototype, 'vflip', {
 	get:	function() {
-				return this._vflip;
-			},
+		return this._vflip;
+	},
 	set:	function(vflip) {
-				if (this._vflip != vflip) {
-					this._vflip = vflip ? true : false;
+		if (this._vflip != vflip) {
+			this._vflip = vflip ? true : false;
 
-					if (this.interfaced()) {
-						this._ctxTransform();
-						this._drawImage();
-					}
-				}
+			if (this.interfaced()) {
+				this._ctxTransform();
+				this._drawImage();
 			}
+		}
+	}
 });
 
 Object.defineProperty(DrawingArea.prototype, 'grayscale', {
 	get:	function() {
-				return this._grayscale;
-			},
+		return this._grayscale;
+	},
 	set:	function(grayscale) {
-				if (this._grayscale != grayscale) {
-					this._grayscale = grayscale ? true : false;
+		if (this._grayscale != grayscale) {
+			this._grayscale = grayscale ? true : false;
 
-					if (this.interfaced()) {
-						this._ctxFilter();
-						this._drawImage();
-					}
-				}
+			if (this.interfaced()) {
+				this._ctxFilter();
+				this._drawImage();
 			}
+		}
+	}
 });
 
 Object.defineProperty(DrawingArea.prototype, 'sepia', {
 	get:	function() {
-				return this._sepia;
-			},
+		return this._sepia;
+	},
 	set:	function(sepia) {
-				if (this._sepia != sepia) {
-					this._sepia = sepia ? true : false;
+		if (this._sepia != sepia) {
+			this._sepia = sepia ? true : false;
 
-					if (this.interfaced()) {
-						this._ctxFilter();
-						this._drawImage();
-					}
-				}
+			if (this.interfaced()) {
+				this._ctxFilter();
+				this._drawImage();
 			}
+		}
+	}
 });
 
 Object.defineProperty(DrawingArea.prototype, 'blur', {
 	get:	function() {
-				return this._blur;
-			},
+		return this._blur;
+	},
 	set:	function(blur) {
-				if (this._blur != blur) {
-					this._blur = blur ? true : false;
+		if (this._blur != blur) {
+			this._blur = blur ? true : false;
 
-					if (this.interfaced()) {
-						this._ctxFilter();
-						this._drawImage();
-					}
-				}
+			if (this.interfaced()) {
+				this._ctxFilter();
+				this._drawImage();
 			}
+		}
+	}
 });
 
 Object.defineProperty(DrawingArea.prototype, 'invert', {
 	get:	function() {
-				return this._invert;
-			},
+		return this._invert;
+	},
 	set:	function(invert) {
-				if (typeof invert !== 'number')
-					throw new TypeError();
+		if (typeof invert !== 'number')
+			throw new TypeError();
 
-				if (invert < 0 || invert > 1)
-					throw new RangeError();
+		if (invert < 0 || invert > 1)
+			throw new RangeError();
 
-				if (this._invert != invert) {
-					this._invert = invert;
+		if (this._invert != invert) {
+			this._invert = invert;
 
-					if (this.interfaced()) {
-						this._ctxFilter();
-						this._drawImage();
-					}
-				}
+			if (this.interfaced()) {
+				this._ctxFilter();
+				this._drawImage();
 			}
+		}
+	}
 });
 
 Object.defineProperty(DrawingArea.prototype, 'contrast', {
 	get:	function() {
-				return this._contrast;
-			},
+		return this._contrast;
+	},
 	set:	function(contrast) {
-				if (typeof contrast !== 'number')
-					throw new TypeError();
+		if (typeof contrast !== 'number')
+			throw new TypeError();
 
-				if (contrast < 0)
-					throw new RangeError();
+		if (contrast < 0)
+			throw new RangeError();
 
-				if (this._contrast != contrast) {
-					this._contrast = contrast;
+		if (this._contrast != contrast) {
+			this._contrast = contrast;
 
-					if (this.interfaced()) {
-						this._ctxFilter();
-						this._drawImage();
-					}
-				}
+			if (this.interfaced()) {
+				this._ctxFilter();
+				this._drawImage();
 			}
+		}
+	}
 });
 
 Object.defineProperty(DrawingArea.prototype, 'saturate', {
 	get:	function() {
-				return this._saturate;
-			},
+		return this._saturate;
+	},
 	set:	function(saturate) {
-				if (typeof saturate !== 'number')
-					throw new TypeError();
+		if (typeof saturate !== 'number')
+			throw new TypeError();
 
-				if (saturate < 0)
-					throw new RangeError();
+		if (saturate < 0)
+			throw new RangeError();
 
-				if (this._saturate != saturate) {
-					this._saturate = saturate;
+		if (this._saturate != saturate) {
+			this._saturate = saturate;
 
-					if (this.interfaced()) {
-						this._ctxFilter();
-						this._drawImage();
-					}
-				}
+			if (this.interfaced()) {
+				this._ctxFilter();
+				this._drawImage();
 			}
+		}
+	}
 });
 
 Object.defineProperty(DrawingArea.prototype, 'brightness', {
 	get:	function() {
-				return this._brightness;
-			},
+		return this._brightness;
+	},
 	set:	function(brightness) {
-				if (typeof brightness !== 'number')
-					throw new TypeError();
+		if (typeof brightness !== 'number')
+			throw new TypeError();
 
-				if (brightness < 0)
-					throw new RangeError();
+		if (brightness < 0)
+			throw new RangeError();
 
-				if (this._brightness != brightness) {
-					this._brightness = brightness;
+		if (this._brightness != brightness) {
+			this._brightness = brightness;
 
-					if (this.interfaced()) {
-						this._ctxFilter();
-						this._drawImage();
-					}
-				}
+			if (this.interfaced()) {
+				this._ctxFilter();
+				this._drawImage();
 			}
+		}
+	}
 });
 
 Object.defineProperty(DrawingArea.prototype, 'opacity', {
 	get:	function() {
-				return this._opacity;
-			},
+		return this._opacity;
+	},
 	set:	function(opacity) {
-				if (typeof opacity !== 'number')
-					throw new TypeError();
+		if (typeof opacity !== 'number')
+			throw new TypeError();
 
-				if (opacity < 0 || opacity > 1)
-					throw new RangeError();
+		if (opacity < 0 || opacity > 1)
+			throw new RangeError();
 
-				if (this._opacity != opacity) {
-					this._opacity = opacity;
+		if (this._opacity != opacity) {
+			this._opacity = opacity;
 
-					if (this.interfaced()) {
-						this._ctxFilter();
-						this._drawImage();
-					}
-				}
+			if (this.interfaced()) {
+				this._ctxFilter();
+				this._drawImage();
 			}
+		}
+	}
 });
 
 DrawingArea.prototype.getOptions = function() {
@@ -332,7 +332,7 @@ DrawingArea.prototype.setImage = function(w) {
 	this._drawImage();
 
 	return this;
-}
+};
 
 DrawingArea.prototype.setWidget = function(w) {
 	if (! (w.tagName == 'IMG' || w.tagName == 'VIDEO' || w.tagName == 'CANVAS'))
@@ -371,7 +371,7 @@ DrawingArea.prototype.setWidget = function(w) {
 	}
 
 	return this;
-}
+};
 
 DrawingArea.prototype._ctxFilter = function() {
 	let filter = [];
@@ -401,7 +401,7 @@ DrawingArea.prototype._ctxFilter = function() {
 		filter.push(`opacity(${this._opacity})`);
 
 	this._ctx.filter = filter.length ? filter.join(' ') : 'none';
-}
+};
 
 DrawingArea.prototype._ctxTransform = function() {
 	this._widget.width = this._width;
@@ -410,7 +410,7 @@ DrawingArea.prototype._ctxTransform = function() {
 	this._ctx.transform(this._hflip ? -1 : 1, 0, 0, this._vflip ? -1 : 1, this._hflip ? this._widget.width : 0, this._vflip ? this._widget.height : 0);
 
 	this._ctxFilter();
-}
+};
 
 DrawingArea.prototype._drawImage = function() {
 	if (this._widget.width == 0 || this._widget.height == 0)
@@ -438,4 +438,4 @@ DrawingArea.prototype._drawImage = function() {
 	}
 	else
 		this._ctx.drawImage(this._image, 0, 0, this._widget.width, this._widget.height);
-}
+};

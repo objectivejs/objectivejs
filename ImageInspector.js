@@ -1,7 +1,7 @@
 /**
  *
  * @copyright  2020 objectivejs.org
- * @version    1
+ * @version    2
  * @link       http://www.objectivejs.org
  */
 
@@ -62,47 +62,47 @@ ImageInspector.defaultFileTypes = ['image/jpeg', 'image/png', 'image/gif'];
 
 Object.defineProperty(ImageInspector.prototype, 'width', {
 	get:	function() {
-				return this._width;
-			}
+		return this._width;
+	}
 });
 
 Object.defineProperty(ImageInspector.prototype, 'height', {
 	get:	function() {
-				return this._height;
-			}
+		return this._height;
+	}
 });
 
 Object.defineProperty(ImageInspector.prototype, 'type', {
 	get:	function() {
-				if (!this._value)
-					return undefined;
+		if (!this._value)
+			return undefined;
 
-				if (this._type === undefined)
-					this._type = /^data:(image\/[-.+0-9a-zA-Z]+);base64,/.exec(this._value)[1];
+		if (this._type === undefined)
+			this._type = /^data:(image\/[-.+0-9a-zA-Z]+);base64,/.exec(this._value)[1];
 
-				return this._type;
-			}
+		return this._type;
+	}
 });
 
 Object.defineProperty(ImageInspector.prototype, 'size', {
 	get:	function() {
-				if (!this._value)
-					return 0;
+		if (!this._value)
+			return 0;
 
-				if (!this._size)
-					this._size = atob(this._value.substring(this._value.indexOf(',')+1)).length;
+		if (!this._size)
+			this._size = atob(this._value.substring(this._value.indexOf(',')+1)).length;
 
-				return this._size;
-			}
+		return this._size;
+	}
 });
 
 ImageInspector.prototype.validate = function(val) {
 	return val === null || (Array.isArray(val) && Validator.validateImageDataURL(val[0]) && Number.isInteger(val[1]) && Number.isInteger(val[2]) && val[1] >= 0 && val[2] >= 0);
-}
+};
 
 ImageInspector.prototype.get = function() {
 	return this._value ? [this._value, this._width, this._height] : null;
-}
+};
 
 ImageInspector.prototype.set = function(val) {
 	if (!this.validate(val))
@@ -123,14 +123,14 @@ ImageInspector.prototype.set = function(val) {
 	}
 
 	return true;
-}
+};
 
 ImageInspector.prototype.loadImage = function() {
 	if (this._widget)
 		this._widget.click();
 
 	return this;
-}
+};
 
 ImageInspector.prototype.reset = function() {
 	if (!this._widget)
@@ -142,7 +142,7 @@ ImageInspector.prototype.reset = function() {
 	this._loadurl(this._imageWidget.src);
 
 	return true;
-}
+};
 
 ImageInspector.prototype.disable = function() {
 	Inspector.prototype.disable.call(this);
@@ -150,8 +150,8 @@ ImageInspector.prototype.disable = function() {
 	if (this._imageWidget && this._loadonclick)
 		this._imageWidget.style.cursor = 'default';
 
-    return this;
-}
+	return this;
+};
 
 ImageInspector.prototype.enable = function() {
 	Inspector.prototype.enable.call(this);
@@ -159,15 +159,15 @@ ImageInspector.prototype.enable = function() {
 	if (this._imageWidget && this._loadonclick)
 		this._imageWidget.style.cursor = 'pointer';
 
-    return this;
-}
+	return this;
+};
 
 ImageInspector.prototype.changeCallback = function(e) {
 	let val = e.target.value ? e.target.files[0] : false;
 
 	if (val)
 		this._loadblob(e.target.files[0]);
-}
+};
 
 ImageInspector.prototype.resetWidget = function() {
 	if (this._imageWidget) {
@@ -177,7 +177,7 @@ ImageInspector.prototype.resetWidget = function() {
 	}
 
 	return this;
-}
+};
 
 ImageInspector.prototype.setWidget = function(w) {
 	if (w.tagName != 'IMG')
@@ -238,16 +238,16 @@ ImageInspector.prototype.setWidget = function(w) {
 	this._imageWidgetSrc = w.src;
 
 	return this;
-}
+};
 
 ImageInspector.prototype.manageWidget = function(parent = null) {
 	Inspector.prototype.manageWidget.call(this, parent);
 
-    if (this._parent && this._imageWidget)
+	if (this._parent && this._imageWidget)
 		this._parent.appendChild(this._imageWidget);
 
 	return this;
-}
+};
 
 ImageInspector.prototype.unmanageWidget = function() {
 	Inspector.prototype.unmanageWidget.call(this);
@@ -256,21 +256,21 @@ ImageInspector.prototype.unmanageWidget = function() {
 		this._parent.removeChild(this._imageWidget);
 
 	return this;
-}
+};
 
 ImageInspector.prototype.createWidget = function() {
 	const html = `<img src="${this._imageWidgetSrc}" alt="" title="" />`;
 
 	let template = document.createElement('template');
 
-    template.innerHTML = html;
+	template.innerHTML = html;
 
-    let widget = template.content.children[0];
+	let widget = template.content.children[0];
 
 	this.setWidget(widget);
 
 	return this;
-}
+};
 
 ImageInspector.prototype.destroyWidget = function() {
 	Inspector.prototype.destroyWidget.call(this);
@@ -278,7 +278,7 @@ ImageInspector.prototype.destroyWidget = function() {
 	this._imageWwidget = null;
 
 	return this;
-}
+};
 
 ImageInspector.prototype._loadurl = function(url) {
 	const req = new XMLHttpRequest();
@@ -287,12 +287,12 @@ ImageInspector.prototype._loadurl = function(url) {
 	req.responseType = 'blob';
 	req.setRequestHeader = this._filetypes.join(',');
 
-	req.onload = () => this._loadblob(req.response, false);
+	req.onload = () => this._loadblob(req.response);
 
 	req.send();
-}
+};
 
-ImageInspector.prototype._loadblob = function(blob, notify = true) {
+ImageInspector.prototype._loadblob = function(blob) {
 	if (this._maxsize > 0 && blob.size > this._maxsize)
 		return;
 
@@ -306,7 +306,7 @@ ImageInspector.prototype._loadblob = function(blob, notify = true) {
 
 		if (this._value !== data) {
 			this._value = data;
-			this._width = this._height = 0
+			this._width = this._height = 0;
 			this._type = undefined;
 			this._size = blob.size;
 
@@ -318,7 +318,7 @@ ImageInspector.prototype._loadblob = function(blob, notify = true) {
 	};
 
 	reader.readAsDataURL(blob);
-}
+};
 
 ImageInspector.prototype._onloadsrc = function(e) {
 	const data = e.target.src;
@@ -341,4 +341,4 @@ ImageInspector.prototype._onloadsrc = function(e) {
 	}
 	else
 		this._imageWidget.setAttribute('title', '');
-}
+};

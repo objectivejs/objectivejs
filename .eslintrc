@@ -1,0 +1,50 @@
+{
+    "env": {
+        "browser": true,
+        "es6": true,
+        "jquery": true
+    },
+    "extends": "eslint:recommended",
+    "parserOptions": {
+        "ecmaVersion": 6
+    },
+    "rules": {
+        "consistent-return": [
+            "error"
+        ],
+        "indent": [
+            "error",
+            "tab",
+            { "SwitchCase": 1, "MemberExpression": "off" }
+        ], 
+        "linebreak-style": [
+            "error",
+            "unix"
+        ],
+        "no-unused-vars": [
+            "error",
+            { "caughtErrorsIgnorePattern": "^err" }
+        ],
+        "semi": [
+            "error",
+            "always"
+        ]
+    },
+    "globals": {
+        "Objective": "readonly",
+        "Once": "readonly",
+        "Model": "readonly",
+        "ClipModel": "readonly",
+        "Responder": "readonly",
+        "Editor": "readonly",
+        "View": "readonly",
+        "Clip": "readonly",
+        "DrawingArea": "readonly",
+        "Inspector": "readonly",
+        "NumberInspector": "readonly",
+        "Panel": "readonly",
+        "ListOfPanel": "readonly",
+        "Undo": "readonly",
+        "Validator": "readonly"
+    }
+}

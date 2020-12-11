@@ -1,7 +1,7 @@
 /**
  *
  * @copyright  2019-2020 objectivejs.org
- * @version    2
+ * @version    3
  * @link       http://www.objectivejs.org
  */
 
@@ -32,83 +32,83 @@ Clip.maxPlaybackRate = 5.0;
 
 Object.defineProperty(Clip.prototype, 'dimension', {
 	get:	function() {
-				return [this._width, this._height];
-			},
+		return [this._width, this._height];
+	},
 	set:	function(d) {
-				if (! (Array.isArray(d) && d.length == 2))
-					throw new TypeError();
+		if (! (Array.isArray(d) && d.length == 2))
+			throw new TypeError();
 
-				let [w, h] = d;
+		let [w, h] = d;
 
-				if (!Number.isInteger(w) || !Number.isInteger(h))
-					throw new TypeError();
+		if (!Number.isInteger(w) || !Number.isInteger(h))
+			throw new TypeError();
 
-				if (w < 0 || h < 0)
-					throw new RangeError();
+		if (w < 0 || h < 0)
+			throw new RangeError();
 
-				this._width = w;
-				this._height = h;
-			}
+		this._width = w;
+		this._height = h;
+	}
 });
 
 Object.defineProperty(Clip.prototype, 'duration', {
 	get:	function() {
-				return this._duration;
-			},
+		return this._duration;
+	}
 });
 
 Object.defineProperty(Clip.prototype, 'ended', {
 	get:	function() {
-				return this._ended;
-			}
+		return this._ended;
+	}
 });
 
 Object.defineProperty(Clip.prototype, 'paused', {
 	get:	function() {
-				return this._paused;
-			}
+		return this._paused;
+	}
 });
 
 Object.defineProperty(Clip.prototype, 'currentTime', {
 	get:	function() {
-				return this._currentTime;
-			}
+		return this._currentTime;
+	}
 });
 
 Object.defineProperty(Clip.prototype, 'playbackRate', {
 	get:	function() {
-				return this._playbackRate;
-			},
+		return this._playbackRate;
+	},
 	set:	function(r) {
-				if (typeof r !== 'number')
-					throw new TypeError();
+		if (typeof r !== 'number')
+			throw new TypeError();
 
-				if (r < Clip.minPlaybackRate || r > Clip.maxPlaybackRate)
-					throw new RangeError();
+		if (r < Clip.minPlaybackRate || r > Clip.maxPlaybackRate)
+			throw new RangeError();
 
-				this._playbackRate = r;
-			}
+		this._playbackRate = r;
+	}
 });
 
 Clip.prototype.seek = function(ms) {
 	return this;
-}
+};
 
 Clip.prototype.play = function() {
 	this._ended = this._paused = false;
 
 	return this;
-}
+};
 
 Clip.prototype.pause = function() {
 	this._paused = true;
 
 	return this;
-}
+};
 
 Clip.prototype.hasPlayer = function() {
 	return this._player;
-}
+};
 
 Clip.prototype.enablePlayer = function() {
 	if (this.hasPlayer())
@@ -125,14 +125,14 @@ Clip.prototype.enablePlayer = function() {
 	if (this._click === undefined) {
 		this._click = (e) => {
 			switch (e.type) {
-		    case 'click':
-		    	if (this._paused)
-		    		this.play();
-		    	else
-		    		this.pause();
-		    	break;
+				case 'click':
+					if (this._paused)
+						this.play();
+					else
+						this.pause();
+					break;
 			}
-		}
+		};
 	}
 
 	if (this._keydown === undefined) {
@@ -142,57 +142,57 @@ Clip.prototype.enablePlayer = function() {
 			let duration, currentTime, d, ms;
 
 			switch (e.key) {
-			case ' ':
-				if (this._paused)
-					this.play();
-				else
-					this.pause();
-				break;
+				case ' ':
+					if (this._paused)
+						this.play();
+					else
+						this.pause();
+					break;
 
-			case '0':
-				this.seek(0);
-				break;
+				case '0':
+					this.seek(0);
+					break;
 
-			case '+':
-				if (this.playbackRate < Clip.maxPlaybackRate)
-					this.playbackRate += 0.25;
-				break;
-			case '-':
-				if (this.playbackRate > Clip.minPlaybackRate)
-					this.playbackRate -= 0.25;
-				break;
-			case '*':
-				this.playbackRate = 1;
-				break;
+				case '+':
+					if (this.playbackRate < Clip.maxPlaybackRate)
+						this.playbackRate += 0.25;
+					break;
+				case '-':
+					if (this.playbackRate > Clip.minPlaybackRate)
+						this.playbackRate -= 0.25;
+					break;
+				case '*':
+					this.playbackRate = 1;
+					break;
 
-			case 'ArrowRight':
-			case 'ArrowUp':
-				duration = this.duration;
-				currentTime = this.currentTime;
-				d = e.shiftKey ? 10000 : (e.ctrlKey ? 100 : 1000);
-				ms = currentTime + d;
-				if (ms >= duration)
-					this.seek(ms % d);
-				else
-					this.seek(ms);
-				break;
-			case 'ArrowLeft':
-			case 'ArrowDown':
-				duration = this.duration;
-				currentTime = this.currentTime;
-				d = e.shiftKey ? 10000 : (e.ctrlKey ? 100 : 1000);
-				ms = currentTime - d;
-				if (ms < 0) {
-					ms = Math.floor(duration / d) * d + currentTime;
-					while (ms >= duration)
-						ms -= d;
-					this.seek(ms)
-				}
-				else
-					this.seek(ms);
-				break;
+				case 'ArrowRight':
+				case 'ArrowUp':
+					duration = this.duration;
+					currentTime = this.currentTime;
+					d = e.shiftKey ? 10000 : (e.ctrlKey ? 100 : 1000);
+					ms = currentTime + d;
+					if (ms >= duration)
+						this.seek(ms % d);
+					else
+						this.seek(ms);
+					break;
+				case 'ArrowLeft':
+				case 'ArrowDown':
+					duration = this.duration;
+					currentTime = this.currentTime;
+					d = e.shiftKey ? 10000 : (e.ctrlKey ? 100 : 1000);
+					ms = currentTime - d;
+					if (ms < 0) {
+						ms = Math.floor(duration / d) * d + currentTime;
+						while (ms >= duration)
+							ms -= d;
+						this.seek(ms);
+					}
+					else
+						this.seek(ms);
+					break;
 			}
-		}
+		};
 	}
 
 	this.setAttribute('tabindex', 0);
@@ -210,7 +210,7 @@ Clip.prototype.enablePlayer = function() {
 	this._player = true;
 
 	return this;
-}
+};
 
 Clip.prototype.disablePlayer = function() {
 	if (!this.hasPlayer())
@@ -231,7 +231,7 @@ Clip.prototype.disablePlayer = function() {
 	this._player = false;
 
 	return this;
-}
+};
 
 Clip.prototype.setWidget = function(w) {
 	View.prototype.setWidget.call(this, w);
@@ -240,7 +240,7 @@ Clip.prototype.setWidget = function(w) {
 	this._height = w.offsetHeight;
 
 	return this;
-}
+};
 
 Clip.prototype.reset = function() {
 	if (this._widget) {
@@ -249,4 +249,4 @@ Clip.prototype.reset = function() {
 	}
 
 	return this;
-}
+};

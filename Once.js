@@ -1,14 +1,14 @@
 /**
  *
  * @copyright  2019-2020 objectivejs.org
- * @version    2
+ * @version    3
  * @link       http://www.objectivejs.org
  */
 
 "use strict";
 
 function Once() {
-    return this.constructor._instance || (this.constructor._instance = this);
+	return this.constructor._instance || (this.constructor._instance = this);
 }
 
 Once.prototype = Object.create(Objective.prototype);
@@ -17,4 +17,4 @@ Object.defineProperty(Once.prototype, 'constructor', { value: Once, enumerable: 
 
 Once.prototype.clone = function() {
 	return this;
-}
+};

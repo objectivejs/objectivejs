@@ -1,7 +1,7 @@
 /**
  *
- * @copyright  2019 objectivejs.org
- * @version    1
+ * @copyright  2019-2020 objectivejs.org
+ * @version    2
  * @link       http://www.objectivejs.org
  */
 
@@ -34,7 +34,7 @@ Object.defineProperty(SelectInspector.prototype, 'constructor', { value: SelectI
 
 SelectInspector.prototype.validate = function(val) {
 	return typeof val === 'string' && this._tags.indexOf(val) != -1;
-}
+};
 
 SelectInspector.prototype.createWidget = function(options = false) {
 	options = options || {};
@@ -57,4 +57,4 @@ SelectInspector.prototype.createWidget = function(options = false) {
 	this.setWidget(widget);
 
 	return this;
-}
+};
