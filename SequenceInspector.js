@@ -1,7 +1,7 @@
 /**
  *
  * @copyright  2020 objectivejs.org
- * @version    2
+ * @version    3
  * @link       http://www.objectivejs.org
  */
 
@@ -78,6 +78,15 @@ SequenceInspector.prototype.resetWidget = function() {
 
 SequenceInspector.prototype.setWidget = function(w) {
 	View.prototype.setWidget.call(this, w);
+
+	return this;
+}
+
+SequenceInspector.prototype.destroyWidget = function() {
+	for (let p in this._inspectors)
+		this._inspectors[p].destroyWidget();
+
+	View.prototype.destroyWidget.call(this);
 
 	return this;
 }
