@@ -1,7 +1,7 @@
 /**
  *
- * @copyright  2019 objectivejs.org
- * @version    1
+ * @copyright  2019-2020 objectivejs.org
+ * @version    2
  * @link       http://www.objectivejs.org
  */
 
@@ -48,7 +48,7 @@ SolarSystemClip.prototype.setWidget = function(w) {
 	Clip.prototype.setWidget.call(this, canvas);
 
 	return this;
-}
+};
 
 SolarSystemClip.prototype.drawWidget = function() {
 	const ms = this._currentTime;
@@ -84,4 +84,4 @@ SolarSystemClip.prototype.drawWidget = function() {
 	ctx.drawImage(this._sun, 0, 0, 300, 300);
 
 	return this;
-}
+};

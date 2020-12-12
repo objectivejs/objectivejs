@@ -1,7 +1,7 @@
 /**
  *
- * @copyright  2019 objectivejs.org
- * @version    1
+ * @copyright  2019-2020 objectivejs.org
+ * @version    2
  * @link       http://www.objectivejs.org
  */
 
@@ -83,7 +83,7 @@ TeletypeModel.prototype.validateValue = function(prop, val) {
 		return Number.isInteger(val);
 
 	return true;
-}
+};
 
 TeletypeModel.prototype.normalizeValue = function(prop, val) {
 	if (prop == 'width') {
@@ -126,4 +126,4 @@ TeletypeModel.prototype.normalizeValue = function(prop, val) {
 	}
 
 	return val;
-}
+};

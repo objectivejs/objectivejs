@@ -1,7 +1,7 @@
 /**
  *
  * @copyright  2020 objectivejs.org
- * @version    1
+ * @version    2
  * @link       http://www.objectivejs.org
  */
 
@@ -67,7 +67,7 @@ BarChart.prototype._draw = function() {
 		Plotly.react(this._widget, data, layout);
 
 	return this;
-}
+};
 
 BarChart.prototype.set = function(options) {
 	const {data, layout} = options;
@@ -79,7 +79,7 @@ BarChart.prototype.set = function(options) {
 		this.resetWidget();
 
 	return this;
-}
+};
 
 BarChart.prototype.setValue = function(prop, val) {
 	if (prop == 'data')
@@ -88,7 +88,7 @@ BarChart.prototype.setValue = function(prop, val) {
 		this.setLayout(val);
 
 	return this;
-}
+};
 
 BarChart.prototype.setData = function(data) {
 	this._data = data;
@@ -97,7 +97,7 @@ BarChart.prototype.setData = function(data) {
 		this.resetWidget();
 
 	return this;
-}
+};
 
 BarChart.prototype.setLayout = function(layout) {
 	this._layout = layout;
@@ -106,27 +106,27 @@ BarChart.prototype.setLayout = function(layout) {
 		this.resetWidget();
 
 	return this;
-}
+};
 
 BarChart.prototype.resetWidget = function() {
 	this._draw();
 
 	return this;
-}
+};
 
 BarChart.prototype.createWidget = function() {
 	const graphdiv = '<div></div>';
 
 	let template = document.createElement('template');
 
-    template.innerHTML = graphdiv;
+	template.innerHTML = graphdiv;
 
-    let widget = template.content.children[0];
+	let widget = template.content.children[0];
 
 	this.setWidget(widget);
 
 	return this;
-}
+};
 
 BarChart.prototype.destroyWidget = function() {
 	if (this._widget)
@@ -137,4 +137,4 @@ BarChart.prototype.destroyWidget = function() {
 	this._plotly = null;
 
 	return this;
-}
+};

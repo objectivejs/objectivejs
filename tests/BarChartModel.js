@@ -1,7 +1,7 @@
 /**
  *
  * @copyright  2020 objectivejs.org
- * @version    1
+ * @version    2
  * @link       http://www.objectivejs.org
  */
 
@@ -39,4 +39,4 @@ BarChartModel.prototype.validateValue = function(prop, val) {
 	}
 
 	return true;
-}
+};

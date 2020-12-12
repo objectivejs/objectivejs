@@ -1,7 +1,7 @@
 /**
  *
- * @copyright  2019 objectivejs.org
- * @version    1
+ * @copyright  2019-2020 objectivejs.org
+ * @version    2
  * @link       http://www.objectivejs.org
  */
 
@@ -76,7 +76,7 @@ EmblemModel.prototype.validateValue = function(prop, val) {
 		return Validator.validateEasing(val);
 
 	return true;
-}
+};
 
 EmblemModel.prototype.normalizeValue = function(prop, val) {
 	if (prop == 'size') {
@@ -113,4 +113,4 @@ EmblemModel.prototype.normalizeValue = function(prop, val) {
 	}
 
 	return val;
-}
+};

@@ -1,7 +1,7 @@
 /**
  *
- * @copyright  2019 objectivejs.org
- * @version    1
+ * @copyright  2019-2020 objectivejs.org
+ * @version    2
  * @link       http://www.objectivejs.org
  */
 
@@ -37,7 +37,7 @@ EmblemClip.prototype._draw = function(text) {
 	}
 
 	return this;
-}
+};
 
 EmblemClip.prototype.set = function(options) {
 	const {size, text, textFont, textSize, textBold, textColor, duration, delay, easing} = options;
@@ -52,7 +52,7 @@ EmblemClip.prototype.set = function(options) {
 	this.setAnimation(duration, delay, easing);
 
 	return this;
-}
+};
 
 EmblemClip.prototype.setValue = function(prop, val) {
 	if (prop == 'size')
@@ -75,65 +75,65 @@ EmblemClip.prototype.setValue = function(prop, val) {
 		this.setEasing(val);
 
 	return this;
-}
+};
 
 EmblemClip.prototype.setSize = function(px) {
-  	this.setStyle('width', `${px}px`);
-  	this.setStyle('height', `${px}px`);
+	this.setStyle('width', `${px}px`);
+	this.setStyle('height', `${px}px`);
 
-  	this._width = this._height = px;
+	this._width = this._height = px;
 
-  	return this;
-}
+	return this;
+};
 
 EmblemClip.prototype.setText = function(text) {
 	if (text)
 		this._draw(text);
 
-  	return this;
-}
+	return this;
+};
 
 EmblemClip.prototype.setTextFont = function(font) {
 	this.addFont(font).setStyle('fontFamily', `"${font}", sans-serif`);
 
-  	return this;
-}
+	return this;
+};
 
 EmblemClip.prototype.setTextSize = function(px) {
-  	this.setStyle('fontSize', `${px}px`);
+	this.setStyle('fontSize', `${px}px`);
 
-  	return this;
-}
+	return this;
+};
 
 EmblemClip.prototype.setTextBold = function(bold) {
-  	this.setStyle('fontWeight', bold ? 'bold' : 'normal');
+	this.setStyle('fontWeight', bold ? 'bold' : 'normal');
 
-  	return this;
-}
+	return this;
+};
 
 EmblemClip.prototype.setTextColor = function(color) {
 	this.setStyle('color', color);
 
 	return this;
-}
+};
 
 EmblemClip.prototype.setDuration = function(ms) {
 	this.setAnimation(ms, this._options.delay, this._options.easing);
 
 	return this;
-}
+};
 
 EmblemClip.prototype.setDelay = function(s) {
 	this.setAnimation(this._options.duration, s, this._options.easing);
 
 	return this;
-}
+};
 
 EmblemClip.prototype.setEasing = function(easing) {
 	this.setAnimation(this._options.duration, this._options.delay, easing);
 
 	return this;
-}
+};
 
 EmblemClip.prototype.setAnimation = function(duration, delay, easing) {
 	const keyframes = [
@@ -161,4 +161,4 @@ EmblemClip.prototype.setAnimation = function(duration, delay, easing) {
 	this._options.easing = easing;
 
 	return this;
-}
+};

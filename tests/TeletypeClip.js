@@ -1,7 +1,7 @@
 /**
  *
- * @copyright  2019 objectivejs.org
- * @version    1
+ * @copyright  2019-2020 objectivejs.org
+ * @version    2
  * @link       http://www.objectivejs.org
  */
 
@@ -22,8 +22,8 @@ Object.defineProperty(TeletypeClip.prototype, 'constructor', { value: TeletypeCl
 
 Object.defineProperty(TeletypeClip.prototype, 'duration', {
 	get:	function() {
-				return this._text ? (this._text.length + Math.min(this._text.length, this._textWidth) - 1) * this._interval : 0;
-			}
+		return this._text ? (this._text.length + Math.min(this._text.length, this._textWidth) - 1) * this._interval : 0;
+	}
 });
 
 TeletypeClip.prototype.drawWidget = function() {
@@ -35,7 +35,7 @@ TeletypeClip.prototype.drawWidget = function() {
 	}
 
 	return this;
-}
+};
 
 TeletypeClip.prototype.setWidget = function(w) {
 	const span = document.createElement('span');
@@ -47,7 +47,7 @@ TeletypeClip.prototype.setWidget = function(w) {
 	this._textWidget = span;
 
 	return this;
-}
+};
 
 TeletypeClip.prototype.set = function(options) {
 	const {width, height, text, textFont, textSize, textBold, textColor, textAlignment, textWidth, interval} = options;
@@ -66,7 +66,7 @@ TeletypeClip.prototype.set = function(options) {
 	this.setInterval(interval);
 
 	return this;
-}
+};
 
 TeletypeClip.prototype.setValue = function(prop, val) {
 	if (prop == 'width')
@@ -91,23 +91,23 @@ TeletypeClip.prototype.setValue = function(prop, val) {
 		this.setInterval(val);
 
 	return this;
-}
+};
 
 TeletypeClip.prototype.setWidth = function(px) {
-  	this.setStyle('width', `${px}px`);
+	this.setStyle('width', `${px}px`);
 
-  	this._width = px;
+	this._width = px;
 
-  	return this;
-}
+	return this;
+};
 
 TeletypeClip.prototype.setHeight = function(px) {
-  	this.setStyle('height', `${px}px`);
+	this.setStyle('height', `${px}px`);
 
-  	this._height = px;
+	this._height = px;
 
-  	return this;
-}
+	return this;
+};
 
 TeletypeClip.prototype.setText = function(text) {
 	this._text = text;
@@ -115,38 +115,38 @@ TeletypeClip.prototype.setText = function(text) {
 	if (!this._timer)
 		this.showText();
 
-  	return this;
-}
+	return this;
+};
 
 TeletypeClip.prototype.setTextFont = function(font) {
 	this.addFont(font).setStyle('fontFamily', `"${font}", sans-serif`);
 
-  	return this;
-}
+	return this;
+};
 
 TeletypeClip.prototype.setTextSize = function(px) {
-  	this.setStyle('fontSize', `${px}px`);
+	this.setStyle('fontSize', `${px}px`);
 
-  	return this;
-}
+	return this;
+};
 
 TeletypeClip.prototype.setTextBold = function(bold) {
-  	this.setStyle('fontWeight', bold ? 'bold' : 'normal');
+	this.setStyle('fontWeight', bold ? 'bold' : 'normal');
 
-  	return this;
-}
+	return this;
+};
 
 TeletypeClip.prototype.setTextColor = function(color) {
 	this.setStyle('color', color);
 
 	return this;
-}
+};
 
 TeletypeClip.prototype.setTextAlignment = function(alignment) {
 	this._textWidget.style.textAlign = alignment;
 
-  	return this;
-}
+	return this;
+};
 
 TeletypeClip.prototype.setTextWidth = function(w) {
 	this._textWidth = w;
@@ -154,11 +154,11 @@ TeletypeClip.prototype.setTextWidth = function(w) {
 	if (!this._timer)
 		this.showText();
 
-  	return this;
-}
+	return this;
+};
 
 TeletypeClip.prototype.showText = function() {
 	this._textWidget.innerText = this._text ? this._text.substring(0, this._textWidth) : '';
 
 	return this;
-}
+};
