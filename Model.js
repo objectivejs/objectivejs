@@ -1,7 +1,7 @@
 /**
  *
  * @copyright  2019-2020 objectivejs.org
- * @version    2
+ * @version    3
  * @link       http://www.objectivejs.org
  */
 
@@ -39,7 +39,7 @@ Object.defineProperty(Model.prototype, 'changed', {
 		return this._changed;
 	},
 	set:	function(changed) {
-		return this._changed = changed ? true : false;
+		this._changed = changed ? true : false;
 	}
 });
 
