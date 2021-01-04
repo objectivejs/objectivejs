@@ -1,7 +1,7 @@
 /**
  *
  * @copyright  2020 objectivejs.org
- * @version    2
+ * @version    3
  * @link       http://www.objectivejs.org
  */
 
@@ -38,7 +38,7 @@ Signature.defaultLineWidth = 5;
 
 Signature.prototype.erase = function() {
 	if (this._widget) {
-    	this._widget.getContext('2d').clearRect(0, 0, this._widget.width, this._widget.height);
+		this._widget.getContext('2d').clearRect(0, 0, this._widget.width, this._widget.height);
 	}
 
 	return this;
@@ -67,7 +67,7 @@ Signature.prototype.setWidget = function(w) {
 			return;
 
 		let x = e.offsetX * (w.width / w.clientWidth);
-	    let y = e.offsetY * (w.height / w.clientHeight);
+		let y = e.offsetY * (w.height / w.clientHeight);
 
 		if (x0 && y0) {
 			ctx.beginPath();
@@ -82,8 +82,8 @@ Signature.prototype.setWidget = function(w) {
 	}
 
 	w.addEventListener('mousedown', () => {
-	    if (event.which === 1)
-	    	w.addEventListener('mousemove', _stroke, false);
+		if (event.which === 1)
+			w.addEventListener('mousemove', _stroke, false);
 	}, false);
 
 	w.addEventListener('mouseup', () => {
@@ -92,7 +92,7 @@ Signature.prototype.setWidget = function(w) {
 	}, false);
 
 	w.addEventListener('pointerdown', () => {
-    	w.addEventListener('pointermove', _stroke, false);
+		w.addEventListener('pointermove', _stroke, false);
 	}, false);
 
 	w.addEventListener('pointerup', () => {
@@ -100,16 +100,16 @@ Signature.prototype.setWidget = function(w) {
 	}, false);
 
 	w.addEventListener('touchstart', (e) => {
-	    e.preventDefault();
+		e.preventDefault();
 
-	    if (e.targetTouches.length === 1)
-	    	w.addEventListener('touchmove', _stroke, false);
+		if (e.targetTouches.length === 1)
+			w.addEventListener('touchmove', _stroke, false);
 	}, false);
 
 	w.addEventListener('touchend', (e) => {
-	    e.preventDefault();
+		e.preventDefault();
 
-    	w.removeEventListener('touchmove', _stroke, false), x0 = y0 = 0;
+		w.removeEventListener('touchmove', _stroke, false), x0 = y0 = 0;
 	}, false);
 
 	return this;
