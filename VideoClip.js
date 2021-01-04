@@ -1,7 +1,7 @@
 /**
  *
  * @copyright  2019-2020 objectivejs.org
- * @version    3
+ * @version    4
  * @link       http://www.objectivejs.org
  */
 
@@ -238,7 +238,7 @@ VideoClip.prototype.setWidget = function(w) {
 			this._timeWidget.innerText = VideoClip._toHHMMSS(this._video.currentTime);
 
 		this.notify('clipSeeked', this);
- 	};
+	};
 
 	w.onended = () => {
 		this._ended = this._paused = true;
