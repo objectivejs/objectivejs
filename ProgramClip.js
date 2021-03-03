@@ -1,7 +1,7 @@
 /**
  *
- * @copyright  2019-2020 objectivejs.org
- * @version    2
+ * @copyright  2019-2021 objectivejs.org
+ * @version    3
  * @link       http://www.objectivejs.org
  */
 
@@ -67,7 +67,7 @@ ProgramClip.prototype.seek = function(ms) {
 
 	let duration = this.duration;
 
-	if (ms > duration)
+	if (duration && ms > duration)
 		ms = duration;
 
 	this._currentTime = ms;
@@ -113,11 +113,14 @@ ProgramClip.prototype._startTimer = function() {
 	const duration = this.duration;
 
 	this._timer = window.setInterval(() => {
-		this._currentTime = Math.min(duration, this._currentTime + this._interval);
+		this._currentTime += this._interval;
+
+		if (duration && this._currentTime > duration)
+			this._currentTime = duration;
 
 		this.drawWidget();
 
-		if (this._currentTime == duration) {
+		if (duration && this._currentTime == duration) {
 			window.clearInterval(this._timer);
 
 			this._timer = null;

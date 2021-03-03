@@ -1,7 +1,7 @@
 /**
  *
- * @copyright  2019-2020 objectivejs.org
- * @version    3
+ * @copyright  2019-2021 objectivejs.org
+ * @version    4
  * @link       http://www.objectivejs.org
  */
 
@@ -111,7 +111,7 @@ Clip.prototype.hasPlayer = function() {
 };
 
 Clip.prototype.enablePlayer = function() {
-	if (this.hasPlayer())
+	if (this._player)
 		return this;
 
 	if (this._mouseenter === undefined) {
@@ -171,10 +171,9 @@ Clip.prototype.enablePlayer = function() {
 					currentTime = this.currentTime;
 					d = e.shiftKey ? 10000 : (e.ctrlKey ? 100 : 1000);
 					ms = currentTime + d;
-					if (ms >= duration)
-						this.seek(ms % d);
-					else
-						this.seek(ms);
+					if (duration && ms >= duration)
+						ms %= d;
+					this.seek(ms);
 					break;
 				case 'ArrowLeft':
 				case 'ArrowDown':
@@ -183,13 +182,15 @@ Clip.prototype.enablePlayer = function() {
 					d = e.shiftKey ? 10000 : (e.ctrlKey ? 100 : 1000);
 					ms = currentTime - d;
 					if (ms < 0) {
-						ms = Math.floor(duration / d) * d + currentTime;
-						while (ms >= duration)
-							ms -= d;
-						this.seek(ms);
+						if (duration) {
+							ms = Math.floor(duration / d) * d + currentTime;
+							while (ms >= duration)
+								ms -= d;
+						}
+						else
+							ms = 0;
 					}
-					else
-						this.seek(ms);
+					this.seek(ms);
 					break;
 			}
 		};
@@ -213,7 +214,7 @@ Clip.prototype.enablePlayer = function() {
 };
 
 Clip.prototype.disablePlayer = function() {
-	if (!this.hasPlayer())
+	if (!this._player)
 		return this;
 
 	this.removeAttribute('tabindex');
