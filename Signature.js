@@ -1,7 +1,7 @@
 /**
  *
- * @copyright  2020 objectivejs.org
- * @version    3
+ * @copyright  2020-2021 objectivejs.org
+ * @version    4
  * @link       http://www.objectivejs.org
  */
 
@@ -81,35 +81,12 @@ Signature.prototype.setWidget = function(w) {
 		y0 = y;
 	}
 
-	w.addEventListener('mousedown', () => {
-		if (event.which === 1)
-			w.addEventListener('mousemove', _stroke, false);
-	}, false);
-
-	w.addEventListener('mouseup', () => {
-		if (event.which === 1)
-			w.removeEventListener('mousemove', _stroke, false), x0 = y0 = 0;
-	}, false);
-
 	w.addEventListener('pointerdown', () => {
 		w.addEventListener('pointermove', _stroke, false);
 	}, false);
 
 	w.addEventListener('pointerup', () => {
 		w.removeEventListener('pointermove', _stroke, false), x0 = y0 = 0;
-	}, false);
-
-	w.addEventListener('touchstart', (e) => {
-		e.preventDefault();
-
-		if (e.targetTouches.length === 1)
-			w.addEventListener('touchmove', _stroke, false);
-	}, false);
-
-	w.addEventListener('touchend', (e) => {
-		e.preventDefault();
-
-		w.removeEventListener('touchmove', _stroke, false), x0 = y0 = 0;
 	}, false);
 
 	return this;
