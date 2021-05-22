@@ -1,7 +1,7 @@
 /**
  *
- * @copyright  2020 objectivejs.org
- * @version    2
+ * @copyright  2020-2021 objectivejs.org
+ * @version    3
  * @link       http://www.objectivejs.org
  */
 
@@ -12,14 +12,14 @@ function Wall(options = false) {
 
 	let draganddrop = options.draganddrop ? true : false;
 
-	let tagsURL = options.tagsURL;
+	let tagURL = options.tagURL;
 
 	let deleteURL = options.deleteURL;
 	let uploadURL = options.uploadURL;
 
-	let downloadURL = options.downloadURL;
+	let fileURL = options.fileURL;
 
-	if (! (typeof tagsURL === 'undefined' || tagsURL === null || typeof tagsURL === 'string'))
+	if (! (typeof tagURL === 'undefined' || tagURL === null || typeof tagURL === 'string'))
 		throw new TypeError();
 
 	if (! (typeof deleteURL === 'undefined' || deleteURL === null || typeof deleteURL === 'string'))
@@ -28,7 +28,7 @@ function Wall(options = false) {
 	if (! (typeof uploadURL === 'undefined' || uploadURL === null || typeof uploadURL === 'string'))
 		throw new TypeError();
 
-	if (! (typeof downloadURL === 'undefined' || downloadURL === null || typeof downloadURL === 'string'))
+	if (! (typeof fileURL === 'undefined' || fileURL === null || typeof fileURL === 'string'))
 		throw new TypeError();
 
 	if (uploadURL) {
@@ -77,12 +77,12 @@ function Wall(options = false) {
 
 	this._draganddrop = draganddrop;
 
-	this._tagsURL = tagsURL;
+	this._tagURL = tagURL;
 
 	this._deleteURL = deleteURL;
 	this._uploadURL = uploadURL;
 
-	this._downloadURL = downloadURL;
+	this._fileURL = fileURL;
 
 	this._tagsWidget = null;
 
@@ -106,22 +106,20 @@ Object.defineProperty(Wall.prototype, 'constructor', { value: Wall, enumerable: 
 
 Object.defineProperty(Wall.prototype, 'files', {
 	get:	function() {
-		return Object.values(this._slots).map(e => e.file);
+		return Object.keys(this._slots);
 	},
 	set:	function(filelist) {
 		let slots = {};
 
 		if (filelist) {
-			for (let f of filelist) {
-				const id = Number.parseInt(f.split('.')[0]);
+			if (!Array.isArray(filelist))
+				throw new TypeError();
 
-				if (!Number.isInteger(id))
+			for (let filename of filelist) {
+				if (typeof filename !== 'string')
 					throw new TypeError();
 
-				if (id < 1)
-					throw new RangeError();
-
-				slots[id] = {file: f};
+				slots[filename] = null;
 			}
 		}
 
@@ -129,6 +127,9 @@ Object.defineProperty(Wall.prototype, 'files', {
 
 		if (this._tagsWidget)
 			this.resetTagsWidget();
+
+		if (this.interfaced())
+			this.resetWidget();
 	}
 });
 
@@ -137,14 +138,16 @@ Wall.prototype.resetTagsWidget = function() {
 
 	this._tagsWidget.innerHTML = '';
 
-	for (let id in this._slots) {
+	for (let filename in this._slots) {
 		const img = document.createElement('img');
 
-		img.src = `${this._tagsURL}/${id}.png?nocache=${timestamp}`;
+		img.src = `${this._tagURL}/${encodeURI(filename)}?nocache=${timestamp}`;
 
-		img.addEventListener('click', (e) => this._clickImage(e, id));
+		img.title = filename;
 
-		this._slots[id].widget = img;
+		img.addEventListener('click', (e) => this._clickImage(e, filename));
+
+		this._slots[filename] = img;
 
 		this._tagsWidget.appendChild(img);
 	}
@@ -154,7 +157,7 @@ Wall.prototype.resetTagsWidget = function() {
 
 Wall.prototype.resetWidget = function() {
 	if (this._uploadWidget) {
-		if (!this._uploading)
+		if (!this._uploading && Object.keys(this._slots).length < this._maxfiles)
 			this._uploadWidget.classList.remove('disabled');
 		else
 			this._uploadWidget.classList.add('disabled');
@@ -190,9 +193,9 @@ Wall.prototype.resetWidget = function() {
 Wall.prototype.setWidget = function(w) {
 	View.prototype.setWidget.call(this, w);
 
-	this._tagsWidget = this._tagsURL ? w.querySelector('.tags') : false;
+	this._tagsWidget = this._tagURL ? w.querySelector('.tags') : null;
 
-	this._fileWidget = this._uploadURL ? w.querySelector('.fileinput') : false;
+	this._fileWidget = this._uploadURL ? w.querySelector('.fileinput') : null;
 
 	if (this._fileWidget && this._fileWidget.tagName != 'INPUT')
 		this._fileWidget = null;
@@ -230,7 +233,7 @@ Wall.prototype.setWidget = function(w) {
 
 			e.preventDefault();
 
-			dt.dropEffect = dt.types.indexOf('Files') != -1 && !this._uploading ? 'copy' : 'none';
+			dt.dropEffect = dt.types.indexOf('Files') != -1 && !this._uploading && Object.keys(this._slots).length < this._maxfiles ? 'copy' : 'none';
 		});
 	}
 
@@ -272,7 +275,7 @@ Wall.prototype.setWidget = function(w) {
 	if (this._downloadWidget) {
 		this._downloadWidget.classList.add('disabled');
 
-		if (this._downloadURL) {
+		if (this._fileURL) {
 			this._downloadWidget.addEventListener('click', () => {
 				if (!this._downloadWidget.classList.contains('disabled'))
 					this.downloadFile();
@@ -289,8 +292,8 @@ Wall.prototype.destroyWidget = function() {
 	View.prototype.destroyWidget.call(this);
 
 	if (this._tagsWidget) {
-		for (let id in this._slots)
-			delete this._slots[id].widget;
+		for (let filename in this._slots)
+			this._slots[filename] = null;
 	}
 
 	this._tagsWidget = null;
@@ -323,10 +326,11 @@ Wall.prototype._uploadFile = function(fd) {
 	if (!this._uploadURL)
 		return this;
 
+	const filename = fd.name;
 	const filesize = fd.size;
 	const filetype = fd.type;
 
-	if ((this._filetypes && this._filetypes.indexOf(filetype) == -1) || (this._filetypes && filesize > this._maxfilesize)) {
+	if (filename in this._slots || Object.keys(this._slots).length >= this._maxfiles) {
 		this._error = 'upload';
 
 		if (this.interfaced())
@@ -335,14 +339,7 @@ Wall.prototype._uploadFile = function(fd) {
 		return this;
 	}
 
-	let id;
-
-	for (id = 1; id <= this._maxfiles; id++) {
-		if (id in this._slots === false)
-			break;
-	}
-
-	if (id > this._maxfiles) {
+	if ((this._filetypes && this._filetypes.indexOf(filetype) == -1) || (this._maxfilesize && filesize > this._maxfilesize)) {
 		this._error = 'upload';
 
 		if (this.interfaced())
@@ -369,7 +366,7 @@ Wall.prototype._uploadFile = function(fd) {
 	};
 
 	const postdata = (data) => {
-		$.post(uploadurl, {file_id: id, file_size: filesize, file_type: filetype, file_offset: offset, file_data: data})
+		$.post(uploadurl, {file_name: filename, file_size: filesize, file_type: filetype, file_offset: offset, file_data: data})
 			.done(() => {
 				offset += blob.size;
 				progress = Math.floor((offset / filesize) * 100);
@@ -380,36 +377,18 @@ Wall.prototype._uploadFile = function(fd) {
 					if (this._statusWidget)
 						this._statusWidget.innerText = '';
 
-					let f;
-
-					switch (filetype) {
-						case 'image/jpeg':
-							f = `${id}.jpg`;
-							break;
-						case 'image/png':
-							f = `${id}.png`;
-							break;
-						case 'image/gif':
-							f = `${id}.gif`;
-							break;
-						case 'application/pdf':
-							f = `${id}.pdf`;
-							break;
-						default:
-							f = `${id}`;
-							break;
-					}
-
-					this._slots[id] = {file: f};
+					this._slots[filename] = null;
 
 					if (this._tagsWidget) {
 						const img = document.createElement('img');
 
-						img.src = `${this._tagsURL}/${id}.png?nocache=${Date.now()}`;
+						img.src = `${this._tagURL}/${encodeURI(filename)}?nocache=${Date.now()}`;
 
-						img.addEventListener('click', (e) => this._clickImage(e, id));
+						img.title = filename;
 
-						this._slots[id].widget = img;
+						img.addEventListener('click', (e) => this._clickImage(e, filename));
+
+						this._slots[filename] = img;
 
 						this._tagsWidget.appendChild(img);
 					}
@@ -457,17 +436,17 @@ Wall.prototype.deleteFile = function() {
 
 	const deleteurl = this._deleteURL;
 
-	const id = this._tag;
+	const filename = this._tag;
 
 	const deletefile = () => {
-		$.post(deleteurl, {file_id: id} )
+		$.post(deleteurl, {file_name: filename} )
 			.done(() => {
-				if (this._slots[id].widget)
-					this._slots[id].widget.remove();
+				if (this._slots[filename])
+					this._slots[filename].remove();
 
-				delete this._slots[id];
+				delete this._slots[filename];
 
-				if (this._tag == id)
+				if (this._tag == filename)
 					this._tag = null;
 
 				this._error = null;
@@ -489,37 +468,33 @@ Wall.prototype.deleteFile = function() {
 };
 
 Wall.prototype.downloadFile = function() {
-	if (!this._downloadURL)
+	if (!this._fileURL)
 		return this;
 
 	if (!this._tag)
 		return this;
 
-	window.open(`${this._downloadURL}/${this._slots[this._tag].file}`);
+	const url = `${this._fileURL}/${encodeURI(this._tag)}`;
+
+	window.open(url);
 
 	return this;
 };
 
-Wall.prototype.selectTag = function(id) {
-	if (this._tag === id)
+Wall.prototype.selectTag = function(filename) {
+	if (this._tag === filename)
 		return this;
 
-	const newtag = this._slots[id];
-
-	if (newtag === undefined)
+	if (this._slots[filename] === undefined)
 		return this;
 
-	if (this._tag) {
-		const oldtag = this._slots[this._tag];
+	if (this._tag && this._slots[this._tag])
+		this._slots[this._tag].classList.remove('selected');
 
-		if (oldtag.widget)
-			oldtag.widget.classList.remove('selected');
-	}
+	this._tag = filename;
 
-	if (newtag.widget)
-		newtag.widget.classList.add('selected');
-
-	this._tag = id;
+	if (this._slots[this._tag])
+		this._slots[this._tag].classList.add('selected');
 
 	if (this.interfaced())
 		this.resetWidget();
@@ -531,10 +506,8 @@ Wall.prototype.unselectTag = function() {
 	if (!this._tag)
 		return this;
 
-	const tag = this._slots[this._tag];
-
-	if (tag.widget)
-		tag.widget.classList.remove('selected');
+	if (this._slots[this._tag])
+		this._slots[this._tag].classList.remove('selected');
 
 	this._tag = null;
 
@@ -544,17 +517,19 @@ Wall.prototype.unselectTag = function() {
 	return this;
 };
 
-Wall.prototype._clickImage = function(e, id) {
+Wall.prototype._clickImage = function(e, filename) {
 	if (e.shiftKey) {
-		if (!this._downloadURL)
+		if (!this._fileURL)
 			return;
 
-		window.open(`${this._downloadURL}/${this._slots[id].file}`);
+		const url = `${this._fileURL}/${encodeURI(filename)}`;
+
+		window.open(url);
 	}
 	else {
-		if (this._tag == id)
+		if (this._tag == filename)
 			this.unselectTag();
 		else
-			this.selectTag(id);
+			this.selectTag(filename);
 	}
 };

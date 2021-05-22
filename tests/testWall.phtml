@@ -2,8 +2,8 @@
 
 /**
  *
- * @copyright  2020 objectivejs.org
- * @version    2
+ * @copyright  2020-2021 objectivejs.org
+ * @version    3
  * @link       http://www.objectivejs.org
  */
 ?>
@@ -25,8 +25,8 @@ wall_create_directory($wall_id);
 
 $filelist=wall_contents($wall_id);
 ?>
-<?php $tags_url='/wallfile/tags'; ?>
-<?php $download_url='/wallfile'; ?>
+<?php $tag_url='/walltag'; ?>
+<?php $file_url='/wallfile'; ?>
 <?php $upload_url='/wallupload'; ?>
 <?php $delete_url='/walldelete'; ?>
 <?php $filetypes=array('image/jpeg', 'image/png', 'image/gif', 'application/pdf'); ?>
@@ -59,8 +59,8 @@ $filelist=wall_contents($wall_id);
 		maxfiles: <?php echo $maxfiles; ?>,
 		maxfilesize: <?php echo $maxfilesize; ?>,
 		filetypes: [<?php echo implode(',', array_map(function($s) { return "'$s'"; }, $filetypes)); ?>],
-		tagsURL: '<?php echo $tags_url; ?>',
-		downloadURL: '<?php echo $download_url; ?>',
+		tagURL: '<?php echo $tag_url; ?>',
+		fileURL: '<?php echo $file_url; ?>',
 		deleteURL: '<?php echo $delete_url; ?>',
 		uploadURL: '<?php echo $upload_url; ?>',
 		chunksize: <?php echo $chunksize; ?>
@@ -72,9 +72,11 @@ $filelist=wall_contents($wall_id);
 
 	wall.setManagedWidget(container.querySelector('.ojs_wall')).resetWidget();
 
+<?php if ($filelist): ?>
 	const filelist = [<?php echo implode(',', array_map(function($s) { return "'$s'"; }, $filelist)); ?>];
 
 	wall.files = filelist;
+<?php endif; ?>
 <?php if (!$debug): ?>
 })();
 <?php endif; ?>
