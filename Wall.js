@@ -1,7 +1,7 @@
 /**
  *
  * @copyright  2020-2021 objectivejs.org
- * @version    4
+ * @version    5
  * @link       http://www.objectivejs.org
  */
 
@@ -140,14 +140,12 @@ Object.defineProperty(Wall.prototype, 'tag', {
 });
 
 Wall.prototype.resetTagsWidget = function() {
-	const timestamp = Date.now();
-
 	this._tagsWidget.innerHTML = '';
 
 	for (let filename in this._slots) {
 		const img = document.createElement('img');
 
-		img.src = `${this._tagURL}/${encodeURI(filename)}?nocache=${timestamp}`;
+		img.src = `${this._tagURL}/${encodeURI(filename)}`;
 
 		img.title = filename;
 
