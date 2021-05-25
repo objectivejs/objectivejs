@@ -1,7 +1,7 @@
 /**
  *
  * @copyright  2020-2021 objectivejs.org
- * @version    3
+ * @version    4
  * @link       http://www.objectivejs.org
  */
 
@@ -130,6 +130,12 @@ Object.defineProperty(Wall.prototype, 'files', {
 
 		if (this.interfaced())
 			this.resetWidget();
+	}
+});
+
+Object.defineProperty(Wall.prototype, 'tag', {
+	get:	function() {
+		return this._tag;
 	}
 });
 
@@ -446,8 +452,11 @@ Wall.prototype.deleteFile = function() {
 
 				delete this._slots[filename];
 
-				if (this._tag == filename)
+				if (this._tag == filename) {
 					this._tag = null;
+
+					this.respondTo('wallSelectionChanged', this);
+				}
 
 				this._error = null;
 
@@ -531,5 +540,8 @@ Wall.prototype._clickImage = function(e, filename) {
 			this.unselectTag();
 		else
 			this.selectTag(filename);
+
+		this.respondTo('wallSelectionChanged', this);
 	}
+
 };
