@@ -2,8 +2,8 @@
 
 /**
  *
- * @copyright  2020 objectivejs.org
- * @version    2
+ * @copyright  2020-2021 objectivejs.org
+ * @version    3
  * @link       http://www.objectivejs.org
  */
 ?>
@@ -26,18 +26,18 @@ $data=array(
 <div class="ojs">
 <div>
 <div class="undo_panel" style="margin-right:20px">
-<button type="submit" class="narrow" disabled><i class="fa fa-undo"></i></button>
-<button type="submit" class="narrow" disabled><i class="fa fa-redo"></i></button>
+<button type="submit" class="ojs_button narrow" disabled><i class="fa fa-undo"></i></button>
+<button type="submit" class="ojs_button narrow" disabled><i class="fa fa-redo"></i></button>
 </div>
-<button id="<?php echo $id; ?>_reset" type="submit" class="narrow"><i class="fa fa-chart-bar"></i></button>
+<button id="<?php echo $id; ?>_reset" type="submit" class="ojs_button narrow"><i class="fa fa-chart-bar"></i></button>
 </div>
 <div>
 <span><input id="<?php echo $id; ?>_title" type="text" size="30"/></span>
 <span class="nowrap"><input id="<?php echo $id; ?>_legend" type="checkbox"/><i class="fa fa-list fa-xs"></i></span>
 </div>
 <div>
-<span><button id="<?php echo $id; ?>_prev" type="submit" class="tiny round"><i class="fa fa-caret-left"></i></button></span>
-<span><button id="<?php echo $id; ?>_next" type="submit" class="tiny round"><i class="fa fa-caret-right"></i></button></span>
+<span><button id="<?php echo $id; ?>_prev" type="submit" class="ojs_button tiny round"><i class="fa fa-caret-left"></i></button></span>
+<span><button id="<?php echo $id; ?>_next" type="submit" class="ojs_button tiny round"><i class="fa fa-caret-right"></i></button></span>
 <span><output id="<?php echo $id; ?>_index"></output></span>
 </div>
 <div>
@@ -46,10 +46,10 @@ $data=array(
 <span id="<?php echo $id; ?>_marker_color"></span>
 </div>
 <div>
-<span><button id="<?php echo $id; ?>_insert" type="submit" class="tiny"><i class="fa fa-sm fa-plus"></i></button></span>
-<span><button id="<?php echo $id; ?>_remove" type="submit" class="tiny"><i class="fa fa-sm fa-minus"></i></button></span>
-<span><button id="<?php echo $id; ?>_shift" type="submit" class="tiny"><i class="fa fa-sm fa-arrow-left"></i></button></span>
-<span><button id="<?php echo $id; ?>_unshift" type="submit" class="tiny"><i class="fa fa-sm fa-arrow-right"></i></button></span>
+<span><button id="<?php echo $id; ?>_insert" type="submit" class="ojs_button tiny"><i class="fa fa-sm fa-plus"></i></button></span>
+<span><button id="<?php echo $id; ?>_remove" type="submit" class="ojs_button tiny"><i class="fa fa-sm fa-minus"></i></button></span>
+<span><button id="<?php echo $id; ?>_shift" type="submit" class="ojs_button tiny"><i class="fa fa-sm fa-arrow-left"></i></button></span>
+<span><button id="<?php echo $id; ?>_unshift" type="submit" class="ojs_button tiny"><i class="fa fa-sm fa-arrow-right"></i></button></span>
 </div>
 </div>
 </div>

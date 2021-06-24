@@ -1,7 +1,7 @@
 /**
  *
- * @copyright  2019-2020 objectivejs.org
- * @version    6
+ * @copyright  2019-2021 objectivejs.org
+ * @version    7
  * @link       http://www.objectivejs.org
  */
 
@@ -31,13 +31,13 @@
 		width: 16px;
 		height: 16px;
 		display: inline-block;
-		background: linear-gradient(#fca, #a86);
+		background: #fca linear-gradient(#fca, #a86);
 	}
 	label.grayscale {
 		width: 16px;
 		height: 16px;
 		display: inline-block;
-		background: linear-gradient(#ccc, #666);
+		background: #ccc linear-gradient(#ccc, #666);
 	}
 	input[type=range] {
 		@rangewidth: 60px;
@@ -92,6 +92,44 @@
 		font-size: small;
 		color: #666;
 	}
+}
+
+.ojs_button {
+	color: #333;
+	background: #eee;
+	border-radius: 3px;
+	text-indent: 0;
+}
+
+.ojs_button {
+	width: 40px;
+	height: 30px;
+}
+
+.ojs_button.tiny {
+	width: 22px;
+	height: 22px;
+}
+
+.ojs_button.round {
+	border-radius: 50%;
+}
+
+.ojs_button.inerror {
+	color: #f66;
+}
+
+.ojs_button:disabled {
+	color: #fff;
+	cursor: default;
+}
+
+.ojs_button {
+	box-shadow: 1px 2px 5px #ccc;
+}
+
+.ojs_button {
+	background-image: #ccc linear-gradient(#eee, #ccc);
 }
 
 .ojs_undo {
