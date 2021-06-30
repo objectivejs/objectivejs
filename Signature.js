@@ -1,7 +1,7 @@
 /**
  *
  * @copyright  2020-2021 objectivejs.org
- * @version    5
+ * @version    6
  * @link       http://www.objectivejs.org
  */
 
@@ -42,6 +42,15 @@ Signature.prototype.erase = function() {
 	}
 
 	return this;
+};
+
+Signature.prototype.isBlank = function() {
+	if (!this._widget)
+		return true;
+
+	const imgdata = this._widget.getContext('2d').getImageData(0, 0, this._widget.width, this._widget.height);
+
+	return imgdata ? !new Uint32Array(imgdata.data.buffer).some(color => color != 0) : true;
 };
 
 Signature.prototype.setWidget = function(w) {
