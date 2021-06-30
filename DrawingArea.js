@@ -1,7 +1,7 @@
 /**
  *
- * @copyright  2020 objectivejs.org
- * @version    1
+ * @copyright  2020-2021 objectivejs.org
+ * @version    2
  * @link       http://www.objectivejs.org
  */
 
@@ -326,6 +326,23 @@ DrawingArea.prototype.setOptions = function(options) {
 	return this;
 };
 
+DrawingArea.prototype.erase = function() {
+	if (this._widget && this._widget.width != 0 && this._widget.height != 0) {
+		this._ctx.clearRect(0, 0, this._widget.width, this._widget.height);
+	}
+
+	return this;
+};
+
+DrawingArea.prototype.isBlank = function() {
+	if (!this._widget || this._widget.width == 0 || this._widget.height == 0)
+		return true;
+
+	const imgdata = this._ctx.getImageData(0, 0, this._widget.width, this._widget.height);
+
+	return imgdata ? !new Uint32Array(imgdata.data.buffer).some(color => color != 0) : true;
+};
+
 DrawingArea.prototype.setImage = function(w) {
 	this._image = w;
 
@@ -358,16 +375,16 @@ DrawingArea.prototype.setWidget = function(w) {
 	this._ctxTransform();
 
 	switch (w.tagName) {
-	case 'IMG':
-		this._drawImage();	// NEEDED for Chrome
-		w.addEventListener('load', () => this._drawImage(), { once: true });
-		break;
-	case 'VIDEO':
-		w.addEventListener('loadeddata', () => this._drawImage(), { once: true });
-		break;
-	case 'CANVAS':
-	default:
-		this._drawImage();
+		case 'IMG':
+			this._drawImage();	// NEEDED for Chrome
+			w.addEventListener('load', () => this._drawImage(), { once: true });
+			break;
+		case 'VIDEO':
+			w.addEventListener('loadeddata', () => this._drawImage(), { once: true });
+			break;
+		case 'CANVAS':
+		default:
+			this._drawImage();
 	}
 
 	return this;
