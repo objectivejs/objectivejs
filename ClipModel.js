@@ -1,13 +1,13 @@
 /**
  *
- * @copyright  2019 objectivejs.org
- * @version    1
+ * @copyright  2019-2021 objectivejs.org
+ * @version    2
  * @link       http://www.objectivejs.org
  */
 
 "use strict";
 
-function ClipModel(clipname) {
+function ClipModel(clipname = null) {
 	Model.call(this, clipname);
 }
 
