@@ -1,7 +1,7 @@
 /**
  *
  * @copyright  2020-2021 objectivejs.org
- * @version    4
+ * @version    5
  * @link       http://www.objectivejs.org
  */
 
@@ -46,6 +46,9 @@ Signature.prototype.erase = function() {
 
 Signature.prototype.setWidget = function(w) {
 	if (w.tagName != 'CANVAS')
+		throw new TypeError();
+
+	if (w.width == 0 || w.height == 0)
 		throw new TypeError();
 
 	View.prototype.setWidget.call(this, w);
