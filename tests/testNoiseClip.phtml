@@ -1,0 +1,47 @@
+<?php
+
+/**
+ *
+ * @copyright  2021 objectivejs.org
+ * @version    1
+ * @link       http://www.objectivejs.org
+ */
+?>
+<?php $size=100; ?>
+<?php $id=uniqid('id'); ?>
+<style>
+#<?php echo $id; ?> {
+	min-width: <?php echo $size+20; ?>px;
+	min-height: <?php echo $size+20; ?>px;
+	max-width: 400px;
+	max-height: 200px;
+	resize: both;
+	overflow: hidden;
+	background-color: #fcc;
+	background-image: linear-gradient(to right bottom, white 5%, transparent 75%);
+}
+@media screen and (max-width:410px) {
+	#<?php echo $id; ?> {
+		max-width: 100%;
+	}
+}
+</style>
+<div id="<?php echo $id; ?>" class="noprint">
+<canvas width="<?php echo $size; ?>" height="<?php echo $size; ?>"></canvas>
+</div>
+<?php head('javascript', '/objectivejs/Objective.js'); ?>
+<?php head('javascript', '/objectivejs/Responder.js'); ?>
+<?php head('javascript', '/objectivejs/View.js'); ?>
+<?php head('javascript', '/objectivejs/Clip.js'); ?>
+<?php head('javascript', '/objectivejs/ProgramClip.js'); ?>
+<?php head('javascript', '/objectivejs/Draggable.js'); ?>
+<?php head('javascript', '/objectivejs/tests/NoiseClip.js'); ?>
+<script>
+const noise = new NoiseClip();
+
+noise.setManagedWidget(document.querySelector('#<?php echo $id; ?> canvas'));
+
+noise.enablePlayer();
+
+noise.enableDrag();
+</script>
