@@ -3,7 +3,7 @@
 /**
  *
  * @copyright  2019-2021 objectivejs.org
- * @version    3
+ * @version    4
  * @link       http://www.objectivejs.org
  */
 ?>
@@ -22,32 +22,32 @@
 <div class="ojs">
 <div>
 <div class="ojs_undo">
-<button type="submit" class="ojs_button narrow control_undo" disabled><i class="fa fa-undo"></i></button>
-<button type="submit" class="ojs_button narrow control_redo" disabled><i class="fa fa-redo"></i></button>
+<button type="submit" class="ojs_button narrow control_undo" disabled><i class="fas fa-undo"></i></button>
+<button type="submit" class="ojs_button narrow control_redo" disabled><i class="fas fa-redo"></i></button>
 </div>
 <span class="ojs_dimension">
-<input class="ojs_width" type="number" min="120"/>&nbsp;<i class="fa fa-arrows-alt-h small"></i>
-<input class="ojs_height" type="number" min="10"/>&nbsp;<i class="fa fa-arrows-alt-v small"></i>
+<input class="ojs_width" type="number" min="120"/>&nbsp;<i class="fas fa-arrows-alt-h small"></i>
+<input class="ojs_height" type="number" min="10"/>&nbsp;<i class="fas fa-arrows-alt-v small"></i>
 </span>
 </div>
 <div>
-<span><input id="<?php echo $id; ?>_video_hflip" type="checkbox" /><label for="<?php echo $id; ?>_video_hflip"><i class="fa fa-ellipsis-h small"></i></label></span>
-<span><input id="<?php echo $id; ?>_video_vflip" type="checkbox" /><label for="<?php echo $id; ?>_video_vflip"><i class="fa fa-ellipsis-v small"></i></label></span>
+<span><input id="<?php echo $id; ?>_video_hflip" type="checkbox" /><label for="<?php echo $id; ?>_video_hflip"><i class="fas fa-ellipsis-h small"></i></label></span>
+<span><input id="<?php echo $id; ?>_video_vflip" type="checkbox" /><label for="<?php echo $id; ?>_video_vflip"><i class="fas fa-ellipsis-v small"></i></label></span>
 <span><input id="<?php echo $id; ?>_video_grayscale" type="checkbox" /><label for="<?php echo $id; ?>_video_grayscale" class="grayscale">&nbsp;</label></span>
 <span><input id="<?php echo $id; ?>_video_sepia" type="checkbox" /><label for="<?php echo $id; ?>_video_sepia" class="sepia">&nbsp;</label></span>
-<span><input id="<?php echo $id; ?>_video_blur" type="checkbox" /><label for="<?php echo $id; ?>_video_blur"><i class="fa fa-brush small"></i></label></span>
+<span><input id="<?php echo $id; ?>_video_blur" type="checkbox" /><label for="<?php echo $id; ?>_video_blur"><i class="fas fa-brush small"></i></label></span>
 </div>
 <div>
-<span><i class="fa fa-adjust fa-fw small"></i>&nbsp;<input id="<?php echo $id; ?>_video_contrast" type="range" min="0" max="2" step="0.05"/>&nbsp;<output for="<?php echo $id; ?>_video_contrast">1.0</output></span>
-<span><i class="fa fa-fill-drip fa-fw small"></i>&nbsp;<input id="<?php echo $id; ?>_video_saturate" type="range" min="0" max="2" step="0.05"/>&nbsp;<output for="<?php echo $id; ?>_video_saturate">1.0</output></span>
+<span><i class="fas fa-adjust fa-fw small"></i>&nbsp;<input id="<?php echo $id; ?>_video_contrast" type="range" min="0" max="2" step="0.05"/>&nbsp;<output for="<?php echo $id; ?>_video_contrast">1.0</output></span>
+<span><i class="fas fa-fill-drip fa-fw small"></i>&nbsp;<input id="<?php echo $id; ?>_video_saturate" type="range" min="0" max="2" step="0.05"/>&nbsp;<output for="<?php echo $id; ?>_video_saturate">1.0</output></span>
 </div>
 <div>
-<span><i class="fa fa-sun fa-fw small"></i>&nbsp;<input id="<?php echo $id; ?>_video_brightness" type="range" min="0" max="2" step="0.05"/>&nbsp;<output for="<?php echo $id; ?>_video_brightness">1.0</output></span>
-<span><i class="fa fa-tint-slash fa-fw small"></i>&nbsp;<input id="<?php echo $id; ?>_video_invert" type="range" min="0" max="1" step="0.05"/>&nbsp;<output for="<?php echo $id; ?>_video_invert">1.0</output></span>
+<span><i class="fas fa-sun fa-fw small"></i>&nbsp;<input id="<?php echo $id; ?>_video_brightness" type="range" min="0" max="2" step="0.05"/>&nbsp;<output for="<?php echo $id; ?>_video_brightness">1.0</output></span>
+<span><i class="fas fa-tint-slash fa-fw small"></i>&nbsp;<input id="<?php echo $id; ?>_video_invert" type="range" min="0" max="1" step="0.05"/>&nbsp;<output for="<?php echo $id; ?>_video_invert">1.0</output></span>
 </div>
 <div>
 <output id="<?php echo $id; ?>_video_time">00:00:00</output>
-<span><input id="<?php echo $id; ?>_video_muted" type="checkbox" /><label for="<?php echo $id; ?>_video_muted"><i class="fa fa-volume-mute"></i></label></span>
+<span><input id="<?php echo $id; ?>_video_muted" type="checkbox" /><label for="<?php echo $id; ?>_video_muted"><i class="fas fa-volume-mute"></i></label></span>
 </div>
 </div>
 <?php endif; ?>

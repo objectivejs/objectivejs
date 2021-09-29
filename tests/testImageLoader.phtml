@@ -3,7 +3,7 @@
 /**
  *
  * @copyright  2020-2021 objectivejs.org
- * @version    2
+ * @version    3
  * @link       http://www.objectivejs.org
  */
 ?>
@@ -29,18 +29,18 @@
 <div class="ojs">
 <div>
 <div class="ojs_undo">
-<button type="submit" class="ojs_button narrow control_undo" disabled><i class="fa fa-undo"></i></button>
-<button type="submit" class="ojs_button narrow control_redo" disabled><i class="fa fa-redo"></i></button>
+<button type="submit" class="ojs_button narrow control_undo" disabled><i class="fas fa-undo"></i></button>
+<button type="submit" class="ojs_button narrow control_redo" disabled><i class="fas fa-redo"></i></button>
 </div>
 <span class="ojs_dimension">
-<input class="ojs_width" type="number" min="0"/>&nbsp;<i class="fa fa-arrows-alt-h small"></i>
-<input class="ojs_height" type="number" min="0"/>&nbsp;<i class="fa fa-arrows-alt-v small"></i>
+<input class="ojs_width" type="number" min="0"/>&nbsp;<i class="fas fa-arrows-alt-h small"></i>
+<input class="ojs_height" type="number" min="0"/>&nbsp;<i class="fas fa-arrows-alt-v small"></i>
 </span>
 </div>
 <div><img src="<?php echo $imgsrc; ?>" alt="" width="<?php echo $imgwidth; ?>" height="<?php echo $imgheight; ?>"/></div>
 <div>
-<span><button id="loadimage" type="submit" class="ojs_button narrow"><i class="fa fa-file-image"></i></button></span>
-<span><button id="uploadimage" type="submit" class="ojs_button narrow"><i class="fa fa-file-export"></i></button></span>
+<span><button id="loadimage" type="submit" class="ojs_button narrow"><i class="fas fa-file-image"></i></button></span>
+<span><button id="uploadimage" type="submit" class="ojs_button narrow"><i class="fas fa-file-export"></i></button></span>
 <span id="uploadstatus"></span>
 </div>
 </div>
@@ -114,14 +114,14 @@ ImageLoader.prototype.upload = function() {
 					uploadslice();
 				else {
 					if (this._status)
-						this._status.innerHTML = '<i class="fa fa-check-circle"></i>';
+						this._status.innerHTML = '<i class="fas fa-check-circle"></i>';
 					if (this._upload)
 						this._upload.disabled = false;
 				}
 			})
 			.fail(() => {
 				if (this._status)
-					this._status.innerHTML = '<i class="fa fa-exclamation-circle inerror"></i>';
+					this._status.innerHTML = '<i class="fas fa-exclamation-circle inerror"></i>';
 				if (this._upload)
 					this._upload.disabled = false;
 			});

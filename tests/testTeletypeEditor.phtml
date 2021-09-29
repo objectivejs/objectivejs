@@ -3,7 +3,7 @@
 /**
  *
  * @copyright  2019-2021 objectivejs.org
- * @version    3
+ * @version    4
  * @link       http://www.objectivejs.org
  */
 ?>
@@ -52,34 +52,34 @@
 <div class="ojs">
 <div>
 <div class="ojs_undo">
-<button type="submit" class="ojs_button narrow control_undo" disabled><i class="fa fa-undo"></i></button>
-<button type="submit" class="ojs_button narrow control_redo" disabled><i class="fa fa-redo"></i></button>
+<button type="submit" class="ojs_button narrow control_undo" disabled><i class="fas fa-undo"></i></button>
+<button type="submit" class="ojs_button narrow control_redo" disabled><i class="fas fa-redo"></i></button>
 </div>
 <span>
-<input class="ojs_width" type="number" min="120" max="960" step="10"/>&nbsp;<i class="fa fa-arrows-alt-h small"></i>
-<input class="ojs_height" type="number" min="10" max="540" step="10"/>&nbsp;<i class="fa fa-arrows-alt-v small"></i>
+<input class="ojs_width" type="number" min="120" max="960" step="10"/>&nbsp;<i class="fas fa-arrows-alt-h small"></i>
+<input class="ojs_height" type="number" min="10" max="540" step="10"/>&nbsp;<i class="fas fa-arrows-alt-v small"></i>
 </span>
 </div>
 <input id="<?php echo $id; ?>_teletype_text" type="text" size="40" spellcheck="false"/>
 <div>
-<span><input id="<?php echo $id; ?>_teletype_textsize" type="number" min="10" max="60" step="1"/>&nbsp;<i class="fa fa-text-height small"></i></span>
-<span><input id="<?php echo $id; ?>_teletype_textbold" type="checkbox" />&nbsp;<i class="fa fa-bold small"></i></span>
+<span><input id="<?php echo $id; ?>_teletype_textsize" type="number" min="10" max="60" step="1"/>&nbsp;<i class="fas fa-text-height small"></i></span>
+<span><input id="<?php echo $id; ?>_teletype_textbold" type="checkbox" />&nbsp;<i class="fas fa-bold small"></i></span>
 <span id="<?php echo $id; ?>_teletype_textcolor"></span>
 <span id="<?php echo $id; ?>_teletype_textalignment">
-<input type="radio" id="<?php echo $id; ?>_teletype_textalignment_left" name="teletype_textalignment" value="left" checked><label for="<?php echo $id; ?>_teletype_textalignment_left"><i class="fa fa-align-left small"></i></label>
-<input type="radio" id="<?php echo $id; ?>_teletype_textalignment_center" name="teletype_textalignment" value="center"><label for="<?php echo $id; ?>_teletype_textalignment_center"><i class="fa fa-align-center small"></i></label>
-<input type="radio" id="<?php echo $id; ?>_teletype_textalignment_right" name="teletype_textalignment" value="right"><label for="<?php echo $id; ?>_teletype_textalignment_right"><i class="fa fa-align-right small"></i></label>
+<input type="radio" id="<?php echo $id; ?>_teletype_textalignment_left" name="teletype_textalignment" value="left" checked><label for="<?php echo $id; ?>_teletype_textalignment_left"><i class="fas fa-align-left small"></i></label>
+<input type="radio" id="<?php echo $id; ?>_teletype_textalignment_center" name="teletype_textalignment" value="center"><label for="<?php echo $id; ?>_teletype_textalignment_center"><i class="fas fa-align-center small"></i></label>
+<input type="radio" id="<?php echo $id; ?>_teletype_textalignment_right" name="teletype_textalignment" value="right"><label for="<?php echo $id; ?>_teletype_textalignment_right"><i class="fas fa-align-right small"></i></label>
 </span>
 </div>
 <div>
 <span>
-<input id="<?php echo $id; ?>_teletype_textfont" type="text" size="20" spellcheck="false"/>&nbsp;<i class="fa fa-font small"></i>
+<input id="<?php echo $id; ?>_teletype_textfont" type="text" size="20" spellcheck="false"/>&nbsp;<i class="fas fa-font small"></i>
 </span>
 </div>
 <fieldset class="ojs_animation">
-<legend><i class="fa fa-history"></i>&nbsp;<span class="ojs_timing">0</span></legend>
-<input class="ojs_interval" type="number" min="100" max="500" step="50"/>&nbsp;<i class="fa fa-tachometer-alt small"></i>
-<input id="<?php echo $id; ?>_teletype_textwidth" type="number" min="10" max="100" step="1"/>&nbsp;<i class="fa fa-text-width small"></i>
+<legend><i class="fas fa-history"></i>&nbsp;<span class="ojs_timing">0</span></legend>
+<input class="ojs_interval" type="number" min="100" max="500" step="50"/>&nbsp;<i class="fas fa-tachometer-alt small"></i>
+<input id="<?php echo $id; ?>_teletype_textwidth" type="number" min="10" max="100" step="1"/>&nbsp;<i class="fas fa-text-width small"></i>
 </fieldset>
 </div>
 <?php endif; ?>
