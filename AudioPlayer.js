@@ -1,7 +1,7 @@
 /**
  *
- * @copyright  2020 objectivejs.org
- * @version    4
+ * @copyright  2020-2022 objectivejs.org
+ * @version    5
  * @link       http://www.objectivejs.org
  */
 
@@ -45,6 +45,17 @@ function AudioPlayer(options = false) {
 			throw new RangeError();
 
 		this._chunksize = chunksize;
+
+		let maxfilesize = options.maxfilesize;
+
+		if (maxfilesize === undefined)
+			maxfilesize = 1000000;
+		else if (!Number.isInteger(maxfilesize))
+			throw new TypeError();
+		else if (maxfilesize < 100000)
+			throw new RangeError();
+
+		this._maxfilesize = maxfilesize;
 	}
 
 	View.call(this);
