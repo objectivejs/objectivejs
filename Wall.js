@@ -1,7 +1,7 @@
 /**
  *
- * @copyright  2020-2021 objectivejs.org
- * @version    5
+ * @copyright  2020-2022 objectivejs.org
+ * @version    6
  * @link       http://www.objectivejs.org
  */
 
@@ -383,6 +383,8 @@ Wall.prototype._uploadFile = function(fd) {
 
 					this._slots[filename] = null;
 
+					this.respondTo('wallFileAdded', this, filename);
+
 					if (this._tagsWidget) {
 						const img = document.createElement('img');
 
@@ -449,6 +451,8 @@ Wall.prototype.deleteFile = function() {
 					this._slots[filename].remove();
 
 				delete this._slots[filename];
+
+				this.respondTo('wallFileDeleted', this, filename);
 
 				if (this._tag == filename) {
 					this._tag = null;
