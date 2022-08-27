@@ -1,7 +1,7 @@
 /**
  *
- * @copyright  2019-2021 objectivejs.org
- * @version    7
+ * @copyright  2019-2022 objectivejs.org
+ * @version    8
  * @link       http://www.objectivejs.org
  */
 
@@ -223,16 +223,17 @@
 	.disabled { color: #ccc; cursor: default !important; }
 
 	.tags { flex: 100%; }
-	img { display: inline; margin: 0 5px 5px 0; vertical-align: top; cursor: pointer; max-width: 180px; }
+	img { display: inline; margin: 0 4px 4px 0; vertical-align: top; cursor: pointer; max-width: 180px; }
 	img.selected { opacity: 0.5; }
 
 	.fileupload, .filedelete, .filedownload { cursor: pointer; }
-	.filecontrols { flex: 0 0 auto; padding: 5px 0; }
+	.filecontrols { flex: 0 0 auto; padding: 5px 0; width: 40px; }
 	.filecontrols > * { display: block; margin: 0 auto 16px; }
 	.filestatus { font-size: small; font-weight: bold; text-align: center; }
 	.fileinput { display: none; }
 
 	@media screen and (max-width: 480px) {
 		img { max-width: 100px; }
+		.filecontrols { width: 38px; }
 	}
 }

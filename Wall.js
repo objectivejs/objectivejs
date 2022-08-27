@@ -1,7 +1,7 @@
 /**
  *
  * @copyright  2020-2022 objectivejs.org
- * @version    6
+ * @version    7
  * @link       http://www.objectivejs.org
  */
 
@@ -362,20 +362,22 @@ Wall.prototype._uploadFile = function(fd) {
 	let offset = 0, progress = 0, blob;
 
 	const uploadslice = () => {
-		if (this._statusWidget && filesize > chunksize)
-			this._statusWidget.innerText = `${progress}%`;
-
 		blob = fd.slice(offset, offset + chunksize);
 		filereader.readAsDataURL(blob);
+
+		if (this._statusWidget) {
+			progress = Math.floor(((offset + blob.size) / filesize) * 100);
+			this._statusWidget.innerText = `${progress}%`;
+		}
+
 	};
 
 	const postdata = (data) => {
 		$.post(uploadurl, {file_name: filename, file_size: filesize, file_type: filetype, file_offset: offset, file_data: data})
 			.done(() => {
 				offset += blob.size;
-				progress = Math.floor((offset / filesize) * 100);
 
-				if (progress < 100)
+				if (offset < filesize)
 					uploadslice();
 				else {
 					if (this._statusWidget)
