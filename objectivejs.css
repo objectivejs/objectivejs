@@ -1,7 +1,7 @@
 /**
  *
- * @copyright  2019-2022 objectivejs.org
- * @version    9
+ * @copyright  2019-2023 objectivejs.org
+ * @version    10
  * @link       http://www.objectivejs.org
  */
 
@@ -394,11 +394,13 @@
 	flex: 0 0 auto;
 	padding: 5px 0;
 	width: 40px;
+	display: flex;
+	flex-direction: column;
 }
 
 .ojs_wall .filecontrols > * {
 	display: block;
-	margin: 0 auto 16px;
+	margin: 0 auto 8px;
 }
 
 .ojs_wall .filestatus {

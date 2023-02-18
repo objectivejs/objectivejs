@@ -1,7 +1,7 @@
 /**
  *
- * @copyright  2019-2022 objectivejs.org
- * @version    8
+ * @copyright  2019-2023 objectivejs.org
+ * @version    9
  * @link       http://www.objectivejs.org
  */
 
@@ -227,8 +227,8 @@
 	img.selected { opacity: 0.5; }
 
 	.fileupload, .filedelete, .filedownload { cursor: pointer; }
-	.filecontrols { flex: 0 0 auto; padding: 5px 0; width: 40px; }
-	.filecontrols > * { display: block; margin: 0 auto 16px; }
+	.filecontrols { flex: 0 0 auto; padding: 5px 0; width: 40px; display: flex; flex-direction: column; }
+	.filecontrols > * { display: block; margin: 0 auto 8px; }
 	.filestatus { font-size: small; font-weight: bold; text-align: center; }
 	.fileinput { display: none; }
 
