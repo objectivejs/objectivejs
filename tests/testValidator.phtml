@@ -2,8 +2,8 @@
 
 /**
  *
- * @copyright  2019-2020 objectivejs.org
- * @version    2
+ * @copyright  2019-2023 objectivejs.org
+ * @version    3
  * @link       http://www.objectivejs.org
  */
 ?>
@@ -33,4 +33,12 @@ console.log(Validator.validateFileName('foobar'));		// true
 console.log(Validator.validateFileName('foobar.txt'));	// true
 console.log(Validator.validateFileName('/foo/bar'));	// false
 console.log(Validator.validateFileName('../foobar'));	// false
+
+console.log(Validator.cookieName(uniqid('cookie'));			// true
+console.log(Validator.cookieName(md5(uniqid('cookie')));	// true
+console.log(Validator.cookieName('cookie' . '_' . uniqid));	// true
+console.log(Validator.cookieName('cookie' . '=' . uniqid));	// false
+
+console.log(Validator.modelName(uniqid('VideoModel'));		// true
+console.log(Validator.modelName(uniqid('_DataModel'));		// false
 </script>
