@@ -1,7 +1,7 @@
 /**
  *
- * @copyright  2020-2021 objectivejs.org
- * @version    2
+ * @copyright  2020-2023 objectivejs.org
+ * @version    3
  * @link       http://www.objectivejs.org
  */
 
@@ -376,7 +376,6 @@ DrawingArea.prototype.setWidget = function(w) {
 
 	switch (w.tagName) {
 		case 'IMG':
-			this._drawImage();	// NEEDED for Chrome
 			w.addEventListener('load', () => this._drawImage(), { once: true });
 			break;
 		case 'VIDEO':
