@@ -1,7 +1,7 @@
 /**
  *
- * @copyright  2020-2023 objectivejs.org
- * @version    3
+ * @copyright  2020-2025 objectivejs.org
+ * @version    4
  * @link       http://www.objectivejs.org
  */
 
@@ -434,24 +434,5 @@ DrawingArea.prototype._drawImage = function() {
 
 	this._ctx.clearRect(0, 0, this._widget.width, this._widget.height);
 
-	let steps = Math.ceil(Math.log(Math.max(this._image.width / this._widget.width, this._image.height / this._widget.height)) / Math.log(2));
-
-	if (steps > 1) {
-		const oc = document.createElement('canvas');
-		const octx = oc.getContext('2d');
-
-		let ocw = this._image.width * 0.5, och = this._image.height * 0.5;
-
-		oc.width = ocw;
-		oc.height = och;
-
-		octx.drawImage(this._image, 0, 0, ocw, och);
-
-		while (--steps > 1)
-			octx.drawImage(oc, 0, 0, ocw, och, 0, 0, ocw *= 0.5, och *= 0.5);
-
-		this._ctx.drawImage(oc, 0, 0, ocw, och, 0, 0, this._widget.width, this._widget.height);
-	}
-	else
-		this._ctx.drawImage(this._image, 0, 0, this._widget.width, this._widget.height);
+	this._ctx.drawImage(this._image, 0, 0, this._widget.width, this._widget.height);
 };
