@@ -1,7 +1,7 @@
 /**
  *
  * @copyright  2019-2023 objectivejs.org
- * @version    10
+ * @version    11
  * @link       http://www.objectivejs.org
  */
 
@@ -9,12 +9,6 @@
 
 .ojs {
 	margin-bottom: 1em;
-}
-
-@media print {
-	.ojs {
-		display: none;
-	}
 }
 
 .ojs > div {
@@ -419,5 +413,15 @@
 	}
 	.ojs_wall .filecontrols {
 		width: 38px;
+	}
+}
+
+@media print {
+	.ojs,
+	.ojs_video,
+	.ojs_audio,
+	.ojs_playlist,
+	.ojs_wall .filecontrols {
+		display: none;
 	}
 }
