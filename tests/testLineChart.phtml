@@ -2,8 +2,8 @@
 
 /**
  *
- * @copyright  2020-2021 objectivejs.org
- * @version    2
+ * @copyright  2020-2025 objectivejs.org
+ * @version    3
  * @link       http://www.objectivejs.org
  */
 ?>
@@ -25,7 +25,7 @@
 <?php $y3=array(12, 9, 15, 12); ?>
 <?php head('javascript', 'jquery.minicolors'); ?>
 <?php head('stylesheet', 'jquery.minicolors', 'screen'); ?>
-<?php head('javascript', 'https://cdn.plot.ly/plotly-latest.min.js'); ?>
+<?php head('javascript', 'https://cdn.plot.ly/plotly-3.0.1.min.js'); ?>
 <?php $id=uniqid('id'); ?>
 <style>
 i.btn_plotly {width:20px;height:16px;display:inline-block;line-height:16px;background:transparent url(/objectivejs/tests/images/plotly.png) no-repeat;vertical-align:middle;text-indent:-9999px;}
@@ -165,7 +165,7 @@ Tester.prototype.plot = function(value) {
 	const layout = {
 		height: 360,
 		margin: { l: 20, r: 20, t: 50, b: 40 },
-		title: value.layout.title,
+		title: { text: value.layout.title },
 		showlegend: value.layout.legend,
 		xaxis: {
 			dtick: value.layout.xaxisdtick,

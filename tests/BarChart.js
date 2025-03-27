@@ -1,7 +1,7 @@
 /**
  *
- * @copyright  2020 objectivejs.org
- * @version    2
+ * @copyright  2020-2025 objectivejs.org
+ * @version    3
  * @link       http://www.objectivejs.org
  */
 
@@ -28,7 +28,7 @@ BarChart.prototype._draw = function() {
 
 	const layout = {
 		margin: { l: 30, r: 20, t: 50, b: 40 },
-		title: this._layout.title,
+		title: { text: this._layout.title },
 		showlegend: this._layout.legend,
 		barmode: 'group',
 		xaxis: {
