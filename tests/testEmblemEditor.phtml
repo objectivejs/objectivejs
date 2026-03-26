@@ -2,8 +2,8 @@
 
 /**
  *
- * @copyright  2019-2021 objectivejs.org
- * @version    4
+ * @copyright  2019-2026 objectivejs.org
+ * @version    5
  * @link       http://www.objectivejs.org
  */
 ?>
@@ -43,8 +43,8 @@
 <div class="ojs">
 <div>
 <div class="ojs_undo">
-<button type="submit" class="ojs_button narrow control_undo" disabled><i class="fas fa-undo"></i></button>
-<button type="submit" class="ojs_button narrow control_redo" disabled><i class="fas fa-redo"></i></button>
+<button type="submit" class="ojs_button narrow control_undo" disabled><i class="fas fa-rotate-left"></i></button>
+<button type="submit" class="ojs_button narrow control_redo" disabled><i class="fas fa-rotate-right"></i></button>
 </div>
 <span><input class="ojs_size" type="number" step="10"/>&nbsp;<i class="fas fa-expand small"></i></span>
 </div>
@@ -58,9 +58,9 @@
 <span><input id="<?php echo $id; ?>_emblem_textfont" type="text" size="20" spellcheck="false"/>&nbsp;<i class="fas fa-font small"></i></span>
 </div>
 <fieldset class="ojs_animation">
-<legend><i class="fas fa-history"></i>&nbsp;<span class="ojs_timing">0</span></legend>
+<legend><i class="fas fa-clock-rotate-left"></i>&nbsp;<span class="ojs_timing">0</span></legend>
 <span><input class="ojs_duration" type="number" min="1" step="1"/>&nbsp;<i class="fas fa-clock small"></i></span>
-<span><input class="ojs_delay" type="number" min="0" max="5" step="1"/>&nbsp;<i class="fas fa-play-circle small"></i></span>
+<span><input class="ojs_delay" type="number" min="0" max="5" step="1"/>&nbsp;<i class="fas fa-circle-play small"></i></span>
 <select class="ojs_easing" size="1">
 <option value="linear">linear</option>
 <option value="ease">ease</option>
