@@ -3,7 +3,7 @@
 /**
  *
  * @copyright  2020-2026 objectivejs.org
- * @version    4
+ * @version    5
  * @link       http://www.objectivejs.org
  */
 ?>
@@ -29,8 +29,8 @@
 <div class="ojs">
 <div>
 <div class="ojs_undo">
-<button type="submit" class="ojs_button narrow control_undo" disabled><i class="fas fa-undo"></i></button>
-<button type="submit" class="ojs_button narrow control_redo" disabled><i class="fas fa-redo"></i></button>
+<button type="submit" class="ojs_button narrow control_undo" disabled><i class="fas fa-rotate-left"></i></button>
+<button type="submit" class="ojs_button narrow control_redo" disabled><i class="fas fa-rotate-right"></i></button>
 </div>
 <span class="ojs_dimension">
 <input class="ojs_width" type="number" min="0"/>&nbsp;<i class="fas fa-arrows-left-right small"></i>
@@ -114,14 +114,14 @@ ImageLoader.prototype.upload = function() {
 					uploadslice();
 				else {
 					if (this._status)
-						this._status.innerHTML = '<i class="fas fa-check-circle"></i>';
+						this._status.innerHTML = '<i class="fas fa-circle-check"></i>';
 					if (this._upload)
 						this._upload.disabled = false;
 				}
 			})
 			.fail(() => {
 				if (this._status)
-					this._status.innerHTML = '<i class="fas fa-exclamation-circle inerror"></i>';
+					this._status.innerHTML = '<i class="fas fa-circle-exclamation inerror"></i>';
 				if (this._upload)
 					this._upload.disabled = false;
 			});
