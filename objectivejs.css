@@ -1,7 +1,7 @@
 /**
  *
- * @copyright  2019-2023 objectivejs.org
- * @version    11
+ * @copyright  2019-2026 objectivejs.org
+ * @version    12
  * @link       http://www.objectivejs.org
  */
 
@@ -423,5 +423,11 @@
 	.ojs_playlist,
 	.ojs_wall .filecontrols {
 		display: none;
+	}
+	.ojs_button {
+		border: none;
+		color: black;
+		background: transparent;
+		box-shadow: none;
 	}
 }
